@@ -28,6 +28,7 @@ h1, h2, h3 { color: var(--orange); }
 a { color: var(--orange); }
 
 /* HEADER */
+.sticky-top { position: sticky; top: 0; z-index: 100; }
 .header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
 .header h1 { font-size: 20px; letter-spacing: 1px; }
 .btc-price { font-size: 22px; font-weight: bold; color: var(--orange); }
@@ -141,35 +142,37 @@ a { color: var(--orange); }
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div>
-    <h1>₿ MatheyBTC — Investment Dashboard</h1>
-    <div style="font-size:12px;color:var(--text2);margin-top:2px;">Plan A · Plan B · Plan C · Plan D</div>
+<!-- HEADER + LOADER + TABS — sticky -->
+<div class="sticky-top">
+  <div class="header">
+    <div>
+      <h1>₿ MatheyBTC — Investment Dashboard</h1>
+      <div style="font-size:12px;color:var(--text2);margin-top:2px;">Plan A · Plan B · Plan C · Plan D</div>
+    </div>
+    <div style="text-align:right">
+      <div class="btc-price" id="headerPrice">— USD</div>
+      <div class="price-status" id="headerPriceDate">Sin datos</div>
+    </div>
   </div>
-  <div style="text-align:right">
-    <div class="btc-price" id="headerPrice">— USD</div>
-    <div class="price-status" id="headerPriceDate">Sin datos</div>
+
+  <!-- PRICE LOADER -->
+  <div class="loader-bar">
+    <span style="color:var(--text2);font-size:13px;">Precios BTC:</span>
+    <input type="text" id="csvUrl" value="https://docs.google.com/spreadsheets/d/1AUV0rvijcy7yW3H2IWwlAm2ENHXe6Hfc/export?format=csv&sheet=BTC%20price" style="width:420px"/>
+    <button onclick="loadPrices()">⬇ Cargar precios</button>
+    <button class="btn-outline" style="background:transparent;color:var(--text2);border-color:var(--border)" onclick="clearCache()">Limpiar caché</button>
+    <span id="dataStatus" class="data-badge warn">Sin cargar</span>
+    <span id="dataRange" style="font-size:12px;color:var(--text2);"></span>
   </div>
-</div>
 
-<!-- PRICE LOADER -->
-<div class="loader-bar">
-  <span style="color:var(--text2);font-size:13px;">Precios BTC:</span>
-  <input type="text" id="csvUrl" value="https://docs.google.com/spreadsheets/d/1AUV0rvijcy7yW3H2IWwlAm2ENHXe6Hfc/export?format=csv&sheet=BTC%20price" style="width:420px"/>
-  <button onclick="loadPrices()">⬇ Cargar precios</button>
-  <button class="btn-outline" style="background:transparent;color:var(--text2);border-color:var(--border)" onclick="clearCache()">Limpiar caché</button>
-  <span id="dataStatus" class="data-badge warn">Sin cargar</span>
-  <span id="dataRange" style="font-size:12px;color:var(--text2);"></span>
-</div>
-
-<!-- TABS -->
-<div class="tabs">
-  <div class="tab active" onclick="showTab('planA')">Plan A — DCA Fijo</div>
-  <div class="tab" onclick="showTab('planB')">Plan B — DCA Re-compra</div>
-  <div class="tab" onclick="showTab('planC')">Plan C — Colateral</div>
-  <div class="tab" onclick="showTab('planD')">Plan D — Trading</div>
-  <div class="tab" onclick="showTab('dashboard')">📊 Dashboard</div>
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('planA')">Plan A — DCA Fijo</div>
+    <div class="tab" onclick="showTab('planB')">Plan B — DCA Re-compra</div>
+    <div class="tab" onclick="showTab('planC')">Plan C — Colateral</div>
+    <div class="tab" onclick="showTab('planD')">Plan D — Trading</div>
+    <div class="tab" onclick="showTab('dashboard')">📊 Dashboard</div>
+  </div>
 </div>
 
 <!-- ==================== PLAN A ==================== -->
@@ -377,12 +380,23 @@ a { color: var(--orange); }
     </div>
 
     <div class="card">
-      <h3>🔄 Historial De Compras Puntuales (Trigger)</h3>
+      <h3>📂 DCA Activos</h3>
+      <table class="tbl">
+        <thead><tr>
+          <th>DCA</th><th>Inicio</th><th class="num">Capital</th>
+          <th class="num">BTC Comprado</th><th class="num">BTC Restante</th><th class="num">Valor Actual</th>
+        </tr></thead>
+        <tbody id="b-dca-body"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>🔄 Historial De Triggers</h3>
       <table class="tbl">
         <thead><tr>
           <th>#</th><th>Fecha</th><th class="num">Precio BTC</th>
           <th class="num">BTC Vendido</th><th class="num">U$S Obtenido</th>
-          <th class="num">BTC Recomprado</th><th class="num">MA90</th><th class="num">% Sobre MA90</th>
+          <th class="num">MA90</th><th class="num">% Sobre MA90</th><th>DCA Creado</th>
         </tr></thead>
         <tbody id="b-cycles-body"></tbody>
       </table>
@@ -1292,77 +1306,103 @@ function runPlanB() {
   const triggerPct = parseFloat(document.getElementById('b-trigger').value) / 100;
   const sellPct    = parseFloat(document.getElementById('b-sellpct').value) / 100;
 
-  let btcStack = 0, totalInvested = 0, totalBTCbought = 0;
-  let nextBuyDate = startDate, lastTriggerDate = null;
-  const triggerEvents = [];  // lump-sum rebuys on trigger
+  // Sub-DCAs always buy MONTHLY (30 days) regardless of main DCA frequency
+  const SUB_FREQ = 30;
+
+  // DCA0 = main (unlimited capital), DCA1+ = sub-DCAs (monthly, fixed budget from trigger sales)
+  const dcas = [{
+    id: 'DCA0', startDate,
+    amountPerBuy: amount, remainingCapital: Infinity,
+    btcStack: 0, btcBought: 0, totalInvested: 0, nextBuyDate: startDate
+  }];
+  let lastTriggerDate = null;
+  const triggerEvents = [];
   const equity = [];
 
   let d = startDate;
   while (d <= endDate) {
     const price = getPriceAt(d);
 
-    // Regular DCA buy
-    if (d >= nextBuyDate && price > 0) {
-      const btc = amount / price;
-      btcStack      += btc;
-      totalBTCbought += btc;
-      totalInvested  += amount;
-      nextBuyDate = addDays(d, freqDays);
+    // Process buys for all active DCAs
+    for (const dca of dcas) {
+      if (d < dca.startDate) continue;
+      const freq = dca.id === 'DCA0' ? freqDays : SUB_FREQ;
+      if (d >= dca.nextBuyDate) {
+        const buyAmt = Math.min(dca.amountPerBuy, dca.remainingCapital);
+        if (price > 0 && buyAmt > 0) {
+          const btc = buyAmt / price;
+          dca.btcStack      += btc;
+          dca.btcBought     += btc;
+          dca.totalInvested += buyAmt;
+          if (dca.id !== 'DCA0') dca.remainingCapital -= buyAmt;
+        }
+        dca.nextBuyDate = addDays(d, freq);
+      }
     }
 
-    // Trigger: sell X% of stack → lump-sum rebuy at same price (30-day cooldown, max 11)
-    if (btcStack > 0 && triggerEvents.length < 11) {
+    // Trigger check: only DCA0, 30-day cooldown
+    const dca0 = dcas[0];
+    if (dca0.btcStack > 0) {
       const ma90 = getMA90AtDate(d);
       const cooldownOk = !lastTriggerDate || daysBetween(lastTriggerDate, d) >= 30;
       if (ma90 > 0 && price > ma90 * (1 + triggerPct) && cooldownOk) {
-        const btcToSell   = btcStack * sellPct;
+        const btcToSell   = dca0.btcStack * sellPct;
         const usdObtained = btcToSell * price;
-        // Sell
-        btcStack -= btcToSell;
-        // Immediate lump-sum rebuy with recovered USD
-        const btcRebought = usdObtained / price;
-        btcStack      += btcRebought;
-        totalBTCbought += btcRebought;
-        totalInvested  += usdObtained;  // cost basis of the rebuy
+        dca0.btcStack  -= btcToSell;
         lastTriggerDate = d;
+
+        // Sub-DCA: monthly purchases spreading the recovered capital until endDate
+        const remainingDays   = Math.max(1, daysBetween(d, endDate));
+        const remainingMonths = Math.max(1, Math.ceil(remainingDays / 30));
+        const subAmt = usdObtained / remainingMonths;
+        const newDca = {
+          id: 'DCA' + dcas.length, startDate: d,
+          amountPerBuy: subAmt, remainingCapital: usdObtained,
+          btcStack: 0, btcBought: 0, totalInvested: 0, nextBuyDate: d
+        };
+        dcas.push(newDca);
         triggerEvents.push({
-          date: d, price, btcSold: btcToSell, usdObtained,
-          btcRebought, ma90, pct: ((price / ma90) - 1) * 100
+          date: d, price, btcSold: btcToSell, usd: usdObtained,
+          ma90, pct: ((price / ma90) - 1) * 100, newDca: newDca.id,
+          cuotas: remainingMonths
         });
       }
     }
 
-    equity.push({ date: d, btc: btcStack, value: btcStack * price });
+    const totalBTC = dcas.reduce((s, dca) => s + dca.btcStack, 0);
+    equity.push({ date: d, btc: totalBTC, value: totalBTC * price });
     d = addDays(d, 1);
   }
 
-  const currentValue = btcStack * currentPrice;
-  const avgPrice     = totalBTCbought > 0 ? totalInvested / totalBTCbought : 0;
-  const roi          = totalInvested  > 0 ? ((currentValue - totalInvested) / totalInvested) * 100 : 0;
+  const totalBTC     = dcas.reduce((s, dca) => s + dca.btcStack, 0);
+  const currentValue = totalBTC * currentPrice;
+  const dca0         = dcas[0];
+  const avgPrice     = dca0.btcBought > 0 ? dca0.totalInvested / dca0.btcBought : 0;
+  const roi          = dca0.totalInvested > 0 ? ((currentValue - dca0.totalInvested) / dca0.totalInvested) * 100 : 0;
 
-  lastPlanB = { btcStack, totalInvested, triggerEvents, equity, currentValue };
+  lastPlanB = { totalBTC, dcas, triggerEvents, equity, currentValue };
 
-  // Plan A comparison
+  // Plan A comparison (same DCA0 params — no sub-DCAs)
   const purchasesA = calcDCA(startDate, endDate, amount, freqDays);
   const aggA       = aggregateDCA(purchasesA);
 
   // Stat cards
-  document.getElementById('b-btc').textContent      = fmtBTC(btcStack);
-  document.getElementById('b-cycles').textContent   = triggerEvents.length + ' compra(s) puntual(es)';
+  document.getElementById('b-btc').textContent      = fmtBTC(totalBTC);
+  document.getElementById('b-cycles').textContent   = triggerEvents.length + ' trigger(s) · ' + (dcas.length - 1) + ' sub-DCA(s) mensuales';
   document.getElementById('b-avgprice').textContent = 'U$S ' + fmt(avgPrice, 0);
-  document.getElementById('b-invested').textContent = 'U$S ' + fmt(totalInvested, 0);
+  document.getElementById('b-invested').textContent = 'U$S ' + fmt(dca0.totalInvested, 0);
   document.getElementById('b-value').textContent    = 'U$S ' + fmt(currentValue, 0);
   document.getElementById('b-roi').textContent      = 'ROI: ' + fmtPct(roi);
 
   // Comparativa
   document.getElementById('b-vs-a-btc').textContent  = fmtBTC(aggA.totalBTC);
-  document.getElementById('b-vs-b-btc').textContent  = fmtBTC(btcStack);
-  const diff = btcStack - aggA.totalBTC;
+  document.getElementById('b-vs-b-btc').textContent  = fmtBTC(totalBTC);
+  const diff = totalBTC - aggA.totalBTC;
   document.getElementById('b-vs-diff').textContent   = fmtBTC(Math.abs(diff));
   document.getElementById('b-vs-winner').textContent = diff >= 0 ? '✓ Plan B gana' : '✓ Plan A gana';
   document.getElementById('b-vs-winner').style.color = diff >= 0 ? 'var(--green)' : 'var(--yellow)';
 
-  // Chart B — Plan A solid line (no dash)
+  // Chart B
   const ctx = document.getElementById('chartB').getContext('2d');
   if (chartB) chartB.destroy();
   const step     = Math.max(1, Math.floor(equity.length / 300));
@@ -1383,19 +1423,33 @@ function runPlanB() {
     options: chartOpts('U$S')
   });
 
-  // Trigger / lump-sum rebuys table
+  // DCA Activos table
+  const dcaBody = document.getElementById('b-dca-body');
+  dcaBody.innerHTML = '';
+  dcas.forEach(dca => {
+    const val = dca.btcStack * currentPrice;
+    const tr  = document.createElement('tr');
+    tr.innerHTML = `<td>${dca.id}</td><td>${dca.startDate}</td>
+      <td class="num">U$S ${fmt(dca.totalInvested, 0)}</td>
+      <td class="num">${fmtBTC(dca.btcBought)}</td>
+      <td class="num">${fmtBTC(dca.btcStack)}</td>
+      <td class="num">U$S ${fmt(val, 0)}</td>`;
+    dcaBody.appendChild(tr);
+  });
+
+  // Triggers table
   const tbody = document.getElementById('b-cycles-body');
   tbody.innerHTML = '';
   triggerEvents.forEach((c, i) => {
     const tr = document.createElement('tr');
-    tr.style.background = 'rgba(247,147,26,0.12)';  // highlight lump-sum rows
+    tr.style.background = 'rgba(247,147,26,0.10)';
     tr.innerHTML = `<td>${i + 1}</td><td>${c.date}</td>
       <td class="num">U$S ${fmt(c.price, 0)}</td>
       <td class="num">${c.btcSold.toFixed(6)}</td>
-      <td class="num">U$S ${fmt(c.usdObtained, 0)}</td>
-      <td class="num">${c.btcRebought.toFixed(6)}</td>
+      <td class="num">U$S ${fmt(c.usd, 0)}</td>
       <td class="num">U$S ${fmt(c.ma90, 0)}</td>
-      <td class="num pos">+${fmt(c.pct, 1)}%</td>`;
+      <td class="num pos">+${fmt(c.pct, 1)}%</td>
+      <td>${c.newDca} (${c.cuotas} cuotas)</td>`;
     tbody.appendChild(tr);
   });
 
@@ -1905,11 +1959,18 @@ function exportPlanA() {
 function exportPlanB() {
   if (!lastPlanB) { alert('Calculá el Plan B primero.'); return; }
   const wb = XLSX.utils.book_new();
-  const rows = [['#', 'Fecha', 'Precio BTC', 'BTC Vendido', 'U$S Obtenido', 'BTC Recomprado', 'MA90', '% Sobre MA90']];
-  lastPlanB.triggerEvents.forEach((c, i) => {
-    rows.push([i + 1, c.date, c.price, c.btcSold, c.usdObtained, c.btcRebought, c.ma90, c.pct]);
+  // Sheet 1: DCA activos
+  const dcaRows = [['DCA', 'Inicio', 'Capital Invertido', 'BTC Comprado', 'BTC Restante', 'Valor Actual']];
+  lastPlanB.dcas.forEach(dca => {
+    dcaRows.push([dca.id, dca.startDate, dca.totalInvested, dca.btcBought, dca.btcStack, dca.btcStack * currentPrice]);
   });
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Compras Puntuales');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(dcaRows), 'DCA Activos');
+  // Sheet 2: Trigger events
+  const trigRows = [['#', 'Fecha', 'Precio', 'BTC Vendido', 'U$S Obtenido', 'MA90', '% Sobre MA90', 'DCA Creado', 'Cuotas']];
+  lastPlanB.triggerEvents.forEach((c, i) => {
+    trigRows.push([i + 1, c.date, c.price, c.btcSold, c.usd, c.ma90, c.pct, c.newDca, c.cuotas]);
+  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(trigRows), 'Triggers');
   XLSX.writeFile(wb, 'MatheyBTC_PlanB.xlsx');
 }
 
