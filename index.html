@@ -1182,7 +1182,7 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
   const refDiv = document.createElement('div');
   refDiv.className = 'sema-cell sema-ref';
   refDiv.innerHTML = `
-    <div class="period">Precio Actual</div>
+    <div class="period" style="color:#ff8c00">Precio Actual</div>
     <div class="avg">Valor = <b>U$S ${fmt(currentPrice, 0)}</b></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
       <div class="diff" id="sema-ref-diff">—</div>
@@ -1192,16 +1192,17 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
   container.appendChild(refDiv);
 
   const periods = [
-    { label: 'APY 30',          days: 30   },
-    { label: 'APY 60',          days: 60   },
-    { label: 'APY 90',          days: 90   },
-    { label: 'APY 180',         days: 180  },
-    { label: '1 Ciclo (x12)',   days: 365  },
-    { label: '2 Ciclos (x24)',  days: 730  },
-    { label: '3 Ciclos (x36)',  days: 1095 },
-    { label: '4 Ciclos (x48)',  days: 1460 },
-    { label: '5 Ciclos (x60)',  days: 1825 },
+    { label: 'APY 30',          days: 30,   type: 'apy'   },
+    { label: 'APY 60',          days: 60,   type: 'apy'   },
+    { label: 'APY 90',          days: 90,   type: 'apy'   },
+    { label: 'APY 180',         days: 180,  type: 'apy'   },
+    { label: '1 Ciclo (x12)',   days: 365,  type: 'ciclo' },
+    { label: '2 Ciclos (x24)',  days: 730,  type: 'ciclo' },
+    { label: '3 Ciclos (x36)',  days: 1095, type: 'ciclo' },
+    { label: '4 Ciclos (x48)',  days: 1460, type: 'ciclo' },
+    { label: '5 Ciclos (x60)',  days: 1825, type: 'ciclo' },
   ];
+  const periodColor = { apy: '#f472b6', ciclo: '#67e8f9' };
 
   // Plan-level avgP — denominador común para todas las celdas
   const planAll = calcDCA(startDate, endDate, amount, freqDays);
@@ -1249,7 +1250,7 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     const div = document.createElement('div');
     div.className = 'sema-cell ' + semaCls(diff);
     div.innerHTML = `
-      <div class="period">${period.label}</div>
+      <div class="period" style="color:${periodColor[period.type]}">${period.label}</div>
       <div class="avg">Promedio = <b>U$S ${fmt(avgP, 0)}</b></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
         <div class="diff">${fmtPct(diff)}</div>
