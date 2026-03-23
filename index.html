@@ -1885,7 +1885,7 @@ function runPlanC() {
   document.getElementById('c-be-price').textContent = '$' + fmt(be, 0);
   document.getElementById('c-be-pct').textContent = fmtPct(bePct) + ' subida necesaria';
   document.getElementById('c-be-pct').style.color = bePct <= 0 ? 'var(--green)' : 'var(--yellow)';
-  const gain2x = (btcAmount * priceInput * 2 - r.repay) / (priceInput * 2);
+  const gain2x = (r.btcTotal * priceInput * 2 - r.repay) / (priceInput * 2) - btcAmount;
   document.getElementById('c-be-gain2x').textContent = fmtBTC(Math.max(0, gain2x));
 
   // LTV comparison table
