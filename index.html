@@ -256,7 +256,7 @@ a { color: var(--orange); }
       <h3>🚦 Semáforo — Precio actual vs Promedio de Compra por Período</h3>
       <div id="a-semaphore" class="semaphore-grid mt-16"></div>
       <div class="mt-16 text-muted" style="font-size:12px;">
-        🟢 +50% · 🟡 +40% · 🟠 +30% · 🔴 +25% · ⬛ +15% · por debajo = zona de compra
+        🟢 30 Meses · 🟡 25 Meses · 🟠 20 Meses · 🔴 15 Meses · ⬛ 10 Meses · por debajo = zona de compra
       </div>
     </div>
 
@@ -1172,11 +1172,11 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     const diff = ((currentPrice - avgP) / avgP) * 100;
 
     let cls = 'sema-below';
-    if (diff >= 50) cls = 'sema-c1';
-    else if (diff >= 40) cls = 'sema-c2';
-    else if (diff >= 30) cls = 'sema-c3';
-    else if (diff >= 25) cls = 'sema-c4';
-    else if (diff >= 15) cls = 'sema-c5';
+    if (diff >= 30) cls = 'sema-c1';
+    else if (diff >= 25) cls = 'sema-c2';
+    else if (diff >= 20) cls = 'sema-c3';
+    else if (diff >= 15) cls = 'sema-c4';
+    else if (diff >= 10) cls = 'sema-c5';
 
     const div = document.createElement('div');
     div.className = 'sema-cell ' + cls;
