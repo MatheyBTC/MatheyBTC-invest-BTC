@@ -1207,7 +1207,7 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
   if (planAll.length) {
     const { totalInvested: piTotal, totalBTC: piBTC } = aggregateDCA(planAll);
     const planAvgP = piTotal / piBTC;
-    const planDiff = ((planAvgP - currentPrice) / planAvgP) * 100;
+    const planDiff = (currentPrice / planAvgP - 1) * 100;
     let planCls = 'sema-below';
     if (planDiff <= -30) planCls = 'sema-c1';
     else if (planDiff <= -25) planCls = 'sema-c2';
@@ -1219,7 +1219,7 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     const refDiffEl = document.getElementById('sema-ref-diff');
     const refLabelEl = document.getElementById('sema-ref-label');
     if (refDiffEl) refDiffEl.textContent = fmtPct(planDiff);
-    if (refLabelEl) refLabelEl.textContent = planDiff <= 0 ? 'por debajo del precio actual' : 'por arriba del precio actual';
+    if (refLabelEl) refLabelEl.textContent = planDiff >= 0 ? 'precio por arriba del promedio' : 'precio por debajo del promedio';
   }
 
   for (const period of periods) {
@@ -1230,8 +1230,8 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     if (!p.length) continue;
     const { totalInvested, totalBTC } = aggregateDCA(p);
     const avgP = totalInvested / totalBTC;
-    // diff < 0 = promedio de compra está por debajo del precio actual = buena posición
-    const diff = ((avgP - currentPrice) / avgP) * 100;
+    // diff = (precioActual / promedioPeriodo - 1): negativo = compré caro vs hoy, positivo = compré barato vs hoy
+    const diff = (currentPrice / avgP - 1) * 100;
 
     let cls = 'sema-below';
     if (diff <= -30) cls = 'sema-c1';
@@ -1244,12 +1244,12 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     div.className = 'sema-cell ' + cls;
     div.innerHTML = `
       <div class="period">${period.label}</div>
-      <div class="avg">Valor = <b>U$S ${fmt(avgP, 0)}</b></div>
+      <div class="avg">Promedio = <b>U$S ${fmt(avgP, 0)}</b></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
         <div class="diff">${fmtPct(diff)}</div>
-        <div style="font-size:26px;line-height:1;font-weight:bold">${diff <= 0 ? '↑' : '↓'}</div>
+        <div style="font-size:26px;line-height:1;font-weight:bold">${diff >= 0 ? '↑' : '↓'}</div>
       </div>
-      <div style="font-size:11px;margin-top:4px;opacity:0.8">${diff <= 0 ? 'promedio por debajo del precio actual' : 'promedio por arriba del precio actual'}</div>`;
+      <div style="font-size:11px;margin-top:4px;opacity:0.8">${diff >= 0 ? 'precio por arriba del promedio' : 'precio por debajo del promedio'}</div>`;
     container.appendChild(div);
   }
 }
