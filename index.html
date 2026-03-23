@@ -100,13 +100,13 @@ a { color: var(--orange); }
 .sema-cell .period { font-size: 11px; letter-spacing: 0.5px; margin-bottom: 6px; }
 .sema-cell .avg { font-size: 13px; margin-bottom: 4px; }
 .sema-cell .diff { font-size: 18px; font-weight: bold; }
-.sema-c1 { background: #0a2a0a; border-color: #4ade80; }
-.sema-c2 { background: #2a2a0a; border-color: var(--yellow); }
-.sema-c3 { background: #2a1a0a; border-color: #ff8c00; }
-.sema-c4 { background: #3d0000; border-color: #ff2222; }
-.sema-c5 { background: #1a0a2a; border-color: #a855f7; }
-.sema-below { background: #0a1020; border-color: #4a9eff; }
-.sema-ref  { background: #0d1117; border-color: #4a9eff; }
+.sema-c0 { background: #1e1e1e; border-color: #e0e0e0; }   /* ⬜ ≥100% */
+.sema-c1 { background: #0a1a20; border-color: #4a9eff; }   /* 🟦 ≥75%  */
+.sema-c2 { background: #0a2a0a; border-color: #4ade80; }   /* 🟩 ≥50%  */
+.sema-c3 { background: #2a2a0a; border-color: var(--yellow); } /* 🟨 ≥25% */
+.sema-c4 { background: #2a1a0a; border-color: #ff8c00; }   /* 🟧 ≥10%  */
+.sema-c5 { background: #3d0000; border-color: #ff2222; }   /* 🟥 <10%  */
+.sema-ref { background: #0d1117; border-color: #4a9eff; }
 
 /* CHART */
 .chart-wrap { position: relative; height: 280px; margin-top: 12px; }
@@ -260,7 +260,8 @@ a { color: var(--orange); }
       <h3>🚦 Semáforo — Precio Actual vs Promedio de Compra por Ventanas de Tiempo</h3>
       <div id="a-semaphore" class="semaphore-grid mt-16"></div>
       <div class="mt-16 text-muted" style="font-size:12px;line-height:1.8">
-        🟩 -30% &nbsp;🟨 -25% &nbsp;🟧 -20% &nbsp;🟥 -15% &nbsp;🟪 -10% &nbsp;🟦 Mayor a 0
+        ⬜ 100% &nbsp;🟦 75% &nbsp;🟩 50% &nbsp;🟨 25% &nbsp;🟧 10% &nbsp;🟥 Menor a 0
+        &nbsp;&nbsp;|&nbsp;&nbsp; Mayor a 0: precio por debajo del valor &nbsp;&nbsp;|&nbsp;&nbsp; Menor a 0: precio por arriba del valor
       </div>
     </div>
 
@@ -1208,20 +1209,31 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
   const { totalInvested: piTotal, totalBTC: piBTC } = aggregateDCA(planAll);
   const planAvgP = piTotal / piBTC;
 
+  function semaCls(d) {
+    if (d >= 100) return 'sema-c0';
+    if (d >= 75)  return 'sema-c1';
+    if (d >= 50)  return 'sema-c2';
+    if (d >= 25)  return 'sema-c3';
+    if (d >= 10)  return 'sema-c4';
+    return 'sema-c5';
+  }
+  function semaArrow(d) {
+    const color = d >= 0 ? '#4ade80' : '#ff2222';
+    const sym = d >= 0 ? '▲' : '▼';
+    return `<div style="font-size:30px;line-height:1;font-weight:900;color:${color}">${sym}</div>`;
+  }
+  function semaLabel(d) {
+    return d >= 0 ? 'precio por debajo del valor' : 'precio por arriba del valor';
+  }
+
   // Celda "Precio Actual": precio hoy / planAvgP - 1
   const planDiff = (currentPrice / planAvgP - 1) * 100;
-  let planCls = 'sema-below';
-  if (planDiff <= -30) planCls = 'sema-c1';
-  else if (planDiff <= -25) planCls = 'sema-c2';
-  else if (planDiff <= -20) planCls = 'sema-c3';
-  else if (planDiff <= -15) planCls = 'sema-c4';
-  else if (planDiff <= -10) planCls = 'sema-c5';
   refDiv.classList.remove('sema-ref');
-  refDiv.classList.add(planCls);
+  refDiv.classList.add(semaCls(planDiff));
   const refDiffEl = document.getElementById('sema-ref-diff');
   const refLabelEl = document.getElementById('sema-ref-label');
   if (refDiffEl) refDiffEl.textContent = fmtPct(planDiff);
-  if (refLabelEl) refLabelEl.textContent = planDiff >= 0 ? 'precio por arriba del promedio' : 'precio por debajo del promedio';
+  if (refLabelEl) refLabelEl.textContent = semaLabel(planDiff);
 
   for (const period of periods) {
     const pEnd = endDate;
@@ -1231,26 +1243,19 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     if (!p.length) continue;
     const { totalInvested, totalBTC } = aggregateDCA(p);
     const avgP = totalInvested / totalBTC;
-    // diff = (promedioVentana / planAvgP - 1): negativo = ese período compró barato vs promedio total
-    const diff = (avgP / planAvgP - 1) * 100;
-
-    let cls = 'sema-below';
-    if (diff <= -30) cls = 'sema-c1';
-    else if (diff <= -25) cls = 'sema-c2';
-    else if (diff <= -20) cls = 'sema-c3';
-    else if (diff <= -15) cls = 'sema-c4';
-    else if (diff <= -10) cls = 'sema-c5';
+    // diff = (precioActual / promedioVentana - 1): positivo = compré barato, precio subió
+    const diff = (currentPrice / avgP - 1) * 100;
 
     const div = document.createElement('div');
-    div.className = 'sema-cell ' + cls;
+    div.className = 'sema-cell ' + semaCls(diff);
     div.innerHTML = `
       <div class="period">${period.label}</div>
       <div class="avg">Promedio = <b>U$S ${fmt(avgP, 0)}</b></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
         <div class="diff">${fmtPct(diff)}</div>
-        <div style="font-size:26px;line-height:1;font-weight:bold">${diff >= 0 ? '↑' : '↓'}</div>
+        ${semaArrow(diff)}
       </div>
-      <div style="font-size:11px;margin-top:4px;opacity:0.8">${diff >= 0 ? 'compré caro vs promedio plan' : 'compré barato vs promedio plan'}</div>`;
+      <div style="font-size:11px;margin-top:4px;opacity:0.8">${semaLabel(diff)}</div>`;
     container.appendChild(div);
   }
 }
