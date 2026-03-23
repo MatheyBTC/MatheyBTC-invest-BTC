@@ -150,60 +150,66 @@ a { color: var(--orange); }
       <h1>₿ MatheyBTC — Investment Dashboard</h1>
       <div style="font-size:12px;color:var(--text2);margin-top:2px;">Plan A · Plan B · Plan C · Plan D</div>
     </div>
-    <div style="text-align:right">
-      <div class="btc-price" id="headerPrice">— USD</div>
-      <div class="price-status" id="headerPriceDate">Sin datos</div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div id="lang-toggle" style="display:flex;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px;">
+        <button id="btn-es" onclick="setLang('es')" style="background:var(--orange);color:#000;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">ES</button>
+        <button id="btn-en" onclick="setLang('en')" style="background:transparent;color:var(--text2);border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">EN</button>
+      </div>
+      <div style="text-align:right">
+        <div class="btc-price" id="headerPrice">— USD</div>
+        <div class="price-status" id="headerPriceDate" data-i18n="sin-datos">Sin datos</div>
+      </div>
     </div>
   </div>
 
   <!-- PRICE LOADER -->
   <div class="loader-bar">
-    <span style="color:var(--text2);font-size:13px;">Precios BTC:</span>
+    <span style="color:var(--text2);font-size:13px;" data-i18n="precios-btc">Precios BTC:</span>
     <input type="text" id="csvUrl" value="https://docs.google.com/spreadsheets/d/1AUV0rvijcy7yW3H2IWwlAm2ENHXe6Hfc/export?format=csv&sheet=BTC%20price" style="width:420px"/>
-    <button onclick="loadPrices()">⬇ Cargar precios</button>
-    <button class="btn-outline" style="background:transparent;color:var(--text2);border-color:var(--border)" onclick="clearCache()">Limpiar caché</button>
-    <span id="dataStatus" class="data-badge warn">Sin cargar</span>
+    <button onclick="loadPrices()" data-i18n="cargar-precios">⬇ Cargar precios</button>
+    <button class="btn-outline" style="background:transparent;color:var(--text2);border-color:var(--border)" onclick="clearCache()" data-i18n="limpiar-cache">Limpiar caché</button>
+    <span id="dataStatus" class="data-badge warn" data-i18n="sin-cargar">Sin cargar</span>
     <span id="dataRange" style="font-size:12px;color:var(--text2);"></span>
   </div>
 
   <!-- TABS -->
   <div class="tabs">
-    <div class="tab active" onclick="showTab('planA')">Plan A — DCA Fijo</div>
-    <div class="tab" onclick="showTab('planB')">Plan B — DCA Re-compra</div>
-    <div class="tab" onclick="showTab('planC')">Plan C — Colateral</div>
-    <div class="tab" onclick="showTab('planD')">Plan D — Trading</div>
-    <div class="tab" onclick="showTab('dashboard')">📊 Dashboard</div>
+    <div class="tab active" onclick="showTab('planA')" data-i18n="tab-a">Plan A — DCA Fijo</div>
+    <div class="tab" onclick="showTab('planB')" data-i18n="tab-b">Plan B — DCA Re-compra</div>
+    <div class="tab" onclick="showTab('planC')" data-i18n="tab-c">Plan C — Colateral</div>
+    <div class="tab" onclick="showTab('planD')" data-i18n="tab-d">Plan D — Trading</div>
+    <div class="tab" onclick="showTab('dashboard')" data-i18n="tab-dash">📊 Dashboard</div>
   </div>
 </div>
 
 <!-- ==================== PLAN A ==================== -->
 <div id="tab-planA" class="tab-content active">
   <div class="card">
-    <h3>⚙️ Parámetros DCA</h3>
+    <h3 data-i18n="a-params-title">⚙️ Parámetros DCA</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>Monto por compra (USD)</label>
+        <label data-i18n="a-amount-label">Monto por compra (USD)</label>
         <input type="number" id="a-amount" value="100" min="1">
       </div>
       <div class="form-group">
-        <label>Frecuencia</label>
+        <label data-i18n="a-freq-label">Frecuencia</label>
         <select id="a-freq">
-          <option value="1">Diaria</option>
-          <option value="7" selected>Semanal</option>
-          <option value="14">Bisemanal</option>
-          <option value="30">Mensual</option>
+          <option value="1" data-i18n="freq-diaria">Diaria</option>
+          <option value="7" selected data-i18n="freq-semanal">Semanal</option>
+          <option value="14" data-i18n="freq-bisemanal">Bisemanal</option>
+          <option value="30" data-i18n="freq-mensual">Mensual</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Fecha inicio</label>
+        <label data-i18n="a-start-label">Fecha inicio</label>
         <input type="date" id="a-start" value="2020-01-01">
       </div>
       <div class="form-group">
-        <label>Fecha fin</label>
+        <label data-i18n="a-end-label">Fecha fin</label>
         <input type="date" id="a-end">
       </div>
       <div class="form-group" style="justify-content:flex-end">
-        <button class="btn" onclick="runPlanA()">Calcular</button>
+        <button class="btn" onclick="runPlanA()" data-i18n="calcular">Calcular</button>
       </div>
       <div class="form-group" style="justify-content:flex-end">
         <button class="btn-outline" onclick="exportPlanA()">📥 Excel</button>
@@ -215,22 +221,22 @@ a { color: var(--orange); }
     <!-- Stats row -->
     <div class="grid-4 mb-16">
       <div class="stat-box">
-        <div class="label">BTC Acumulado</div>
+        <div class="label" data-i18n="a-btc-label">BTC Acumulado</div>
         <div class="value" id="a-btc">—</div>
         <div class="sub" id="a-purchases">— compras</div>
       </div>
       <div class="stat-box">
-        <div class="label">Precio Promedio Compra</div>
+        <div class="label" data-i18n="a-avgprice-label">Precio Promedio Compra</div>
         <div class="value" id="a-avgprice">—</div>
         <div class="sub">U$S/BTC</div>
       </div>
       <div class="stat-box">
-        <div class="label">Total Invertido</div>
+        <div class="label" data-i18n="a-invested-label">Total Invertido</div>
         <div class="value" id="a-invested">—</div>
         <div class="sub">U$S</div>
       </div>
       <div class="stat-box green">
-        <div class="label">Valor Actual</div>
+        <div class="label" data-i18n="a-value-label">Valor Actual</div>
         <div class="value" id="a-value">—</div>
         <div class="sub" id="a-roi">ROI: —</div>
       </div>
@@ -238,18 +244,18 @@ a { color: var(--orange); }
 
     <!-- Chart -->
     <div class="card">
-      <h3>📈 Evolución del Portfolio</h3>
+      <h3 data-i18n="a-chart-title">📈 Evolución del Portfolio</h3>
       <div class="chart-wrap"><canvas id="chartA"></canvas></div>
     </div>
 
     <!-- Comparativa frecuencias -->
     <div class="card">
-      <h3>📊 Comparativa de Frecuencias</h3>
+      <h3 data-i18n="a-freq-title">📊 Comparativa de Frecuencias</h3>
       <table class="tbl" id="a-freq-table">
         <thead><tr>
-          <th>Frecuencia</th><th class="num">Compras</th><th class="num">BTC Acumulado</th>
-          <th class="num">Precio Promedio</th><th class="num">Total Invertido</th>
-          <th class="num">Valor Actual</th><th class="num">ROI</th>
+          <th data-i18n="th-frecuencia">Frecuencia</th><th class="num" data-i18n="th-compras">Compras</th><th class="num" data-i18n="a-btc-label">BTC Acumulado</th>
+          <th class="num" data-i18n="a-avgprice-label">Precio Promedio</th><th class="num" data-i18n="a-invested-label">Total Invertido</th>
+          <th class="num" data-i18n="a-value-label">Valor Actual</th><th class="num">ROI</th>
         </tr></thead>
         <tbody id="a-freq-body"></tbody>
       </table>
@@ -257,29 +263,29 @@ a { color: var(--orange); }
 
     <!-- Semáforo -->
     <div class="card">
-      <h3>🚦 Semáforo — Precio Actual vs Promedio de Compra por Ventanas de Tiempo</h3>
+      <h3 data-i18n="sema-title">🚦 Semáforo — Precio Actual vs Promedio de Compra por Ventanas de Tiempo</h3>
       <div id="a-semaphore" class="semaphore-grid mt-16"></div>
       <div class="mt-16 text-muted" style="font-size:12px;line-height:1.8">
         ⬜ 100% &nbsp;🟦 75% &nbsp;🟩 50% &nbsp;🟨 25% &nbsp;🟧 10% &nbsp;🟥 Menor a 0
-        &nbsp;&nbsp;|&nbsp;&nbsp; Mayor a 0: precio por debajo del valor &nbsp;&nbsp;|&nbsp;&nbsp; Menor a 0: precio por arriba del valor
+        &nbsp;&nbsp;|&nbsp;&nbsp; <span data-i18n="sema-above">Mayor a 0: precio por debajo del valor</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span data-i18n="sema-below">Menor a 0: precio por arriba del valor</span>
       </div>
     </div>
 
     <!-- Media móvil 90d -->
     <div class="card">
-      <h3>📉 Análisis Media Móvil 90 días (ventana deslizante)</h3>
+      <h3 data-i18n="a-ma-title">📉 Análisis Media Móvil 90 días (ventana deslizante)</h3>
       <div class="grid-4 mb-16" id="a-ma-stats"></div>
       <div class="chart-wrap"><canvas id="chartA_MA"></canvas></div>
     </div>
 
     <!-- Backtesting -->
     <div class="card">
-      <h3>🕐 Backtesting — Última Década (mismo monto y frecuencia, al día de hoy)</h3>
+      <h3 data-i18n="a-backtest-title">🕐 Backtesting — Última Década (mismo monto y frecuencia, al día de hoy)</h3>
       <table class="tbl" id="a-backtest-table">
         <thead><tr>
-          <th>Inicio</th><th class="num">Ciclos</th><th class="num">Compras</th>
-          <th class="num">BTC Acumulado</th><th class="num">Precio Medio</th>
-          <th class="num">Total Invertido</th><th class="num">Valor Actual (Cartera)</th><th class="num">ROI</th>
+          <th data-i18n="th-inicio">Inicio</th><th class="num" data-i18n="th-ciclos">Ciclos</th><th class="num" data-i18n="th-compras">Compras</th>
+          <th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="a-avgprice-label">Precio Medio</th>
+          <th class="num" data-i18n="a-invested-label">Total Invertido</th><th class="num" data-i18n="th-valor-cartera">Valor Actual (Cartera)</th><th class="num">ROI</th>
         </tr></thead>
         <tbody id="a-backtest-body"></tbody>
       </table>
@@ -290,35 +296,35 @@ a { color: var(--orange); }
 <!-- ==================== PLAN B ==================== -->
 <div id="tab-planB" class="tab-content">
   <div class="card">
-    <h3>⚙️ Parámetros DCA Re-compra</h3>
+    <h3 data-i18n="b-params-title">⚙️ Parámetros DCA Re-compra</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>Monto Por Compra (U$S)</label>
+        <label data-i18n="a-amount-label">Monto Por Compra (U$S)</label>
         <input type="number" id="b-amount" value="100" min="1">
       </div>
       <div class="form-group">
-        <label>Frecuencia</label>
+        <label data-i18n="a-freq-label">Frecuencia</label>
         <select id="b-freq">
-          <option value="1">Diaria</option>
-          <option value="7" selected>Semanal</option>
-          <option value="14">Bisemanal</option>
-          <option value="30">Mensual</option>
+          <option value="1" data-i18n="freq-diaria">Diaria</option>
+          <option value="7" selected data-i18n="freq-semanal">Semanal</option>
+          <option value="14" data-i18n="freq-bisemanal">Bisemanal</option>
+          <option value="30" data-i18n="freq-mensual">Mensual</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Fecha Inicio</label>
+        <label data-i18n="a-start-label">Fecha Inicio</label>
         <input type="date" id="b-start" value="2020-01-01">
       </div>
       <div class="form-group">
-        <label>Fecha Fin</label>
+        <label data-i18n="a-end-label">Fecha Fin</label>
         <input type="date" id="b-end">
       </div>
       <div class="form-group">
-        <label>Trigger: Precio Sube X% Sobre MA90</label>
+        <label data-i18n="b-trigger-label">Trigger: Precio Sube X% Sobre MA90</label>
         <input type="number" id="b-trigger" value="25" min="5" max="200">
       </div>
       <div class="form-group">
-        <label>Vender % Del Stack Al Trigger</label>
+        <label data-i18n="b-sellpct-label">Vender % Del Stack Al Trigger</label>
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
           <button onclick="setSellPct(5)" style="background:#4ade80;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">5%</button>
           <button onclick="setSellPct(8)" style="background:#facc15;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">8%</button>
@@ -327,7 +333,7 @@ a { color: var(--orange); }
         </div>
       </div>
       <div class="form-group" style="justify-content:flex-end">
-        <button class="btn" onclick="runPlanB()">Calcular</button>
+        <button class="btn" onclick="runPlanB()" data-i18n="calcular">Calcular</button>
       </div>
       <div class="form-group" style="justify-content:flex-end">
         <button class="btn-outline" onclick="exportPlanB()">📥 Excel</button>
@@ -338,42 +344,42 @@ a { color: var(--orange); }
   <div id="b-results" style="display:none">
     <div class="grid-4 mb-16">
       <div class="stat-box">
-        <div class="label">BTC Final</div>
+        <div class="label" data-i18n="b-btc-label">BTC Final</div>
         <div class="value" id="b-btc">—</div>
         <div class="sub" id="b-cycles">— ciclos</div>
       </div>
       <div class="stat-box">
-        <div class="label">Precio Promedio Compra</div>
+        <div class="label" data-i18n="a-avgprice-label">Precio Promedio Compra</div>
         <div class="value" id="b-avgprice">—</div>
         <div class="sub">DCA0 · U$S/BTC</div>
       </div>
       <div class="stat-box">
-        <div class="label">Total Invertido</div>
+        <div class="label" data-i18n="a-invested-label">Total Invertido</div>
         <div class="value" id="b-invested">—</div>
         <div class="sub">U$S bruto DCA0</div>
       </div>
       <div class="stat-box green">
-        <div class="label">Valor Actual</div>
+        <div class="label" data-i18n="a-value-label">Valor Actual</div>
         <div class="value" id="b-value">—</div>
         <div class="sub" id="b-roi">ROI: —</div>
       </div>
     </div>
 
     <div class="card">
-      <h3>📊 Plan A vs Plan B — Comparativa</h3>
+      <h3 data-i18n="b-vs-title">📊 Plan A vs Plan B — Comparativa</h3>
       <div class="grid-3 mb-16">
         <div class="stat-box" style="border-color:#4a9eff;background:rgba(74,158,255,0.07)">
-          <div class="label" style="color:#4a9eff;font-size:13px;font-weight:600">Plan A — DCA Fijo</div>
+          <div class="label" style="color:#4a9eff;font-size:13px;font-weight:600" data-i18n="tab-a">Plan A — DCA Fijo</div>
           <div class="value" id="b-vs-a-btc">—</div>
-          <div class="sub">BTC acumulado</div>
+          <div class="sub" data-i18n="b-btc-acum">BTC acumulado</div>
         </div>
         <div class="stat-box" style="border-color:#f7931a;background:rgba(247,147,26,0.07)">
-          <div class="label" style="color:#f7931a;font-size:13px;font-weight:600">Plan B — Re-compra</div>
+          <div class="label" style="color:#f7931a;font-size:13px;font-weight:600" data-i18n="b-recompra-label">Plan B — Re-compra</div>
           <div class="value" id="b-vs-b-btc">—</div>
-          <div class="sub">BTC acumulado</div>
+          <div class="sub" data-i18n="b-btc-acum">BTC acumulado</div>
         </div>
         <div class="stat-box green">
-          <div class="label">Diferencia</div>
+          <div class="label" data-i18n="b-diferencia">Diferencia</div>
           <div class="value" id="b-vs-diff">—</div>
           <div class="sub" id="b-vs-winner">—</div>
         </div>
@@ -382,23 +388,23 @@ a { color: var(--orange); }
     </div>
 
     <div class="card">
-      <h3>📂 DCA Activos</h3>
+      <h3 data-i18n="b-dca-activos">📂 DCA Activos</h3>
       <table class="tbl">
         <thead><tr>
-          <th>DCA</th><th>Inicio</th><th class="num">Capital</th>
-          <th class="num">BTC Comprado</th><th class="num">BTC Restante</th><th class="num">Valor Actual</th>
+          <th>DCA</th><th data-i18n="th-inicio">Inicio</th><th class="num" data-i18n="th-capital">Capital</th>
+          <th class="num" data-i18n="th-btc-comprado">BTC Comprado</th><th class="num" data-i18n="th-btc-restante">BTC Restante</th><th class="num" data-i18n="a-value-label">Valor Actual</th>
         </tr></thead>
         <tbody id="b-dca-body"></tbody>
       </table>
     </div>
 
     <div class="card">
-      <h3>🔄 Historial De Triggers</h3>
+      <h3 data-i18n="b-historial-title">🔄 Historial De Triggers</h3>
       <table class="tbl">
         <thead><tr>
-          <th>#</th><th>Fecha</th><th class="num">Precio BTC</th>
-          <th class="num">BTC Vendido</th><th class="num">U$S Obtenido</th>
-          <th class="num">MA90</th><th class="num">% Sobre MA90</th><th>DCA Creado</th>
+          <th>#</th><th data-i18n="th-fecha">Fecha</th><th class="num" data-i18n="th-precio-btc">Precio BTC</th>
+          <th class="num" data-i18n="th-btc-vendido">BTC Vendido</th><th class="num" data-i18n="th-usd-obtenido">U$S Obtenido</th>
+          <th class="num">MA90</th><th class="num" data-i18n="th-sobre-ma90">% Sobre MA90</th><th data-i18n="th-dca-creado">DCA Creado</th>
         </tr></thead>
         <tbody id="b-cycles-body"></tbody>
       </table>
@@ -409,38 +415,38 @@ a { color: var(--orange); }
 <!-- ==================== PLAN C ==================== -->
 <div id="tab-planC" class="tab-content">
   <div class="card">
-    <h3>⚙️ Parámetros del Préstamo Colateral</h3>
+    <h3 data-i18n="c-params-title">⚙️ Parámetros del Préstamo Colateral</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>BTC en Colateral</label>
+        <label data-i18n="c-btc-colateral-label">BTC en Colateral</label>
         <input type="number" id="c-btc" value="1" step="0.01" min="0.001">
       </div>
       <div class="form-group">
-        <label>Precio BTC (USD)</label>
+        <label data-i18n="c-price-label">Precio BTC (USD)</label>
         <input type="number" id="c-price" value="" placeholder="Auto">
       </div>
       <div class="form-group">
-        <label>LTV Inicial (%)</label>
+        <label data-i18n="c-ltv-label">LTV Inicial (%)</label>
         <input type="number" id="c-ltv" value="50" min="10" max="80">
       </div>
       <div class="form-group">
-        <label>APR (%)</label>
+        <label data-i18n="c-apr-label">APR (%)</label>
         <input type="number" id="c-apr" value="12" step="0.5" min="0">
       </div>
       <div class="form-group">
-        <label>Meses</label>
+        <label data-i18n="c-months-label">Meses</label>
         <input type="number" id="c-months" value="12" min="1" max="60">
       </div>
       <div class="form-group">
-        <label>Fee Plataforma (%)</label>
+        <label data-i18n="c-fee-platform-label">Fee Plataforma (%)</label>
         <input type="number" id="c-fee-platform" value="1" step="0.1" min="0">
       </div>
       <div class="form-group">
-        <label>Fee Swap (%)</label>
+        <label data-i18n="c-fee-swap-label">Fee Swap (%)</label>
         <input type="number" id="c-fee-swap" value="0.5" step="0.1" min="0">
       </div>
       <div class="form-group" style="justify-content:flex-end">
-        <button class="btn" onclick="runPlanC()">Calcular</button>
+        <button class="btn" onclick="runPlanC()" data-i18n="calcular">Calcular</button>
       </div>
       <div class="form-group" style="justify-content:flex-end">
         <button class="btn-outline" onclick="exportPlanC()">📥 Excel</button>
@@ -451,22 +457,22 @@ a { color: var(--orange); }
   <div id="c-results" style="display:none">
     <div class="grid-4 mb-16">
       <div class="stat-box blue">
-        <div class="label">USDT Prestado</div>
+        <div class="label" data-i18n="c-usdt-prestado">USDT Prestado</div>
         <div class="value" id="c-loan">—</div>
         <div class="sub">USD</div>
       </div>
       <div class="stat-box">
-        <div class="label">Total a Devolver</div>
+        <div class="label" data-i18n="c-total-devolver">Total a Devolver</div>
         <div class="value" id="c-repay">—</div>
         <div class="sub" id="c-fees-total">Fees: —</div>
       </div>
       <div class="stat-box" style="border-color:var(--yellow)">
-        <div class="label">Precio Margin Call (80% LTV)</div>
+        <div class="label" data-i18n="c-margin-call-label">Precio Margin Call (80% LTV)</div>
         <div class="value" id="c-margin" style="color:var(--yellow)">—</div>
         <div class="sub" id="c-margin-pct">— caída</div>
       </div>
       <div class="stat-box red">
-        <div class="label">Precio Liquidación (90% LTV)</div>
+        <div class="label" data-i18n="c-liq-label">Precio Liquidación (90% LTV)</div>
         <div class="value" id="c-liq">—</div>
         <div class="sub" id="c-liq-pct">— caída</div>
       </div>
@@ -474,40 +480,40 @@ a { color: var(--orange); }
 
     <!-- Reinversión -->
     <div class="card">
-      <h3>🔄 Simulación de Reinversión en BTC</h3>
+      <h3 data-i18n="c-reinversion-title">🔄 Simulación de Reinversión en BTC</h3>
       <div class="grid-3 mb-16">
         <div class="stat-box">
-          <div class="label">BTC Original</div>
+          <div class="label" data-i18n="c-btc-original-label">BTC Original</div>
           <div class="value" id="c-btc-original">—</div>
         </div>
         <div class="stat-box blue">
-          <div class="label">BTC Reinvertido (con préstamo)</div>
+          <div class="label" data-i18n="c-btc-reinvest-label">BTC Reinvertido (con préstamo)</div>
           <div class="value" id="c-btc-reinvest">—</div>
         </div>
         <div class="stat-box green">
-          <div class="label">BTC Total Stack</div>
+          <div class="label" data-i18n="c-btc-total-label">BTC Total Stack</div>
           <div class="value" id="c-btc-total">—</div>
           <div class="sub" id="c-btc-gain">+— BTC ganado</div>
         </div>
       </div>
-      <div class="info-box">
+      <div class="info-box" data-i18n="c-info-box">
         💡 Con el USDT prestado comprás más BTC. Si el precio sube hasta el vencimiento, pagás el préstamo y te quedás con BTC extra.
       </div>
     </div>
 
     <!-- Comparativa LTV -->
     <div class="card">
-      <h3>📊 Comparativa de Escenarios LTV</h3>
+      <h3 data-i18n="c-ltv-title">📊 Comparativa de Escenarios LTV</h3>
       <table class="tbl">
         <thead><tr>
           <th>LTV %</th>
-          <th class="num">USDT Prestado</th>
-          <th class="num">Total a Pagar</th>
-          <th class="num">Precio Margin Call</th>
-          <th class="num">Caída hasta MC</th>
-          <th class="num">Precio Liquidación</th>
-          <th class="num">Caída hasta Liq.</th>
-          <th class="num">BTC Total Stack</th>
+          <th class="num" data-i18n="c-usdt-prestado">USDT Prestado</th>
+          <th class="num" data-i18n="c-total-pagar">Total a Pagar</th>
+          <th class="num" data-i18n="c-precio-mc">Precio Margin Call</th>
+          <th class="num" data-i18n="c-caida-mc">Caída hasta MC</th>
+          <th class="num" data-i18n="c-precio-liq">Precio Liquidación</th>
+          <th class="num" data-i18n="c-caida-liq">Caída hasta Liq.</th>
+          <th class="num" data-i18n="c-btc-total-label">BTC Total Stack</th>
         </tr></thead>
         <tbody id="c-ltv-body"></tbody>
       </table>
@@ -515,21 +521,21 @@ a { color: var(--orange); }
 
     <!-- Break-even -->
     <div class="card">
-      <h3>🎯 Precio Break-Even para No Perder BTC</h3>
+      <h3 data-i18n="c-breakeven-title">🎯 Precio Break-Even para No Perder BTC</h3>
       <div class="grid-3">
         <div class="stat-box">
-          <div class="label">Precio actual</div>
+          <div class="label" data-i18n="c-precio-actual-label">Precio actual</div>
           <div class="value" id="c-be-current">—</div>
         </div>
         <div class="stat-box green">
-          <div class="label">Precio mínimo para cubrir préstamo</div>
+          <div class="label" data-i18n="c-precio-minimo-label">Precio mínimo para cubrir préstamo</div>
           <div class="value" id="c-be-price">—</div>
           <div class="sub" id="c-be-pct">— subida necesaria</div>
         </div>
         <div class="stat-box">
-          <div class="label">Ganancia si precio × 2</div>
+          <div class="label" data-i18n="c-ganancia-2x-label">Ganancia si precio × 2</div>
           <div class="value" id="c-be-gain2x">—</div>
-          <div class="sub">BTC extra</div>
+          <div class="sub" data-i18n="c-btc-extra">BTC extra</div>
         </div>
       </div>
     </div>
@@ -539,56 +545,56 @@ a { color: var(--orange); }
 <!-- ==================== PLAN D ==================== -->
 <div id="tab-planD" class="tab-content">
   <div class="card">
-    <h3>⚙️ Registrar Señal de TradingView</h3>
+    <h3 data-i18n="d-signals-title">⚙️ Registrar Señal de TradingView</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>Tipo</label>
+        <label data-i18n="d-tipo-label">Tipo</label>
         <select id="d-type">
-          <option value="buy">COMPRA</option>
-          <option value="sell">VENTA</option>
+          <option value="buy" data-i18n="d-compra">COMPRA</option>
+          <option value="sell" data-i18n="d-venta">VENTA</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Precio BTC (USD)</label>
+        <label data-i18n="c-price-label">Precio BTC (USD)</label>
         <input type="number" id="d-price" placeholder="Ej: 95000">
       </div>
       <div class="form-group">
-        <label>Monto USD</label>
+        <label data-i18n="d-monto-usd-label">Monto USD</label>
         <input type="number" id="d-amount" value="100">
       </div>
       <div class="form-group">
-        <label>Fecha</label>
+        <label data-i18n="th-fecha">Fecha</label>
         <input type="date" id="d-date">
       </div>
       <div class="form-group">
-        <label>Nota (opcional)</label>
+        <label data-i18n="d-nota-label">Nota (opcional)</label>
         <input type="text" id="d-note" placeholder="Descripción">
       </div>
       <div class="form-group" style="justify-content:flex-end">
-        <button class="btn" onclick="addSignal()">+ Agregar</button>
+        <button class="btn" onclick="addSignal()" data-i18n="d-agregar">+ Agregar</button>
       </div>
     </div>
     <div class="form-row">
-      <button class="btn-outline" onclick="clearSignals()">🗑 Limpiar señales</button>
+      <button class="btn-outline" onclick="clearSignals()" data-i18n="d-limpiar-senales">🗑 Limpiar señales</button>
       <button class="btn-outline" onclick="exportPlanD()">📥 Excel</button>
     </div>
   </div>
 
   <!-- Backtesting T3-CCI -->
   <div class="card">
-    <h3>🤖 Backtesting T3-CCI — BTCUSDT Diario</h3>
+    <h3 data-i18n="d-backtest-title">🤖 Backtesting T3-CCI — BTCUSDT Diario</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>Monto por operación (USD)</label>
+        <label data-i18n="d-monto-op-label">Monto por operación (USD)</label>
         <input type="number" id="d-bt-amount" value="1000" min="1">
       </div>
       <div class="form-group">
-        <label>Años hacia atrás</label>
+        <label data-i18n="d-anos-atras-label">Años hacia atrás</label>
         <select id="d-bt-years">
-          <option value="2">2 años</option>
-          <option value="4" selected>4 años</option>
-          <option value="6">6 años</option>
-          <option value="10">10 años</option>
+          <option value="2" data-i18n="d-2anos">2 años</option>
+          <option value="4" selected data-i18n="d-4anos">4 años</option>
+          <option value="6" data-i18n="d-6anos">6 años</option>
+          <option value="10" data-i18n="d-10anos">10 años</option>
         </select>
       </div>
       <div class="form-group">
@@ -600,7 +606,7 @@ a { color: var(--orange); }
         <input type="number" id="d-bt-t3" value="7" min="1">
       </div>
       <div class="form-group" style="justify-content:flex-end">
-        <button class="btn" onclick="runBacktest()">▶ Calcular Backtesting</button>
+        <button class="btn" onclick="runBacktest()" data-i18n="d-calcular-backtest">▶ Calcular Backtesting</button>
       </div>
       <div class="form-group" style="justify-content:flex-end">
         <button class="btn-outline" onclick="exportBacktest()">📥 Excel</button>
@@ -611,16 +617,16 @@ a { color: var(--orange); }
   <div id="d-bt-results" style="display:none">
     <div class="grid-4 mb-16">
       <div class="stat-box green">
-        <div class="label">ROI Total</div>
+        <div class="label" data-i18n="d-roi-total">ROI Total</div>
         <div class="value" id="d-bt-roi">—</div>
       </div>
       <div class="stat-box">
-        <div class="label">Operaciones</div>
+        <div class="label" data-i18n="d-operaciones">Operaciones</div>
         <div class="value" id="d-bt-ops">—</div>
         <div class="sub" id="d-bt-winrate">—</div>
       </div>
       <div class="stat-box blue">
-        <div class="label">Ganancia Neta</div>
+        <div class="label" data-i18n="d-ganancia-neta">Ganancia Neta</div>
         <div class="value" id="d-bt-profit">—</div>
       </div>
       <div class="stat-box">
@@ -629,16 +635,16 @@ a { color: var(--orange); }
       </div>
     </div>
     <div class="card">
-      <h3>📈 Curva de Equity — T3-CCI Backtesting</h3>
+      <h3 data-i18n="d-equity-bt-title">📈 Curva de Equity — T3-CCI Backtesting</h3>
       <div class="chart-wrap" style="height:300px"><canvas id="chartBT"></canvas></div>
     </div>
     <div class="card">
-      <h3>📋 Historial de Operaciones T3-CCI</h3>
+      <h3 data-i18n="d-historial-ops-title">📋 Historial de Operaciones T3-CCI</h3>
       <table class="tbl">
         <thead><tr>
-          <th>Tipo</th><th>Fecha Entrada</th><th class="num">Precio Entrada</th>
-          <th>Fecha Salida</th><th class="num">Precio Salida</th>
-          <th class="num">BTC</th><th class="num">P&L USD</th><th class="num">P&L %</th><th class="num">Capital Acum.</th>
+          <th data-i18n="d-tipo-label">Tipo</th><th data-i18n="d-fecha-entrada">Fecha Entrada</th><th class="num" data-i18n="d-precio-entrada">Precio Entrada</th>
+          <th data-i18n="d-fecha-salida">Fecha Salida</th><th class="num" data-i18n="d-precio-salida">Precio Salida</th>
+          <th class="num">BTC</th><th class="num">P&L USD</th><th class="num">P&L %</th><th class="num" data-i18n="d-capital-acum">Capital Acum.</th>
         </tr></thead>
         <tbody id="d-bt-body"></tbody>
       </table>
@@ -649,36 +655,36 @@ a { color: var(--orange); }
   <div id="d-results">
     <div class="grid-4 mb-16">
       <div class="stat-box">
-        <div class="label">Señales Registradas</div>
+        <div class="label" data-i18n="d-senales-reg">Señales Registradas</div>
         <div class="value" id="d-count">0</div>
       </div>
       <div class="stat-box blue">
-        <div class="label">BTC en Cartera</div>
+        <div class="label" data-i18n="d-btc-cartera">BTC en Cartera</div>
         <div class="value" id="d-btc">0</div>
       </div>
       <div class="stat-box">
-        <div class="label">USD Invertido Neto</div>
+        <div class="label" data-i18n="d-usd-invertido">USD Invertido Neto</div>
         <div class="value" id="d-invested">0</div>
       </div>
       <div class="stat-box green">
-        <div class="label">P&L Realizado + No Realizado</div>
+        <div class="label" data-i18n="d-pnl-label">P&L Realizado + No Realizado</div>
         <div class="value" id="d-pnl">—</div>
         <div class="sub" id="d-pnl-pct">—</div>
       </div>
     </div>
 
     <div class="card">
-      <h3>📈 Curva de Equity</h3>
+      <h3 data-i18n="d-equity-title">📈 Curva de Equity</h3>
       <div class="chart-wrap"><canvas id="chartD"></canvas></div>
     </div>
 
     <div class="card">
-      <h3>📋 Historial de Señales</h3>
+      <h3 data-i18n="d-historial-senales-title">📋 Historial de Señales</h3>
       <table class="tbl">
         <thead><tr>
-          <th>Fecha</th><th>Tipo</th><th class="num">Precio</th>
-          <th class="num">Monto USD</th><th class="num">BTC</th>
-          <th class="num">BTC Acumulado</th><th class="num">P&L acum.</th><th>Nota</th>
+          <th data-i18n="th-fecha">Fecha</th><th data-i18n="d-tipo-label">Tipo</th><th class="num" data-i18n="th-precio-btc">Precio</th>
+          <th class="num" data-i18n="d-monto-usd-label">Monto USD</th><th class="num">BTC</th>
+          <th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="d-pnl-acum">P&L acum.</th><th data-i18n="d-nota-label">Nota</th>
           <th></th>
         </tr></thead>
         <tbody id="d-signals-body"></tbody>
@@ -690,26 +696,26 @@ a { color: var(--orange); }
 <!-- ==================== DASHBOARD ==================== -->
 <div id="tab-dashboard" class="tab-content">
   <div class="card">
-    <h3>🎯 Calculadora de Independencia Financiera</h3>
+    <h3 data-i18n="dash-calc-title">🎯 Calculadora de Independencia Financiera</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>BTC que tenés hoy</label>
+        <label data-i18n="dash-btc-hoy-label">BTC que tenés hoy</label>
         <input type="number" id="dash-btc" value="0.1" step="0.001" min="0">
       </div>
       <div class="form-group">
-        <label>Inversión mensual (USD)</label>
+        <label data-i18n="dash-monthly-label">Inversión mensual (USD)</label>
         <input type="number" id="dash-monthly" value="500" min="0">
       </div>
       <div class="form-group">
-        <label>Gastos mensuales para vivir (USD)</label>
+        <label data-i18n="dash-expenses-label">Gastos mensuales para vivir (USD)</label>
         <input type="number" id="dash-expenses" value="2000" min="0">
       </div>
       <div class="form-group">
-        <label>% del stack a usar por año</label>
+        <label data-i18n="dash-drawdown-label">% del stack a usar por año</label>
         <input type="number" id="dash-drawdown" value="5" min="1" max="20" step="0.5">
       </div>
       <div class="form-group" style="justify-content:flex-end">
-        <button class="btn" onclick="runDashboard()">Calcular</button>
+        <button class="btn" onclick="runDashboard()" data-i18n="calcular">Calcular</button>
       </div>
     </div>
   </div>
@@ -717,22 +723,22 @@ a { color: var(--orange); }
   <div id="dash-results" style="display:none">
     <div class="grid-4 mb-16">
       <div class="stat-box blue">
-        <div class="label">BTC necesario para vivir</div>
+        <div class="label" data-i18n="dash-btc-needed-label">BTC necesario para vivir</div>
         <div class="value" id="dash-btc-needed">—</div>
-        <div class="sub">al precio actual</div>
+        <div class="sub" data-i18n="dash-al-precio-actual">al precio actual</div>
       </div>
       <div class="stat-box">
-        <div class="label">BTC actual</div>
+        <div class="label" data-i18n="dash-btc-actual-label">BTC actual</div>
         <div class="value" id="dash-btc-now">—</div>
         <div class="sub" id="dash-btc-pct-now">— del objetivo</div>
       </div>
       <div class="stat-box green">
-        <div class="label">Años estimados (solo DCA)</div>
+        <div class="label" data-i18n="dash-anos-estimados-label">Años estimados (solo DCA)</div>
         <div class="value" id="dash-years">—</div>
-        <div class="sub">acumulando mensualmente</div>
+        <div class="sub" data-i18n="dash-acumulando">acumulando mensualmente</div>
       </div>
       <div class="stat-box">
-        <div class="label">Valor portfolio actual</div>
+        <div class="label" data-i18n="dash-portfolio-label">Valor portfolio actual</div>
         <div class="value" id="dash-portfolio">—</div>
         <div class="sub">USD</div>
       </div>
@@ -740,11 +746,11 @@ a { color: var(--orange); }
 
     <!-- Resumen planes -->
     <div class="card">
-      <h3>📊 Resumen de todos los planes (últimos cálculos)</h3>
+      <h3 data-i18n="dash-resumen-title">📊 Resumen de todos los planes (últimos cálculos)</h3>
       <table class="tbl">
         <thead><tr>
-          <th>Plan</th><th class="num">BTC Acumulado</th><th class="num">Precio Promedio</th>
-          <th class="num">Total Invertido</th><th class="num">Valor Actual</th><th class="num">ROI</th>
+          <th>Plan</th><th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="a-avgprice-label">Precio Promedio</th>
+          <th class="num" data-i18n="a-invested-label">Total Invertido</th><th class="num" data-i18n="a-value-label">Valor Actual</th><th class="num">ROI</th>
         </tr></thead>
         <tbody id="dash-plans-body"></tbody>
       </table>
@@ -752,17 +758,17 @@ a { color: var(--orange); }
 
     <!-- Proyección a futuro -->
     <div class="card">
-      <h3>📈 Proyección DCA a Futuro</h3>
+      <h3 data-i18n="dash-proyeccion-title">📈 Proyección DCA a Futuro</h3>
       <div class="chart-wrap" style="height:320px"><canvas id="chartDash"></canvas></div>
     </div>
 
     <!-- Tabla de proyección -->
     <div class="card">
-      <h3>📋 Tabla de Proyección Anual</h3>
+      <h3 data-i18n="dash-tabla-title">📋 Tabla de Proyección Anual</h3>
       <table class="tbl">
         <thead><tr>
-          <th>Año</th><th class="num">BTC Acumulado</th><th class="num">Valor (precio actual)</th>
-          <th class="num">% del objetivo</th><th>Estado</th>
+          <th data-i18n="dash-ano">Año</th><th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="dash-valor-precio-actual">Valor (precio actual)</th>
+          <th class="num" data-i18n="dash-pct-objetivo">% del objetivo</th><th data-i18n="dash-estado">Estado</th>
         </tr></thead>
         <tbody id="dash-projection-body"></tbody>
       </table>
@@ -803,6 +809,326 @@ let lastPlanA = null, lastPlanB = null, lastPlanC = null, lastPlanD = null;
 let signals = JSON.parse(localStorage.getItem('matheybtc_signals') || '[]');
 
 // ============================================================
+//  I18N — Idioma / Language
+// ============================================================
+const TEXTS = {
+  es: {
+    // Nav / tabs
+    'tab-a': 'Plan A — DCA Fijo',
+    'tab-b': 'Plan B — DCA Re-compra',
+    'tab-c': 'Plan C — Colateral',
+    'tab-d': 'Plan D — Trading',
+    'tab-dash': '📊 Dashboard',
+    'sin-datos': 'Sin datos',
+    'precios-btc': 'Precios BTC:',
+    'cargar-precios': '⬇ Cargar precios',
+    'limpiar-cache': 'Limpiar caché',
+    'sin-cargar': 'Sin cargar',
+    // Common
+    'calcular': 'Calcular',
+    'freq-diaria': 'Diaria',
+    'freq-semanal': 'Semanal',
+    'freq-bisemanal': 'Bisemanal',
+    'freq-mensual': 'Mensual',
+    'th-frecuencia': 'Frecuencia',
+    'th-compras': 'Compras',
+    'th-inicio': 'Inicio',
+    'th-ciclos': 'Ciclos',
+    'th-valor-cartera': 'Valor Actual (Cartera)',
+    'th-capital': 'Capital',
+    'th-btc-comprado': 'BTC Comprado',
+    'th-btc-restante': 'BTC Restante',
+    'th-fecha': 'Fecha',
+    'th-precio-btc': 'Precio BTC',
+    'th-btc-vendido': 'BTC Vendido',
+    'th-usd-obtenido': 'U$S Obtenido',
+    'th-sobre-ma90': '% Sobre MA90',
+    'th-dca-creado': 'DCA Creado',
+    // Plan A
+    'a-params-title': '⚙️ Parámetros DCA',
+    'a-amount-label': 'Monto por compra (USD)',
+    'a-freq-label': 'Frecuencia',
+    'a-start-label': 'Fecha inicio',
+    'a-end-label': 'Fecha fin',
+    'a-btc-label': 'BTC Acumulado',
+    'a-avgprice-label': 'Precio Promedio Compra',
+    'a-invested-label': 'Total Invertido',
+    'a-value-label': 'Valor Actual',
+    'a-chart-title': '📈 Evolución del Portfolio',
+    'a-freq-title': '📊 Comparativa de Frecuencias',
+    'a-ma-title': '📉 Análisis Media Móvil 90 días (ventana deslizante)',
+    'a-backtest-title': '🕐 Backtesting — Última Década (mismo monto y frecuencia, al día de hoy)',
+    'sema-title': '🚦 Semáforo — Precio Actual vs Promedio de Compra por Ventanas de Tiempo',
+    'sema-above': 'Mayor a 0: precio por debajo del valor',
+    'sema-below': 'Menor a 0: precio por arriba del valor',
+    // Plan B
+    'b-params-title': '⚙️ Parámetros DCA Re-compra',
+    'b-trigger-label': 'Trigger: Precio Sube X% Sobre MA90',
+    'b-sellpct-label': 'Vender % Del Stack Al Trigger',
+    'b-btc-label': 'BTC Final',
+    'b-btc-acum': 'BTC acumulado',
+    'b-recompra-label': 'Plan B — Re-compra',
+    'b-vs-title': '📊 Plan A vs Plan B — Comparativa',
+    'b-diferencia': 'Diferencia',
+    'b-dca-activos': '📂 DCA Activos',
+    'b-historial-title': '🔄 Historial De Triggers',
+    // Plan C
+    'c-params-title': '⚙️ Parámetros del Préstamo Colateral',
+    'c-btc-colateral-label': 'BTC en Colateral',
+    'c-price-label': 'Precio BTC (USD)',
+    'c-ltv-label': 'LTV Inicial (%)',
+    'c-apr-label': 'APR (%)',
+    'c-months-label': 'Meses',
+    'c-fee-platform-label': 'Fee Plataforma (%)',
+    'c-fee-swap-label': 'Fee Swap (%)',
+    'c-usdt-prestado': 'USDT Prestado',
+    'c-total-devolver': 'Total a Devolver',
+    'c-margin-call-label': 'Precio Margin Call (80% LTV)',
+    'c-liq-label': 'Precio Liquidación (90% LTV)',
+    'c-reinversion-title': '🔄 Simulación de Reinversión en BTC',
+    'c-btc-original-label': 'BTC Original',
+    'c-btc-reinvest-label': 'BTC Reinvertido (con préstamo)',
+    'c-btc-total-label': 'BTC Total Stack',
+    'c-info-box': '💡 Con el USDT prestado comprás más BTC. Si el precio sube hasta el vencimiento, pagás el préstamo y te quedás con BTC extra.',
+    'c-ltv-title': '📊 Comparativa de Escenarios LTV',
+    'c-total-pagar': 'Total a Pagar',
+    'c-precio-mc': 'Precio Margin Call',
+    'c-caida-mc': 'Caída hasta MC',
+    'c-precio-liq': 'Precio Liquidación',
+    'c-caida-liq': 'Caída hasta Liq.',
+    'c-breakeven-title': '🎯 Precio Break-Even para No Perder BTC',
+    'c-precio-actual-label': 'Precio actual',
+    'c-precio-minimo-label': 'Precio mínimo para cubrir préstamo',
+    'c-ganancia-2x-label': 'Ganancia si precio × 2',
+    'c-btc-extra': 'BTC extra',
+    // Plan D
+    'd-signals-title': '⚙️ Registrar Señal de TradingView',
+    'd-tipo-label': 'Tipo',
+    'd-compra': 'COMPRA',
+    'd-venta': 'VENTA',
+    'd-monto-usd-label': 'Monto USD',
+    'd-nota-label': 'Nota (opcional)',
+    'd-agregar': '+ Agregar',
+    'd-limpiar-senales': '🗑 Limpiar señales',
+    'd-backtest-title': '🤖 Backtesting T3-CCI — BTCUSDT Diario',
+    'd-monto-op-label': 'Monto por operación (USD)',
+    'd-anos-atras-label': 'Años hacia atrás',
+    'd-2anos': '2 años',
+    'd-4anos': '4 años',
+    'd-6anos': '6 años',
+    'd-10anos': '10 años',
+    'd-calcular-backtest': '▶ Calcular Backtesting',
+    'd-roi-total': 'ROI Total',
+    'd-operaciones': 'Operaciones',
+    'd-ganancia-neta': 'Ganancia Neta',
+    'd-equity-bt-title': '📈 Curva de Equity — T3-CCI Backtesting',
+    'd-historial-ops-title': '📋 Historial de Operaciones T3-CCI',
+    'd-fecha-entrada': 'Fecha Entrada',
+    'd-precio-entrada': 'Precio Entrada',
+    'd-fecha-salida': 'Fecha Salida',
+    'd-precio-salida': 'Precio Salida',
+    'd-capital-acum': 'Capital Acum.',
+    'd-senales-reg': 'Señales Registradas',
+    'd-btc-cartera': 'BTC en Cartera',
+    'd-usd-invertido': 'USD Invertido Neto',
+    'd-pnl-label': 'P&L Realizado + No Realizado',
+    'd-equity-title': '📈 Curva de Equity',
+    'd-historial-senales-title': '📋 Historial de Señales',
+    'd-pnl-acum': 'P&L acum.',
+    // Dashboard
+    'dash-calc-title': '🎯 Calculadora de Independencia Financiera',
+    'dash-btc-hoy-label': 'BTC que tenés hoy',
+    'dash-monthly-label': 'Inversión mensual (USD)',
+    'dash-expenses-label': 'Gastos mensuales para vivir (USD)',
+    'dash-drawdown-label': '% del stack a usar por año',
+    'dash-btc-needed-label': 'BTC necesario para vivir',
+    'dash-al-precio-actual': 'al precio actual',
+    'dash-btc-actual-label': 'BTC actual',
+    'dash-anos-estimados-label': 'Años estimados (solo DCA)',
+    'dash-acumulando': 'acumulando mensualmente',
+    'dash-portfolio-label': 'Valor portfolio actual',
+    'dash-resumen-title': '📊 Resumen de todos los planes (últimos cálculos)',
+    'dash-proyeccion-title': '📈 Proyección DCA a Futuro',
+    'dash-tabla-title': '📋 Tabla de Proyección Anual',
+    'dash-ano': 'Año',
+    'dash-valor-precio-actual': 'Valor (precio actual)',
+    'dash-pct-objetivo': '% del objetivo',
+    'dash-estado': 'Estado',
+  },
+  en: {
+    // Nav / tabs
+    'tab-a': 'Plan A — Fixed DCA',
+    'tab-b': 'Plan B — DCA Re-buy',
+    'tab-c': 'Plan C — Collateral',
+    'tab-d': 'Plan D — Trading',
+    'tab-dash': '📊 Dashboard',
+    'sin-datos': 'No data',
+    'precios-btc': 'BTC Prices:',
+    'cargar-precios': '⬇ Load prices',
+    'limpiar-cache': 'Clear cache',
+    'sin-cargar': 'Not loaded',
+    // Common
+    'calcular': 'Calculate',
+    'freq-diaria': 'Daily',
+    'freq-semanal': 'Weekly',
+    'freq-bisemanal': 'Bi-weekly',
+    'freq-mensual': 'Monthly',
+    'th-frecuencia': 'Frequency',
+    'th-compras': 'Purchases',
+    'th-inicio': 'Start',
+    'th-ciclos': 'Cycles',
+    'th-valor-cartera': 'Current Value (Portfolio)',
+    'th-capital': 'Capital',
+    'th-btc-comprado': 'BTC Bought',
+    'th-btc-restante': 'BTC Remaining',
+    'th-fecha': 'Date',
+    'th-precio-btc': 'BTC Price',
+    'th-btc-vendido': 'BTC Sold',
+    'th-usd-obtenido': 'USD Obtained',
+    'th-sobre-ma90': '% Above MA90',
+    'th-dca-creado': 'DCA Created',
+    // Plan A
+    'a-params-title': '⚙️ DCA Parameters',
+    'a-amount-label': 'Amount per purchase (USD)',
+    'a-freq-label': 'Frequency',
+    'a-start-label': 'Start date',
+    'a-end-label': 'End date',
+    'a-btc-label': 'Accumulated BTC',
+    'a-avgprice-label': 'Average Buy Price',
+    'a-invested-label': 'Total Invested',
+    'a-value-label': 'Current Value',
+    'a-chart-title': '📈 Portfolio Evolution',
+    'a-freq-title': '📊 Frequency Comparison',
+    'a-ma-title': '📉 90-day Moving Average Analysis (sliding window)',
+    'a-backtest-title': '🕐 Backtesting — Last Decade (same amount & frequency, as of today)',
+    'sema-title': '🚦 Semaphore — Current Price vs Average Buy Price by Time Window',
+    'sema-above': 'Above 0: price below value',
+    'sema-below': 'Below 0: price above value',
+    // Plan B
+    'b-params-title': '⚙️ DCA Re-buy Parameters',
+    'b-trigger-label': 'Trigger: Price Rises X% Above MA90',
+    'b-sellpct-label': 'Sell % of Stack at Trigger',
+    'b-btc-label': 'Final BTC',
+    'b-btc-acum': 'Accumulated BTC',
+    'b-recompra-label': 'Plan B — Re-buy',
+    'b-vs-title': '📊 Plan A vs Plan B — Comparison',
+    'b-diferencia': 'Difference',
+    'b-dca-activos': '📂 Active DCAs',
+    'b-historial-title': '🔄 Trigger History',
+    // Plan C
+    'c-params-title': '⚙️ Collateral Loan Parameters',
+    'c-btc-colateral-label': 'BTC as Collateral',
+    'c-price-label': 'BTC Price (USD)',
+    'c-ltv-label': 'Initial LTV (%)',
+    'c-apr-label': 'APR (%)',
+    'c-months-label': 'Months',
+    'c-fee-platform-label': 'Platform Fee (%)',
+    'c-fee-swap-label': 'Swap Fee (%)',
+    'c-usdt-prestado': 'USDT Borrowed',
+    'c-total-devolver': 'Total to Repay',
+    'c-margin-call-label': 'Margin Call Price (80% LTV)',
+    'c-liq-label': 'Liquidation Price (90% LTV)',
+    'c-reinversion-title': '🔄 BTC Reinvestment Simulation',
+    'c-btc-original-label': 'Original BTC',
+    'c-btc-reinvest-label': 'Reinvested BTC (with loan)',
+    'c-btc-total-label': 'Total BTC Stack',
+    'c-info-box': '💡 With the borrowed USDT you buy more BTC. If the price rises by maturity, you repay the loan and keep the extra BTC.',
+    'c-ltv-title': '📊 LTV Scenario Comparison',
+    'c-total-pagar': 'Total to Pay',
+    'c-precio-mc': 'Margin Call Price',
+    'c-caida-mc': 'Drop to MC',
+    'c-precio-liq': 'Liquidation Price',
+    'c-caida-liq': 'Drop to Liq.',
+    'c-breakeven-title': '🎯 Break-Even Price to Not Lose BTC',
+    'c-precio-actual-label': 'Current price',
+    'c-precio-minimo-label': 'Minimum price to cover loan',
+    'c-ganancia-2x-label': 'Gain if price × 2',
+    'c-btc-extra': 'extra BTC',
+    // Plan D
+    'd-signals-title': '⚙️ Register TradingView Signal',
+    'd-tipo-label': 'Type',
+    'd-compra': 'BUY',
+    'd-venta': 'SELL',
+    'd-monto-usd-label': 'USD Amount',
+    'd-nota-label': 'Note (optional)',
+    'd-agregar': '+ Add',
+    'd-limpiar-senales': '🗑 Clear signals',
+    'd-backtest-title': '🤖 T3-CCI Backtesting — BTCUSDT Daily',
+    'd-monto-op-label': 'Amount per trade (USD)',
+    'd-anos-atras-label': 'Years back',
+    'd-2anos': '2 years',
+    'd-4anos': '4 years',
+    'd-6anos': '6 years',
+    'd-10anos': '10 years',
+    'd-calcular-backtest': '▶ Run Backtesting',
+    'd-roi-total': 'Total ROI',
+    'd-operaciones': 'Trades',
+    'd-ganancia-neta': 'Net Profit',
+    'd-equity-bt-title': '📈 Equity Curve — T3-CCI Backtesting',
+    'd-historial-ops-title': '📋 T3-CCI Trade History',
+    'd-fecha-entrada': 'Entry Date',
+    'd-precio-entrada': 'Entry Price',
+    'd-fecha-salida': 'Exit Date',
+    'd-precio-salida': 'Exit Price',
+    'd-capital-acum': 'Cumul. Capital',
+    'd-senales-reg': 'Registered Signals',
+    'd-btc-cartera': 'BTC in Portfolio',
+    'd-usd-invertido': 'Net USD Invested',
+    'd-pnl-label': 'P&L Realized + Unrealized',
+    'd-equity-title': '📈 Equity Curve',
+    'd-historial-senales-title': '📋 Signal History',
+    'd-pnl-acum': 'Cumul. P&L',
+    // Dashboard
+    'dash-calc-title': '🎯 Financial Independence Calculator',
+    'dash-btc-hoy-label': 'BTC you have today',
+    'dash-monthly-label': 'Monthly investment (USD)',
+    'dash-expenses-label': 'Monthly living expenses (USD)',
+    'dash-drawdown-label': '% of stack to use per year',
+    'dash-btc-needed-label': 'BTC needed to live on',
+    'dash-al-precio-actual': 'at current price',
+    'dash-btc-actual-label': 'Current BTC',
+    'dash-anos-estimados-label': 'Estimated years (DCA only)',
+    'dash-acumulando': 'accumulating monthly',
+    'dash-portfolio-label': 'Current portfolio value',
+    'dash-resumen-title': '📊 Summary of all plans (last calculations)',
+    'dash-proyeccion-title': '📈 DCA Projection into the Future',
+    'dash-tabla-title': '📋 Annual Projection Table',
+    'dash-ano': 'Year',
+    'dash-valor-precio-actual': 'Value (current price)',
+    'dash-pct-objetivo': '% of target',
+    'dash-estado': 'Status',
+  }
+};
+
+let currentLang = 'es';
+
+function T(key) {
+  return (TEXTS[currentLang] && TEXTS[currentLang][key]) || (TEXTS['es'][key]) || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  // Update button styles
+  document.getElementById('btn-es').style.background = lang === 'es' ? 'var(--orange)' : 'transparent';
+  document.getElementById('btn-es').style.color = lang === 'es' ? '#000' : 'var(--text2)';
+  document.getElementById('btn-en').style.background = lang === 'en' ? 'var(--orange)' : 'transparent';
+  document.getElementById('btn-en').style.color = lang === 'en' ? '#000' : 'var(--text2)';
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const text = T(key);
+    if (el.tagName === 'INPUT' && el.type === 'text') {
+      el.placeholder = text;
+    } else if (el.tagName === 'OPTION') {
+      el.textContent = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+}
+
+// ============================================================
 //  INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -813,6 +1139,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('a-start').value = '2020-01-01';
   document.getElementById('b-start').value = '2020-01-01';
 
+  setLang(localStorage.getItem('lang') || 'es');
   // Cargar precios embebidos directamente
   loadEmbeddedPrices();
   renderSignals();
