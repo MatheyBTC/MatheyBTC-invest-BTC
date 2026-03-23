@@ -95,17 +95,18 @@ a { color: var(--orange); }
 .tbl .neg { color: var(--red); }
 
 /* SEMAPHORE */
-.semaphore-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.semaphore-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 .sema-cell { border-radius: 8px; padding: 14px; border: 1px solid transparent; }
 .sema-cell .period { font-size: 11px; letter-spacing: 0.5px; margin-bottom: 6px; }
 .sema-cell .avg { font-size: 13px; margin-bottom: 4px; }
 .sema-cell .diff { font-size: 18px; font-weight: bold; }
-.sema-c1 { background: #0a2a0a; border-color: #00c87a; }
-.sema-c2 { background: #1a2a0a; border-color: #7acc00; }
-.sema-c3 { background: #2a2a0a; border-color: var(--yellow); }
-.sema-c4 { background: #2a1a0a; border-color: #ff8c00; }
-.sema-c5 { background: #2a0a0a; border-color: var(--red); }
-.sema-below { background: #1a0000; border-color: #880000; }
+.sema-c1 { background: #0a2a0a; border-color: #4ade80; }
+.sema-c2 { background: #2a2a0a; border-color: var(--yellow); }
+.sema-c3 { background: #2a1a0a; border-color: #ff8c00; }
+.sema-c4 { background: #2a0a0a; border-color: var(--red); }
+.sema-c5 { background: #0a0a2a; border-color: #4a9eff; }
+.sema-below { background: #1a0a0a; border-color: #444; }
+.sema-ref  { background: #0d1117; border-color: #4a9eff; }
 
 /* CHART */
 .chart-wrap { position: relative; height: 280px; margin-top: 12px; }
@@ -259,7 +260,7 @@ a { color: var(--orange); }
       <h3>🚦 Semáforo — Precio Actual vs Promedio de Compra por Ventanas de Tiempo</h3>
       <div id="a-semaphore" class="semaphore-grid mt-16"></div>
       <div class="mt-16 text-muted" style="font-size:12px;line-height:1.8">
-        🟩 30% &nbsp;🟨 25% &nbsp;🟧 20% &nbsp;🟥 15% &nbsp;🟦 10% &nbsp;por debajo Precio Actual
+        🟩 -30% &nbsp;🟨 -25% &nbsp;🟧 -20% &nbsp;🟥 -15% &nbsp;🟦 -10% &nbsp;promedio por debajo del Precio Actual
       </div>
     </div>
 
@@ -1032,7 +1033,7 @@ function getFreqDays(val) {
   return parseInt(val);
 }
 function freqLabel(val) {
-  const map = {'1':'Diaria','7':'Semanal','14':'Bisemanal','30':'Mensual'};
+  const map = {'1':'Diario (x1)','7':'Semanal (x7)','15':'Bi-semanal (x15)','30':'Mensual (x30)'};
   return map[String(val)] || val + 'd';
 }
 
@@ -1145,9 +1146,9 @@ function renderFreqComparison(startDate, endDate, amount) {
   const dailyPurchases = calcDCA(startDate, endDate, amount, 1);
   const totalCapital = amount * dailyPurchases.length;
   const freqs = [
-    { days: 1,  color: 'rgba(0,200,122,0.08)',  border: '1px solid rgba(0,200,122,0.3)' },
+    { days: 1,  color: 'rgba(0,200,122,0.13)',  border: '3px solid rgba(0,200,122,0.7)' },
     { days: 7,  color: 'rgba(255,215,0,0.08)',   border: '1px solid rgba(255,215,0,0.3)' },
-    { days: 14, color: 'rgba(247,147,26,0.08)',  border: '1px solid rgba(247,147,26,0.3)' },
+    { days: 15, color: 'rgba(247,147,26,0.08)',  border: '1px solid rgba(247,147,26,0.3)' },
     { days: 30, color: 'rgba(255,68,68,0.08)',   border: '1px solid rgba(255,68,68,0.3)' },
   ];
   for (const { days, color, border } of freqs) {
@@ -1157,7 +1158,9 @@ function renderFreqComparison(startDate, endDate, amount) {
     const val = totalBTC * currentPrice;
     const roi = ((val - totalInvested) / totalInvested) * 100;
     const tr = document.createElement('tr');
-    tr.style.cssText = `background:${color};border-left:${border}`;
+    const isDaily = days === 1;
+    tr.style.cssText = `background:${color};border-left:${border}${isDaily ? ';font-weight:600' : ''}`;
+    if (isDaily) tr.title = 'Frecuencia base de referencia';
     tr.innerHTML = `
       <td>${freqLabel(days)}</td>
       <td class="num">${p.length}</td>
@@ -1173,11 +1176,26 @@ function renderFreqComparison(startDate, endDate, amount) {
 function renderSemaphore(startDate, endDate, amount, freqDays) {
   const container = document.getElementById('a-semaphore');
   container.innerHTML = '';
+
+  // Celda de referencia — Precio Actual
+  const refDiv = document.createElement('div');
+  refDiv.className = 'sema-cell sema-ref';
+  refDiv.innerHTML = `
+    <div class="period">Precio Actual</div>
+    <div class="avg">Referencia</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+      <div class="diff">U$S ${fmt(currentPrice, 0)}</div>
+      <div style="font-size:26px;line-height:1;font-weight:bold">₿</div>
+    </div>
+    <div style="font-size:11px;margin-top:4px;opacity:0.8">precio de hoy</div>`;
+  container.appendChild(refDiv);
+
   const periods = [
+    { label: 'APY 30',          days: 30   },
     { label: 'APY 60',          days: 60   },
     { label: 'APY 90',          days: 90   },
     { label: 'APY 180',         days: 180  },
-    { label: '12 Meses',        days: 365  },
+    { label: '1 Ciclo (x12)',   days: 365  },
     { label: '2 Ciclos (x24)',  days: 730  },
     { label: '3 Ciclos (x36)',  days: 1095 },
     { label: '4 Ciclos (x48)',  days: 1460 },
@@ -1192,14 +1210,15 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     if (!p.length) continue;
     const { totalInvested, totalBTC } = aggregateDCA(p);
     const avgP = totalInvested / totalBTC;
-    const diff = ((currentPrice - avgP) / avgP) * 100;
+    // diff < 0 = promedio de compra está por debajo del precio actual = buena posición
+    const diff = ((avgP - currentPrice) / currentPrice) * 100;
 
     let cls = 'sema-below';
-    if (diff >= 30) cls = 'sema-c1';
-    else if (diff >= 25) cls = 'sema-c2';
-    else if (diff >= 20) cls = 'sema-c3';
-    else if (diff >= 15) cls = 'sema-c4';
-    else if (diff >= 10) cls = 'sema-c5';
+    if (diff <= -30) cls = 'sema-c1';
+    else if (diff <= -25) cls = 'sema-c2';
+    else if (diff <= -20) cls = 'sema-c3';
+    else if (diff <= -15) cls = 'sema-c4';
+    else if (diff <= -10) cls = 'sema-c5';
 
     const div = document.createElement('div');
     div.className = 'sema-cell ' + cls;
@@ -1208,9 +1227,9 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
       <div class="avg">Valor = <b>U$S ${fmt(avgP, 0)}</b></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
         <div class="diff">${fmtPct(diff)}</div>
-        <div style="font-size:26px;line-height:1;font-weight:bold">${diff >= 0 ? '↑' : '↓'}</div>
+        <div style="font-size:26px;line-height:1;font-weight:bold">${diff <= 0 ? '↑' : '↓'}</div>
       </div>
-      <div style="font-size:11px;margin-top:4px;opacity:0.8">${diff >= 0 ? 'por arriba del promedio' : 'por abajo del promedio'}</div>`;
+      <div style="font-size:11px;margin-top:4px;opacity:0.8">${diff <= 0 ? 'promedio por debajo del precio actual' : 'promedio por arriba del precio actual'}</div>`;
     container.appendChild(div);
   }
 }
