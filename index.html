@@ -1202,25 +1202,26 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     { label: '5 Ciclos (x60)',  days: 1825 },
   ];
 
-  // Plan-level avgP for "Precio Actual" reference cell
+  // Plan-level avgP — denominador común para todas las celdas
   const planAll = calcDCA(startDate, endDate, amount, freqDays);
-  if (planAll.length) {
-    const { totalInvested: piTotal, totalBTC: piBTC } = aggregateDCA(planAll);
-    const planAvgP = piTotal / piBTC;
-    const planDiff = (currentPrice / planAvgP - 1) * 100;
-    let planCls = 'sema-below';
-    if (planDiff <= -30) planCls = 'sema-c1';
-    else if (planDiff <= -25) planCls = 'sema-c2';
-    else if (planDiff <= -20) planCls = 'sema-c3';
-    else if (planDiff <= -15) planCls = 'sema-c4';
-    else if (planDiff <= -10) planCls = 'sema-c5';
-    refDiv.classList.remove('sema-ref');
-    refDiv.classList.add(planCls);
-    const refDiffEl = document.getElementById('sema-ref-diff');
-    const refLabelEl = document.getElementById('sema-ref-label');
-    if (refDiffEl) refDiffEl.textContent = fmtPct(planDiff);
-    if (refLabelEl) refLabelEl.textContent = planDiff >= 0 ? 'precio por arriba del promedio' : 'precio por debajo del promedio';
-  }
+  if (!planAll.length) return;
+  const { totalInvested: piTotal, totalBTC: piBTC } = aggregateDCA(planAll);
+  const planAvgP = piTotal / piBTC;
+
+  // Celda "Precio Actual": precio hoy / planAvgP - 1
+  const planDiff = (currentPrice / planAvgP - 1) * 100;
+  let planCls = 'sema-below';
+  if (planDiff <= -30) planCls = 'sema-c1';
+  else if (planDiff <= -25) planCls = 'sema-c2';
+  else if (planDiff <= -20) planCls = 'sema-c3';
+  else if (planDiff <= -15) planCls = 'sema-c4';
+  else if (planDiff <= -10) planCls = 'sema-c5';
+  refDiv.classList.remove('sema-ref');
+  refDiv.classList.add(planCls);
+  const refDiffEl = document.getElementById('sema-ref-diff');
+  const refLabelEl = document.getElementById('sema-ref-label');
+  if (refDiffEl) refDiffEl.textContent = fmtPct(planDiff);
+  if (refLabelEl) refLabelEl.textContent = planDiff >= 0 ? 'precio por arriba del promedio' : 'precio por debajo del promedio';
 
   for (const period of periods) {
     const pEnd = endDate;
@@ -1230,8 +1231,8 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     if (!p.length) continue;
     const { totalInvested, totalBTC } = aggregateDCA(p);
     const avgP = totalInvested / totalBTC;
-    // diff = (precioActual / promedioPeriodo - 1): negativo = compré caro vs hoy, positivo = compré barato vs hoy
-    const diff = (currentPrice / avgP - 1) * 100;
+    // diff = (promedioVentana / planAvgP - 1): negativo = ese período compró barato vs promedio total
+    const diff = (avgP / planAvgP - 1) * 100;
 
     let cls = 'sema-below';
     if (diff <= -30) cls = 'sema-c1';
@@ -1249,7 +1250,7 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
         <div class="diff">${fmtPct(diff)}</div>
         <div style="font-size:26px;line-height:1;font-weight:bold">${diff >= 0 ? '↑' : '↓'}</div>
       </div>
-      <div style="font-size:11px;margin-top:4px;opacity:0.8">${diff >= 0 ? 'precio por arriba del promedio' : 'precio por debajo del promedio'}</div>`;
+      <div style="font-size:11px;margin-top:4px;opacity:0.8">${diff >= 0 ? 'compré caro vs promedio plan' : 'compré barato vs promedio plan'}</div>`;
     container.appendChild(div);
   }
 }
