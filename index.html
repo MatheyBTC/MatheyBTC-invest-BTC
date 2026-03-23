@@ -119,6 +119,99 @@ a { color: var(--orange); }
 .progress-bar { background: var(--bg3); border-radius: 4px; height: 8px; overflow: hidden; margin-top: 6px; }
 .progress-fill { height: 100%; background: var(--orange); border-radius: 4px; transition: width 0.5s; }
 
+/* PLAN C — Quick buttons */
+.quick-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.quick-btn {
+  background: transparent; color: var(--text2); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
+  transition: all 0.15s;
+}
+.quick-btn:hover { border-color: var(--orange); color: var(--orange); }
+.quick-btn.active { background: var(--orange); color: #000; border-color: var(--orange); }
+.quick-btn.active-green  { background: #4ade80; color: #000; border-color: #4ade80; }
+.quick-btn.active-yellow { background: var(--yellow); color: #000; border-color: var(--yellow); }
+.quick-btn.active-red    { background: var(--red); color: #fff; border-color: var(--red); }
+.ltv-btn-conservador { border-color: #4ade80; color: #4ade80; }
+.ltv-btn-estandar    { border-color: var(--yellow); color: var(--yellow); }
+.ltv-btn-agresivo    { border-color: var(--red); color: var(--red); }
+.ltv-btn-conservador:hover, .ltv-btn-conservador.active-green  { background: #4ade80; color: #000; }
+.ltv-btn-estandar:hover,    .ltv-btn-estandar.active-yellow    { background: var(--yellow); color: #000; }
+.ltv-btn-agresivo:hover,    .ltv-btn-agresivo.active-red        { background: var(--red); color: #fff; }
+
+/* PLAN C — Slider rows */
+.c-param-section { margin-bottom: 20px; }
+.c-param-label { font-size: 11px; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.slider-row { display: flex; align-items: center; gap: 8px; }
+.slider-row input[type=range] { flex: 1; accent-color: var(--orange); height: 4px; cursor: pointer; }
+.slider-adj-btn {
+  background: var(--bg3); color: var(--text); border: 1px solid var(--border);
+  width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background 0.15s;
+}
+.slider-adj-btn:hover { background: var(--border); }
+.slider-display { min-width: 38px; text-align: right; font-weight: 700; color: var(--orange); font-size: 15px; }
+.effective-rate { color: var(--orange); font-size: 22px; font-weight: bold; margin: 6px 0 2px; }
+.effective-rate-label { font-size: 11px; color: var(--text2); }
+
+/* PLAN C — Umbrales */
+.umbrales-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.umbral-group { display: flex; align-items: center; gap: 6px; }
+.umbral-group label { font-size: 12px; font-weight: 600; }
+.umbral-group label.mc-label { color: var(--yellow); }
+.umbral-group label.liq-label { color: var(--red); }
+.umbral-input {
+  background: var(--bg3); border: 1px solid var(--border); color: var(--text);
+  padding: 5px 8px; border-radius: 6px; font-size: 14px; font-weight: 700;
+  width: 60px; text-align: center;
+}
+.umbral-input:focus { outline: none; border-color: var(--orange); }
+.umbral-unit { font-size: 12px; color: var(--text2); }
+
+/* PLAN C — Gauge LTV */
+.gauge-wrap { position: relative; width: 180px; height: 110px; margin: 0 auto; }
+.gauge-svg { width: 100%; height: 100%; }
+.gauge-value { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; }
+.gauge-value .big { font-size: 28px; font-weight: bold; color: var(--green); }
+.gauge-value .small { font-size: 11px; color: var(--text2); }
+.results-grid { display: grid; grid-template-columns: 220px 1fr; gap: 20px; align-items: start; }
+.results-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.result-card {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px 16px;
+}
+.result-card .rc-label { font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.result-card .rc-value { font-size: 20px; font-weight: bold; color: var(--orange); }
+.result-card .rc-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
+.result-card.rc-yellow { border-color: var(--yellow); }
+.result-card.rc-yellow .rc-value { color: var(--yellow); }
+.result-card.rc-red { border-color: var(--red); }
+.result-card.rc-red .rc-value { color: var(--red); }
+.result-card.rc-green { border-color: var(--green); }
+.result-card.rc-green .rc-value { color: var(--green); }
+.result-card.rc-blue .rc-value { color: var(--blue); }
+
+/* PLAN C — Estrategia Loop */
+.loop-info-box { background: #1a1400; border: 1px solid #3a2800; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--yellow); margin-bottom: 16px; }
+.loop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ltv-arrow-row { background: var(--bg3); border-radius: 8px; padding: 16px; display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 12px; }
+.ltv-arrow-val { text-align: center; }
+.ltv-arrow-val .lav-label { font-size: 10px; color: var(--text2); text-transform: uppercase; margin-bottom: 4px; }
+.ltv-arrow-val .lav-num { font-size: 28px; font-weight: bold; }
+.ltv-arrow { font-size: 20px; color: var(--text2); }
+.ltv-delta-badge { background: #0a2a0a; border: 1px solid var(--green); color: var(--green); border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: bold; }
+
+/* PLAN C — Dist progress bars */
+.dist-bar-wrap { margin-bottom: 14px; }
+.dist-bar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
+.dist-bar-inner { height: 8px; border-radius: 4px; transition: width 0.5s; }
+
+/* LTV-specific stat box variant */
+.stat-box.yellow { border: 1px solid var(--yellow); }
+.stat-box.yellow .value { color: var(--yellow); }
+.stat-box.red { border: 1px solid var(--red); }
+.stat-box.red .value { color: var(--red); }
+
 /* SPINNER */
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -414,109 +507,380 @@ a { color: var(--orange); }
 
 <!-- ==================== PLAN C ==================== -->
 <div id="tab-planC" class="tab-content">
+
+  <!-- PARÁMETROS -->
   <div class="card">
     <h3 data-i18n="c-params-title">⚙️ Parámetros del Préstamo Colateral</h3>
-    <div class="form-row">
-      <div class="form-group">
-        <label data-i18n="c-btc-colateral-label">BTC en Colateral</label>
-        <input type="number" id="c-btc" value="1" step="0.01" min="0.001">
+
+    <!-- Fila 1: BTC Colateral + Precio -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+      <div class="c-param-section">
+        <div class="c-param-label" data-i18n="c-btc-colateral-label">Colateral BTC</div>
+        <div class="quick-btns">
+          <button class="quick-btn" id="cbtc-btn-025" onclick="setCBTC(0.25)">0.25</button>
+          <button class="quick-btn" id="cbtc-btn-05"  onclick="setCBTC(0.5)">0.5</button>
+          <button class="quick-btn" id="cbtc-btn-075" onclick="setCBTC(0.75)">0.75</button>
+          <button class="quick-btn active" id="cbtc-btn-1"   onclick="setCBTC(1)">1</button>
+          <input type="number" id="c-btc" value="1" step="0.01" min="0.01"
+            style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:100px;"
+            placeholder="Custom BTC" oninput="highlightCBTCBtn(this.value)">
+        </div>
       </div>
-      <div class="form-group">
-        <label data-i18n="c-price-label">Precio BTC (USD)</label>
-        <input type="number" id="c-price" value="" placeholder="Auto">
+      <div class="c-param-section">
+        <div class="c-param-label" data-i18n="c-price-label">Precio BTC (USD)</div>
+        <input type="number" id="c-price" value="" placeholder="Auto (precio actual)"
+          style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-size:14px;width:100%;">
       </div>
-      <div class="form-group">
-        <label data-i18n="c-ltv-label">LTV Inicial (%)</label>
-        <input type="number" id="c-ltv" value="50" min="10" max="80">
+    </div>
+
+    <!-- Fila 2: LTV -->
+    <div class="c-param-section">
+      <div class="c-param-label" data-i18n="c-ltv-label">LTV — Loan to Value</div>
+      <div class="quick-btns">
+        <button class="quick-btn ltv-btn-conservador" id="cltv-btn-30" onclick="setCLTV(30)">30% Conservador</button>
+        <button class="quick-btn ltv-btn-estandar active-yellow" id="cltv-btn-50" onclick="setCLTV(50)">50% Estándar</button>
+        <button class="quick-btn ltv-btn-agresivo" id="cltv-btn-70" onclick="setCLTV(70)">70% Agresivo</button>
+        <input type="number" id="c-ltv" value="50" min="10" max="90"
+          style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:80px;"
+          oninput="highlightCLTVBtn(this.value)">
+        <span style="font-size:13px;color:var(--text2);">%</span>
       </div>
-      <div class="form-group">
-        <label data-i18n="c-apr-label">APR (%)</label>
-        <input type="number" id="c-apr" value="12" step="0.5" min="0">
+    </div>
+
+    <!-- Fila 3: Meses -->
+    <div class="c-param-section">
+      <div class="c-param-label" data-i18n="c-months-label">Plazo</div>
+      <div class="quick-btns">
+        <button class="quick-btn" id="cmo-btn-3"  onclick="setCMonths(3)">3m</button>
+        <button class="quick-btn" id="cmo-btn-6"  onclick="setCMonths(6)">6m</button>
+        <button class="quick-btn" id="cmo-btn-9"  onclick="setCMonths(9)">9m</button>
+        <button class="quick-btn active" id="cmo-btn-12" onclick="setCMonths(12)">12m</button>
+        <input type="number" id="c-months" value="12" min="1" max="60"
+          style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:80px;"
+          oninput="highlightCMonthsBtn(this.value)">
+        <span style="font-size:13px;color:var(--text2);">meses</span>
       </div>
-      <div class="form-group">
-        <label data-i18n="c-months-label">Meses</label>
-        <input type="number" id="c-months" value="12" min="1" max="60">
+    </div>
+
+    <!-- Fila 4: APR + Fee Plataforma -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+      <div class="c-param-section">
+        <div class="c-param-label" data-i18n="c-apr-label">APR</div>
+        <div class="slider-row">
+          <input type="range" id="c-apr-slider" min="0" max="20" step="0.5" value="4.5"
+            oninput="syncSlider('c-apr','c-apr-slider','c-apr-display')">
+          <button class="slider-adj-btn" onclick="adjSlider('c-apr','c-apr-slider','c-apr-display',-0.5)">−</button>
+          <span class="slider-display" id="c-apr-display">4,5</span>
+          <button class="slider-adj-btn" onclick="adjSlider('c-apr','c-apr-slider','c-apr-display',0.5)">+</button>
+          <span style="font-size:12px;color:var(--text2);">%</span>
+        </div>
+        <input type="hidden" id="c-apr" value="4.5">
       </div>
-      <div class="form-group">
-        <label data-i18n="c-fee-platform-label">Fee Plataforma (%)</label>
-        <input type="number" id="c-fee-platform" value="1" step="0.1" min="0">
+      <div class="c-param-section">
+        <div class="c-param-label" data-i18n="c-fee-platform-label">Fee Plataforma</div>
+        <div class="slider-row">
+          <input type="range" id="c-feep-slider" min="0" max="5" step="0.5" value="0.5"
+            oninput="syncSlider('c-fee-platform','c-feep-slider','c-feep-display')">
+          <button class="slider-adj-btn" onclick="adjSlider('c-fee-platform','c-feep-slider','c-feep-display',-0.5)">−</button>
+          <span class="slider-display" id="c-feep-display">0,5</span>
+          <button class="slider-adj-btn" onclick="adjSlider('c-fee-platform','c-feep-slider','c-feep-display',0.5)">+</button>
+          <span style="font-size:12px;color:var(--text2);">%</span>
+        </div>
+        <input type="hidden" id="c-fee-platform" value="0.5">
       </div>
-      <div class="form-group">
-        <label data-i18n="c-fee-swap-label">Fee Swap (%)</label>
-        <input type="number" id="c-fee-swap" value="0.5" step="0.1" min="0">
+    </div>
+
+    <!-- Fila 5: Fee Swap + Tasa Efectiva -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+      <div class="c-param-section">
+        <div class="c-param-label" data-i18n="c-fee-swap-label">Fee Swap</div>
+        <div class="slider-row">
+          <input type="range" id="c-fees-slider" min="0" max="2" step="0.1" value="0.25"
+            oninput="syncSlider('c-fee-swap','c-fees-slider','c-fees-display')">
+          <button class="slider-adj-btn" onclick="adjSlider('c-fee-swap','c-fees-slider','c-fees-display',-0.1)">−</button>
+          <span class="slider-display" id="c-fees-display">0,25</span>
+          <button class="slider-adj-btn" onclick="adjSlider('c-fee-swap','c-fees-slider','c-fees-display',0.1)">+</button>
+          <span style="font-size:12px;color:var(--text2);">%</span>
+        </div>
+        <input type="hidden" id="c-fee-swap" value="0.25">
       </div>
-      <div class="form-group" style="justify-content:flex-end">
-        <button class="btn" onclick="runPlanC()" data-i18n="calcular">Calcular</button>
+      <div class="c-param-section">
+        <div class="c-param-label">Tasa Efectiva Total</div>
+        <div class="effective-rate" id="c-effective-rate">5,00%</div>
+        <div class="effective-rate-label">/ año (APR + Fee Plataforma)</div>
       </div>
-      <div class="form-group" style="justify-content:flex-end">
-        <button class="btn-outline" onclick="exportPlanC()">📥 Excel</button>
+    </div>
+
+    <!-- Fila 6: Umbrales de Seguridad -->
+    <div class="c-param-section">
+      <div class="c-param-label">Umbrales de Seguridad</div>
+      <div class="umbrales-row">
+        <div class="umbral-group">
+          <label class="mc-label">Margin Call</label>
+          <button class="slider-adj-btn" onclick="adjUmbral('c-mc',-1,50,95)">−</button>
+          <input type="number" id="c-mc" class="umbral-input" value="80" min="50" max="95">
+          <button class="slider-adj-btn" onclick="adjUmbral('c-mc',1,50,95)">+</button>
+          <span class="umbral-unit">%</span>
+        </div>
+        <div style="width:20px;"></div>
+        <div class="umbral-group">
+          <label class="liq-label">Liquidación</label>
+          <button class="slider-adj-btn" onclick="adjUmbral('c-liq-thr',1,60,99)">+</button>
+          <input type="number" id="c-liq-thr" class="umbral-input" value="90" min="60" max="99">
+          <button class="slider-adj-btn" onclick="adjUmbral('c-liq-thr',-1,60,99)">−</button>
+          <span class="umbral-unit">%</span>
+        </div>
       </div>
+    </div>
+
+    <!-- Botones acción -->
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:4px;">
+      <button class="btn-outline" onclick="exportPlanC()">📥 Excel</button>
+      <button class="btn" onclick="runPlanC()" data-i18n="calcular">Calcular</button>
     </div>
   </div>
 
+  <!-- RESULTADOS -->
   <div id="c-results" style="display:none">
-    <div class="grid-4 mb-16">
-      <div class="stat-box blue">
-        <div class="label" data-i18n="c-usdt-prestado">USDT Prestado</div>
-        <div class="value" id="c-loan">—</div>
-        <div class="sub">USD</div>
-      </div>
-      <div class="stat-box">
-        <div class="label" data-i18n="c-total-devolver">Total a Devolver</div>
-        <div class="value" id="c-repay">—</div>
-        <div class="sub" id="c-fees-total">Fees: —</div>
-      </div>
-      <div class="stat-box" style="border-color:var(--yellow)">
-        <div class="label" data-i18n="c-margin-call-label">Precio Margin Call (80% LTV)</div>
-        <div class="value" id="c-margin" style="color:var(--yellow)">—</div>
-        <div class="sub" id="c-margin-pct">— caída</div>
-      </div>
-      <div class="stat-box red">
-        <div class="label" data-i18n="c-liq-label">Precio Liquidación (90% LTV)</div>
-        <div class="value" id="c-liq">—</div>
-        <div class="sub" id="c-liq-pct">— caída</div>
+
+    <!-- Sección Resultados: gauge + cards -->
+    <div class="card">
+      <h3>📊 Resultados <span id="c-ltv-badge" style="background:var(--orange);color:#000;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;">50%</span></h3>
+      <div class="results-grid">
+        <!-- Gauge LTV -->
+        <div style="text-align:center;">
+          <div class="gauge-wrap">
+            <svg class="gauge-svg" viewBox="0 0 180 110">
+              <!-- track arco -->
+              <path d="M 20 100 A 70 70 0 0 1 160 100" fill="none" stroke="#333" stroke-width="14" stroke-linecap="round"/>
+              <!-- relleno dinámico -->
+              <path id="c-gauge-fill" d="M 20 100 A 70 70 0 0 1 160 100" fill="none" stroke="var(--green)" stroke-width="14" stroke-linecap="round"
+                stroke-dasharray="220" stroke-dashoffset="110"/>
+              <!-- aguja -->
+              <line id="c-gauge-needle" x1="90" y1="100" x2="90" y2="38" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+                transform="rotate(0 90 100)"/>
+              <circle cx="90" cy="100" r="4" fill="#fff"/>
+              <!-- etiquetas MC/Liq -->
+              <text x="20" y="118" font-size="8" fill="var(--yellow)" text-anchor="middle" id="c-gauge-mc-lbl">MC</text>
+              <text x="160" y="118" font-size="8" fill="var(--red)" text-anchor="middle" id="c-gauge-liq-lbl">Liq</text>
+            </svg>
+            <div class="gauge-value">
+              <div class="big" id="c-gauge-pct">—</div>
+              <div class="small">LTV actual</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:11px;color:var(--text2);">
+            <span style="color:var(--yellow);">Margin Call <span id="c-gauge-mc-pct">80%</span></span>
+            &nbsp;·&nbsp;
+            <span style="color:var(--red);">Liq. <span id="c-gauge-liq-pct">90%</span></span>
+          </div>
+        </div>
+
+        <!-- Cards derecha -->
+        <div class="results-right">
+          <div class="result-card rc-blue">
+            <div class="rc-label" data-i18n="c-usdt-prestado">Principal Prestado</div>
+            <div class="rc-value" id="c-loan">—</div>
+            <div class="rc-sub">USDT</div>
+          </div>
+          <div class="result-card">
+            <div class="rc-label" data-i18n="c-total-devolver">Total a Devolver</div>
+            <div class="rc-value" id="c-repay">—</div>
+            <div class="rc-sub" id="c-fees-total">Fees: —</div>
+          </div>
+          <div class="result-card rc-yellow">
+            <div class="rc-label" id="c-margin-call-title">Precio Margin Call (80% LTV)</div>
+            <div class="rc-value" id="c-margin">—</div>
+            <div class="rc-sub" id="c-margin-pct">— caída</div>
+          </div>
+          <div class="result-card rc-red">
+            <div class="rc-label" id="c-liq-title">Precio Liquidación (90% LTV)</div>
+            <div class="rc-value" id="c-liq">—</div>
+            <div class="rc-sub" id="c-liq-pct">— caída</div>
+          </div>
+          <div class="result-card" style="grid-column:1/-1;">
+            <div class="rc-label">Costo Mensual Aprox.</div>
+            <div class="rc-value" id="c-monthly-cost">—</div>
+            <div class="rc-sub">USDT / mes</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Reinversión -->
+    <!-- Estrategia Loop -->
     <div class="card">
-      <h3 data-i18n="c-reinversion-title">🔄 Simulación de Reinversión en BTC</h3>
+      <h3>🔄 Estrategia Loop</h3>
+      <div class="loop-info-box">
+        💡 Usa el préstamo para comprar más BTC y añadirlo como colateral, reduciendo el LTV.
+      </div>
+
+      <!-- BTC reinvertido / total -->
       <div class="grid-3 mb-16">
         <div class="stat-box">
           <div class="label" data-i18n="c-btc-original-label">BTC Original</div>
           <div class="value" id="c-btc-original">—</div>
         </div>
-        <div class="stat-box blue">
-          <div class="label" data-i18n="c-btc-reinvest-label">BTC Reinvertido (con préstamo)</div>
-          <div class="value" id="c-btc-reinvest">—</div>
+        <div class="stat-box" style="border:1px solid var(--blue);">
+          <div class="label" data-i18n="c-btc-reinvest-label">BTC Reinvertido</div>
+          <div class="value" style="color:var(--blue);" id="c-btc-reinvest">—</div>
         </div>
         <div class="stat-box green">
           <div class="label" data-i18n="c-btc-total-label">BTC Total Stack</div>
           <div class="value" id="c-btc-total">—</div>
-          <div class="sub" id="c-btc-gain">+— BTC ganado</div>
+          <div class="sub" id="c-btc-gain">+— BTC extra</div>
         </div>
       </div>
-      <div class="info-box" data-i18n="c-info-box">
-        💡 Con el USDT prestado comprás más BTC. Si el precio sube hasta el vencimiento, pagás el préstamo y te quedás con BTC extra.
+
+      <!-- LTV antes → después -->
+      <div class="ltv-arrow-row">
+        <div class="ltv-arrow-val">
+          <div class="lav-label">LTV Antes</div>
+          <div class="lav-num" style="color:var(--orange);" id="c-loop-ltv-before">—</div>
+        </div>
+        <div class="ltv-arrow">→</div>
+        <div class="ltv-arrow-val">
+          <div class="lav-label">LTV Después</div>
+          <div class="lav-num" style="color:var(--green);" id="c-loop-ltv-after">—</div>
+        </div>
+        <div class="ltv-delta-badge" id="c-loop-ltv-delta">—</div>
+      </div>
+
+      <!-- Nuevos Margin Call / Liq con loop -->
+      <div class="loop-grid">
+        <div class="result-card rc-yellow">
+          <div class="rc-label">Nuevo Precio Margin Call</div>
+          <div class="rc-value" id="c-loop-mc">—</div>
+          <div class="rc-sub" id="c-loop-mc-pct">—</div>
+        </div>
+        <div class="result-card rc-red">
+          <div class="rc-label">Nuevo Precio Liquidación</div>
+          <div class="rc-value" id="c-loop-liq">—</div>
+          <div class="rc-sub" id="c-loop-liq-pct">—</div>
+        </div>
+      </div>
+
+      <!-- Sección F: Sliders Loop + Crecimiento -->
+      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:16px;">
+        <div class="c-param-label" style="margin-bottom:12px;">Parámetros de Ejecución del Swap</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;">
+          <div class="c-param-section" style="margin-bottom:0;">
+            <div class="c-param-label">Fee Swap</div>
+            <div class="slider-row">
+              <input type="range" id="c-loop-feeswap-slider" min="0" max="2" step="0.1" value="0.5"
+                oninput="syncLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display')">
+              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display',-0.1)">−</button>
+              <span class="slider-display" id="c-loop-feeswap-display">0,5</span>
+              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display',0.1)">+</button>
+              <span style="font-size:12px;color:var(--text2);">%</span>
+            </div>
+            <input type="hidden" id="c-loop-feeswap" value="0.5">
+          </div>
+          <div class="c-param-section" style="margin-bottom:0;">
+            <div class="c-param-label">Slippage</div>
+            <div class="slider-row">
+              <input type="range" id="c-loop-slippage-slider" min="0" max="2" step="0.5" value="0.5"
+                oninput="syncLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display')">
+              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display',-0.5)">−</button>
+              <span class="slider-display" id="c-loop-slippage-display">0,5</span>
+              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display',0.5)">+</button>
+              <span style="font-size:12px;color:var(--text2);">%</span>
+            </div>
+            <input type="hidden" id="c-loop-slippage" value="0.5">
+          </div>
+        </div>
+        <div class="c-param-label" style="margin-bottom:8px;">Crecimiento esperado BTC</div>
+        <div class="quick-btns" id="c-loop-growth-btns">
+          <button class="quick-btn" onclick="setCLoopGrowth(10)">+10%</button>
+          <button class="quick-btn" onclick="setCLoopGrowth(20)">+20%</button>
+          <button class="quick-btn" onclick="setCLoopGrowth(30)">+30%</button>
+          <button class="quick-btn active" onclick="setCLoopGrowth(50)">+50%</button>
+          <button class="quick-btn" onclick="setCLoopGrowth(75)">+75%</button>
+          <button class="quick-btn" onclick="setCLoopGrowth(100)">+100%</button>
+          <button class="quick-btn" onclick="setCLoopGrowth(150)">+150%</button>
+          <button class="quick-btn" onclick="setCLoopGrowth(200)">+200%</button>
+        </div>
+        <div style="margin-top:14px;" id="c-loop-sim-results">
+          <div class="grid-4">
+            <div class="stat-box">
+              <div class="label">Precio Futuro</div>
+              <div class="value" id="c-loop-precio-futuro" style="color:var(--orange);">—</div>
+            </div>
+            <div class="stat-box" style="border:1px solid var(--blue);">
+              <div class="label">BTC Recomprado</div>
+              <div class="value" id="c-loop-btc-recomprado" style="color:var(--blue);">—</div>
+              <div class="sub">neto de fees+slippage</div>
+            </div>
+            <div class="stat-box green">
+              <div class="label">Colateral Final</div>
+              <div class="value" id="c-loop-colateral-final">—</div>
+            </div>
+            <div class="stat-box">
+              <div class="label">LTV Después</div>
+              <div class="value" id="c-loop-ltv-futuro">—</div>
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top:12px;">
+            <div class="stat-box green">
+              <div class="label">Beneficio USD</div>
+              <div class="value" id="c-loop-benefit-usd">—</div>
+            </div>
+            <div class="stat-box green">
+              <div class="label">Beneficio BTC</div>
+              <div class="value" id="c-loop-benefit-btc">—</div>
+            </div>
+            <div class="stat-box">
+              <div class="label">Rendimiento</div>
+              <div class="value" id="c-loop-rendimiento">—</div>
+              <div class="sub">sobre colateral inicial</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Comparativa LTV -->
+    <!-- Beneficio esperado -->
     <div class="card">
-      <h3 data-i18n="c-ltv-title">📊 Comparativa de Escenarios LTV</h3>
-      <table class="tbl">
-        <thead><tr>
-          <th>LTV %</th>
-          <th class="num" data-i18n="c-usdt-prestado">USDT Prestado</th>
-          <th class="num" data-i18n="c-total-pagar">Total a Pagar</th>
-          <th class="num" data-i18n="c-precio-mc">Precio Margin Call</th>
-          <th class="num" data-i18n="c-caida-mc">Caída hasta MC</th>
-          <th class="num" data-i18n="c-precio-liq">Precio Liquidación</th>
-          <th class="num" data-i18n="c-caida-liq">Caída hasta Liq.</th>
-          <th class="num" data-i18n="c-btc-total-label">BTC Total Stack</th>
-        </tr></thead>
-        <tbody id="c-ltv-body"></tbody>
-      </table>
+      <h3>💰 Beneficio Esperado</h3>
+
+      <!-- Botones % crecimiento BTC -->
+      <div style="margin-bottom:14px;">
+        <div class="c-param-label">Revalorización BTC esperada en el plazo del préstamo</div>
+        <div class="quick-btns" id="c-growth-btns" style="margin-top:8px;">
+          <button class="quick-btn" onclick="setCGrowth(10)">+10%</button>
+          <button class="quick-btn" onclick="setCGrowth(20)">+20%</button>
+          <button class="quick-btn" onclick="setCGrowth(30)">+30%</button>
+          <button class="quick-btn active" onclick="setCGrowth(40)">+40%</button>
+          <button class="quick-btn" onclick="setCGrowth(50)">+50%</button>
+          <button class="quick-btn" onclick="setCGrowth(75)">+75%</button>
+          <button class="quick-btn" onclick="setCGrowth(100)">+100%</button>
+          <button class="quick-btn" onclick="setCGrowth(150)">+150%</button>
+          <button class="quick-btn" onclick="setCGrowth(200)">+200%</button>
+        </div>
+        <div style="margin-top:6px;font-size:12px;color:var(--text2);">BTC objetivo: <span id="c-growth-target-price" style="color:var(--orange);font-weight:700;">—</span></div>
+      </div>
+
+      <div class="grid-4 mb-16">
+        <div class="stat-box green">
+          <div class="label">Beneficio Esperado</div>
+          <div class="value" id="c-benefit-usd">—</div>
+          <div class="sub">USD</div>
+        </div>
+        <div class="stat-box green">
+          <div class="label">Beneficio en BTC</div>
+          <div class="value" id="c-benefit-btc">—</div>
+          <div class="sub">BTC</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">Rendimiento</div>
+          <div class="value" id="c-rendimiento">—</div>
+          <div class="sub">sobre colateral inicial</div>
+        </div>
+        <div class="stat-box" style="border:1px solid var(--orange);">
+          <div class="label" data-i18n="c-btc-total-label">BTC Total Final</div>
+          <div class="value" id="c-btc-final">—</div>
+          <div class="sub">BTC</div>
+        </div>
+      </div>
     </div>
 
     <!-- Break-even -->
@@ -524,20 +888,183 @@ a { color: var(--orange); }
       <h3 data-i18n="c-breakeven-title">🎯 Precio Break-Even para No Perder BTC</h3>
       <div class="grid-3">
         <div class="stat-box">
-          <div class="label" data-i18n="c-precio-actual-label">Precio actual</div>
+          <div class="label" data-i18n="c-precio-actual-label">Precio Actual</div>
           <div class="value" id="c-be-current">—</div>
         </div>
         <div class="stat-box green">
-          <div class="label" data-i18n="c-precio-minimo-label">Precio mínimo para cubrir préstamo</div>
+          <div class="label" data-i18n="c-precio-minimo-label">Precio Mínimo para Cubrir Préstamo</div>
           <div class="value" id="c-be-price">—</div>
           <div class="sub" id="c-be-pct">— subida necesaria</div>
         </div>
         <div class="stat-box">
-          <div class="label" data-i18n="c-ganancia-2x-label">Ganancia si precio × 2</div>
+          <div class="label" data-i18n="c-ganancia-2x-label">Ganancia si Precio × 2</div>
           <div class="value" id="c-be-gain2x">—</div>
           <div class="sub" data-i18n="c-btc-extra">BTC extra</div>
         </div>
       </div>
+    </div>
+
+    <!-- D: Top-up Colateral -->
+    <div class="card">
+      <h3>🔧 Top-up Colateral</h3>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">BTC adicional necesario para volver al LTV objetivo de 50%</div>
+      <div class="grid-3">
+        <div class="stat-box">
+          <div class="label">LTV Objetivo</div>
+          <div class="value" style="color:var(--yellow);">50%</div>
+          <div class="sub">estándar</div>
+        </div>
+        <div class="stat-box" id="c-topup-box">
+          <div class="label">BTC Adicional Necesario</div>
+          <div class="value" id="c-topup-btc" style="color:var(--orange);">—</div>
+          <div class="sub" id="c-topup-usd">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">LTV Actual</div>
+          <div class="value" id="c-topup-ltv-current">—</div>
+          <div class="sub" id="c-topup-status">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E: Simulador de Caída de Precio -->
+    <div class="card">
+      <h3>📉 Simulador de Caída de Precio</h3>
+      <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+        <div class="c-param-section" style="margin-bottom:0;">
+          <div class="c-param-label">Si BTC cae a...</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--text2);font-size:14px;">$</span>
+            <input type="number" id="c-sim-price" placeholder="Ej: 60000"
+              style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-size:14px;width:160px;"
+              oninput="runSimulatorCaida()">
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="quick-btn" onclick="setSimCaida(0.9)">-10%</button>
+          <button class="quick-btn" onclick="setSimCaida(0.8)">-20%</button>
+          <button class="quick-btn" onclick="setSimCaida(0.7)">-30%</button>
+          <button class="quick-btn" onclick="setSimCaida(0.5)">-50%</button>
+          <button class="quick-btn" onclick="setSimCaida(0.4)">-60%</button>
+        </div>
+      </div>
+      <div id="c-sim-results" style="display:none;">
+        <div class="grid-4">
+          <div class="stat-box">
+            <div class="label">Precio Simulado</div>
+            <div class="value" id="c-sim-price-show" style="color:var(--text);">—</div>
+            <div class="sub" id="c-sim-caida-pct">—</div>
+          </div>
+          <div class="stat-box" id="c-sim-ltv-box">
+            <div class="label">LTV Simulado</div>
+            <div class="value" id="c-sim-ltv">—</div>
+            <div class="sub">con BTC total</div>
+          </div>
+          <div class="stat-box yellow">
+            <div class="label">Distancia a MC</div>
+            <div class="value" id="c-sim-dist-mc">—</div>
+            <div class="sub" id="c-sim-mc-price">—</div>
+          </div>
+          <div class="stat-box red">
+            <div class="label">Distancia a Liq.</div>
+            <div class="value" id="c-sim-dist-liq">—</div>
+            <div class="sub" id="c-sim-liq-price">—</div>
+          </div>
+        </div>
+      </div>
+      <div id="c-sim-empty" style="color:var(--text2);font-size:13px;text-align:center;padding:20px;">Ingresá un precio para simular</div>
+    </div>
+
+    <!-- G: Distancia a Liquidación — Barras -->
+    <div class="card">
+      <h3>📊 Distancia a Eventos de Riesgo</h3>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">% de caída del precio necesaria para alcanzar cada umbral</div>
+      <div class="dist-bar-wrap">
+        <div class="dist-bar-header">
+          <span style="color:var(--yellow);font-weight:600;">⚠ Margin Call</span>
+          <span id="c-bar-mc-label" style="color:var(--yellow);">— caída</span>
+        </div>
+        <div style="background:var(--bg3);border-radius:4px;height:18px;overflow:hidden;">
+          <div class="dist-bar-inner" id="c-bar-mc-fill" style="background:var(--yellow);height:100%;width:0%;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:3px;">
+          <span>Precio actual</span>
+          <span id="c-bar-mc-price">MC: —</span>
+        </div>
+      </div>
+      <div class="dist-bar-wrap">
+        <div class="dist-bar-header">
+          <span style="color:var(--red);font-weight:600;">🔴 Liquidación</span>
+          <span id="c-bar-liq-label" style="color:var(--red);">— caída</span>
+        </div>
+        <div style="background:var(--bg3);border-radius:4px;height:18px;overflow:hidden;">
+          <div class="dist-bar-inner" id="c-bar-liq-fill" style="background:var(--red);height:100%;width:0%;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:3px;">
+          <span>Precio actual</span>
+          <span id="c-bar-liq-price">Liq: —</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- H: Gráfico Histórico BTC con líneas MC y Liq -->
+    <div class="card">
+      <h3>📈 Precio BTC Histórico vs. Umbrales</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;">
+        <div class="quick-btns" id="c-chart-period-btns">
+          <button class="quick-btn" onclick="setCChartPeriod('1M')">1M</button>
+          <button class="quick-btn" onclick="setCChartPeriod('3M')">3M</button>
+          <button class="quick-btn active" onclick="setCChartPeriod('6M')">6M</button>
+          <button class="quick-btn" onclick="setCChartPeriod('1Y')">1Y</button>
+          <button class="quick-btn" onclick="setCChartPeriod('2Y')">2Y</button>
+          <button class="quick-btn" onclick="setCChartPeriod('ALL')">ALL</button>
+        </div>
+        <div style="display:flex;gap:16px;font-size:11px;align-items:center;margin-left:8px;">
+          <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:2px;background:var(--orange);"></span> BTC</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:2px;background:var(--yellow);border-top:2px dashed var(--yellow);"></span> Margin Call</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:2px;background:var(--red);border-top:2px dashed var(--red);"></span> Liquidación</span>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:320px;"><canvas id="chartCHistory"></canvas></div>
+    </div>
+
+    <!-- Comparativa LTV -->
+    <div class="card">
+      <h3 data-i18n="c-ltv-title">📊 Comparativa Multi-LTV</h3>
+
+      <!-- Botones revalorización para tabla -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;color:var(--text2);">Revalorización BTC esperada en el plazo del préstamo:</span>
+          <div class="quick-btns" id="c-table-growth-btns">
+            <button class="quick-btn" onclick="setCTableGrowth(10)">+10%</button>
+            <button class="quick-btn" onclick="setCTableGrowth(20)">+20%</button>
+            <button class="quick-btn" onclick="setCTableGrowth(30)">+30%</button>
+            <button class="quick-btn active" onclick="setCTableGrowth(40)">+40%</button>
+            <button class="quick-btn" onclick="setCTableGrowth(50)">+50%</button>
+            <button class="quick-btn" onclick="setCTableGrowth(75)">+75%</button>
+            <button class="quick-btn" onclick="setCTableGrowth(100)">+100%</button>
+            <button class="quick-btn" onclick="setCTableGrowth(150)">+150%</button>
+            <button class="quick-btn" onclick="setCTableGrowth(200)">+200%</button>
+          </div>
+          <span style="font-size:12px;color:var(--orange);font-weight:700;">BTC objetivo: <span id="c-table-target-price">—</span></span>
+        </div>
+      </div>
+
+      <table class="tbl">
+        <thead><tr>
+          <th>LTV %</th>
+          <th class="num" data-i18n="c-usdt-prestado">Principal</th>
+          <th class="num" data-i18n="c-total-pagar">Deuda Total</th>
+          <th class="num" data-i18n="c-precio-mc">Margin Call ($)</th>
+          <th class="num" data-i18n="c-caida-mc">Caída MC</th>
+          <th class="num" data-i18n="c-precio-liq">Liq. ($)</th>
+          <th class="num" data-i18n="c-caida-liq">Caída Liq.</th>
+          <th class="num">Beneficio</th>
+          <th class="num">Rend.</th>
+        </tr></thead>
+        <tbody id="c-ltv-body"></tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -883,8 +1410,8 @@ const TEXTS = {
     'c-fee-swap-label': 'Fee Swap (%)',
     'c-usdt-prestado': 'USDT Prestado',
     'c-total-devolver': 'Total a Devolver',
-    'c-margin-call-label': 'Precio Margin Call (80% LTV)',
-    'c-liq-label': 'Precio Liquidación (90% LTV)',
+    'c-margin-call-label': 'Precio Margin Call',
+    'c-liq-label': 'Precio Liquidación',
     'c-reinversion-title': '🔄 Simulación de Reinversión en BTC',
     'c-btc-original-label': 'BTC Original',
     'c-btc-reinvest-label': 'BTC Reinvertido (con préstamo)',
@@ -1026,8 +1553,8 @@ const TEXTS = {
     'c-fee-swap-label': 'Swap Fee (%)',
     'c-usdt-prestado': 'USDT Borrowed',
     'c-total-devolver': 'Total to Repay',
-    'c-margin-call-label': 'Margin Call Price (80% LTV)',
-    'c-liq-label': 'Liquidation Price (90% LTV)',
+    'c-margin-call-label': 'Margin Call Price',
+    'c-liq-label': 'Liquidation Price',
     'c-reinversion-title': '🔄 BTC Reinvestment Simulation',
     'c-btc-original-label': 'Original BTC',
     'c-btc-reinvest-label': 'Reinvested BTC (with loan)',
@@ -1143,6 +1670,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cargar precios embebidos directamente
   loadEmbeddedPrices();
   renderSignals();
+  // Init Plan C sliders
+  updateEffectiveRate();
+  highlightCLTVBtn(50);
 });
 
 // ============================================================
@@ -1837,7 +2367,174 @@ function getMA90AtDate(dateStr) {
 }
 
 // ============================================================
-//  PLAN C — COLATERAL
+//  PLAN C — Quick buttons & slider helpers
+// ============================================================
+
+function setCBTC(v) {
+  document.getElementById('c-btc').value = v;
+  highlightCBTCBtn(v);
+  updateEffectiveRate();
+}
+function highlightCBTCBtn(v) {
+  const map = { 0.25: 'cbtc-btn-025', 0.5: 'cbtc-btn-05', 0.75: 'cbtc-btn-075', 1: 'cbtc-btn-1' };
+  ['cbtc-btn-025','cbtc-btn-05','cbtc-btn-075','cbtc-btn-1'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.className = 'quick-btn';
+  });
+  const key = parseFloat(v);
+  if (map[key]) {
+    const el = document.getElementById(map[key]);
+    if (el) el.classList.add('active');
+  }
+}
+function setCLTV(v) {
+  document.getElementById('c-ltv').value = v;
+  highlightCLTVBtn(v);
+}
+function highlightCLTVBtn(v) {
+  const pv = parseInt(v);
+  [['cltv-btn-30','active-green'],['cltv-btn-50','active-yellow'],['cltv-btn-70','active-red']].forEach(([id,cls]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('active-green','active-yellow','active-red');
+  });
+  if (pv === 30) { const el = document.getElementById('cltv-btn-30'); if (el) el.classList.add('active-green'); }
+  else if (pv === 50) { const el = document.getElementById('cltv-btn-50'); if (el) el.classList.add('active-yellow'); }
+  else if (pv === 70) { const el = document.getElementById('cltv-btn-70'); if (el) el.classList.add('active-red'); }
+}
+function setCMonths(v) {
+  document.getElementById('c-months').value = v;
+  highlightCMonthsBtn(v);
+}
+function highlightCMonthsBtn(v) {
+  const map = { 3: 'cmo-btn-3', 6: 'cmo-btn-6', 9: 'cmo-btn-9', 12: 'cmo-btn-12' };
+  ['cmo-btn-3','cmo-btn-6','cmo-btn-9','cmo-btn-12'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.className = 'quick-btn';
+  });
+  const key = parseInt(v);
+  if (map[key]) {
+    const el = document.getElementById(map[key]);
+    if (el) el.classList.add('active');
+  }
+}
+function syncSlider(hiddenId, sliderId, displayId) {
+  const v = parseFloat(document.getElementById(sliderId).value);
+  document.getElementById(hiddenId).value = v;
+  document.getElementById(displayId).textContent = v.toLocaleString('es-AR', { minimumFractionDigits: v % 1 === 0 ? 0 : 1, maximumFractionDigits: 2 }).replace('.', ',');
+  updateEffectiveRate();
+}
+function adjSlider(hiddenId, sliderId, displayId, delta) {
+  const el = document.getElementById(sliderId);
+  const min = parseFloat(el.min), max = parseFloat(el.max), step = parseFloat(el.step);
+  let v = Math.round((parseFloat(el.value) + delta) / step) * step;
+  v = Math.min(max, Math.max(min, parseFloat(v.toFixed(4))));
+  el.value = v;
+  syncSlider(hiddenId, sliderId, displayId);
+}
+function adjUmbral(id, delta, minV, maxV) {
+  const el = document.getElementById(id);
+  let v = parseInt(el.value) + delta;
+  v = Math.min(maxV, Math.max(minV, v));
+  el.value = v;
+}
+function updateEffectiveRate() {
+  const apr = parseFloat(document.getElementById('c-apr').value) || 0;
+  const feeP = parseFloat(document.getElementById('c-fee-platform').value) || 0;
+  const eff = apr + feeP;
+  const el = document.getElementById('c-effective-rate');
+  if (el) el.textContent = eff.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace('.', ',') + '%';
+}
+
+// Growth buttons state
+let cGrowthPct = 40;
+let cTableGrowthPct = 40;
+function setCGrowth(pct) {
+  cGrowthPct = pct;
+  document.querySelectorAll('#c-growth-btns .quick-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === '+' + pct + '%');
+  });
+  updateBenefitSection();
+}
+function setCTableGrowth(pct) {
+  cTableGrowthPct = pct;
+  document.querySelectorAll('#c-table-growth-btns .quick-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === '+' + pct + '%');
+  });
+  updateLTVTable();
+}
+function updateBenefitSection() {
+  if (!lastPlanC) return;
+  const { btcTotal, repay, priceInput, btcAmount } = lastPlanC;
+  const futurePrice = priceInput * (1 + cGrowthPct / 100);
+  document.getElementById('c-growth-target-price').textContent = '$' + fmt(futurePrice, 0);
+  const portfolioValue = btcTotal * futurePrice;
+  const benefitUSD = portfolioValue - repay - btcAmount * priceInput;
+  const benefitBTC = benefitUSD / futurePrice;
+  const rend = (benefitUSD / (btcAmount * priceInput)) * 100;
+  const btcFinal = btcAmount + benefitBTC;
+  const el_usd = document.getElementById('c-benefit-usd');
+  const el_btc = document.getElementById('c-benefit-btc');
+  const el_rend = document.getElementById('c-rendimiento');
+  const el_final = document.getElementById('c-btc-final');
+  if (el_usd) el_usd.textContent = '$' + fmt(benefitUSD, 0);
+  if (el_btc) el_btc.textContent = fmtBTC(Math.max(0, benefitBTC));
+  if (el_rend) {
+    el_rend.textContent = (rend >= 0 ? '+' : '') + rend.toFixed(2) + '%';
+    el_rend.style.color = rend >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+  if (el_final) el_final.textContent = fmtBTC(Math.max(0, btcFinal));
+  const tableTarget = document.getElementById('c-table-target-price');
+  if (tableTarget) tableTarget.textContent = '$' + fmt(priceInput * (1 + cTableGrowthPct / 100), 0);
+}
+function updateLTVTable() {
+  if (!lastPlanC) return;
+  const { priceInput, btcAmount, apr, months, feeP, feeS, mcPct, liqPct } = lastPlanC;
+  const calcRow = (ltvV) => {
+    const loan = priceInput * ltvV * btcAmount;
+    const fees = loan * ((apr + feeP) / 12 * months);
+    const swapFees = loan * feeS;
+    const repay = loan + fees + swapFees;
+    const marginCallPrice = (repay / btcAmount) / (mcPct / 100);
+    const liqPrice = (repay / btcAmount) / (liqPct / 100);
+    const marginPct = (marginCallPrice / priceInput - 1) * 100;
+    const liqPctCalc = (liqPrice / priceInput - 1) * 100;
+    const btcReinvested = loan / priceInput;
+    const btcTotal = btcAmount + btcReinvested;
+    const futurePrice = priceInput * (1 + cTableGrowthPct / 100);
+    const portfolioValue = btcTotal * futurePrice;
+    const benefitUSD = portfolioValue - repay - btcAmount * priceInput;
+    const rend = (benefitUSD / (btcAmount * priceInput)) * 100;
+    return { loan, repay, marginCallPrice, liqPrice, marginPct, liqPctCalc, btcTotal, benefitUSD, rend };
+  };
+  const ltv = lastPlanC.ltv;
+  const tbody = document.getElementById('c-ltv-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  [0.25, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80].forEach(ltvV => {
+    const rc = calcRow(ltvV);
+    const isSelected = Math.abs(ltvV - ltv) < 0.01;
+    const ltvLabel = (ltvV * 100).toFixed(0) + '%';
+    const safeLabel = ltvV <= 0.30 ? '<span style="background:#0a2a0a;color:#4ade80;border-radius:4px;padding:1px 6px;font-size:10px;margin-left:4px;">MÁS SEGURO</span>' :
+                      ltvV >= 0.80 ? '<span style="background:#2a0a0a;color:var(--red);border-radius:4px;padding:1px 6px;font-size:10px;margin-left:4px;">MÁS RENTABLE</span>' : '';
+    const tr = document.createElement('tr');
+    tr.style.background = isSelected ? '#2a1a0a' : '';
+    tr.innerHTML = `
+      <td><b style="color:${ltvV<=0.3?'#4ade80':ltvV>=0.8?'var(--red)':'var(--orange)'}">${ltvLabel}</b>${isSelected ? ' ★' : ''}${safeLabel}</td>
+      <td class="num">$${fmt(rc.loan, 0)}</td>
+      <td class="num">$${fmt(rc.repay, 0)}</td>
+      <td class="num" style="color:var(--yellow)">$${fmt(rc.marginCallPrice, 0)}</td>
+      <td class="num" style="color:${rc.marginPct < -30 ? 'var(--green)' : rc.marginPct < -15 ? 'var(--yellow)' : 'var(--red)'}">${fmtPct(rc.marginPct)}</td>
+      <td class="num" style="color:var(--red)">$${fmt(rc.liqPrice, 0)}</td>
+      <td class="num" style="color:${rc.liqPctCalc < -40 ? 'var(--green)' : rc.liqPctCalc < -20 ? 'var(--yellow)' : 'var(--red)'}">${fmtPct(rc.liqPctCalc)}</td>
+      <td class="num" style="color:${rc.benefitUSD>=0?'var(--green)':'var(--red)'}">$${fmt(rc.benefitUSD, 0)}</td>
+      <td class="num" style="color:${rc.rend>=0?'var(--green)':'var(--red)'}">${rc.rend>=0?'+':''}${rc.rend.toFixed(1)}%</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+//  PLAN C — Main calculation
 // ============================================================
 function runPlanC() {
   const btcAmount = parseFloat(document.getElementById('c-btc').value);
@@ -1847,68 +2544,411 @@ function runPlanC() {
   const months = parseFloat(document.getElementById('c-months').value);
   const feeP = parseFloat(document.getElementById('c-fee-platform').value) / 100;
   const feeS = parseFloat(document.getElementById('c-fee-swap').value) / 100;
+  const mcPct = parseFloat(document.getElementById('c-mc').value) || 80;
+  const liqPct = parseFloat(document.getElementById('c-liq-thr').value) || 90;
 
-  const calc = (ltvV) => {
-    const loan = priceInput * ltvV * btcAmount;
-    const fees = loan * ((apr + feeP) / 12 * months);
-    const swapFees = loan * feeS;
-    const repay = loan + fees + swapFees;
-    const marginCallPrice = repay / (btcAmount * 0.8);
-    const liqPrice = repay / (btcAmount * 0.9);
-    const marginPct = (marginCallPrice / priceInput - 1) * 100;
-    const liqPct = (liqPrice / priceInput - 1) * 100;
-    const btcReinvested = loan / priceInput;
-    const btcTotal = btcAmount + btcReinvested;
-    const breakEven = repay / btcAmount; // price needed to cover repay with original BTC
-    return { loan, fees, swapFees, repay, marginCallPrice, liqPrice, marginPct, liqPct, btcReinvested, btcTotal, breakEven };
-  };
+  if (!btcAmount || btcAmount <= 0) { alert('Ingresá un valor de BTC válido.'); return; }
+  if (!priceInput || priceInput <= 0) { alert('No hay precio BTC disponible. Cargá los precios primero.'); return; }
 
-  const r = calc(ltv);
-  lastPlanC = { ...r, btcAmount, priceInput, ltv, apr, months };
+  const loan = priceInput * ltv * btcAmount;
+  const fees = loan * ((apr + feeP) / 12 * months);
+  const swapFees = loan * feeS;
+  const repay = loan + fees + swapFees;
+  const marginCallPrice = (repay / btcAmount) / (mcPct / 100);
+  const liqPrice = (repay / btcAmount) / (liqPct / 100);
+  const marginPct = (marginCallPrice / priceInput - 1) * 100;
+  const liqPctVal = (liqPrice / priceInput - 1) * 100;
+  const btcReinvested = loan / priceInput;
+  const btcTotal = btcAmount + btcReinvested;
+  const breakEven = repay / btcAmount;
+  const monthlyCost = (fees + swapFees) / months;
 
-  document.getElementById('c-loan').textContent = '$' + fmt(r.loan, 0);
-  document.getElementById('c-repay').textContent = '$' + fmt(r.repay, 0);
-  document.getElementById('c-fees-total').textContent = 'Fees: $' + fmt(r.fees + r.swapFees, 0);
-  document.getElementById('c-margin').textContent = '$' + fmt(r.marginCallPrice, 0);
-  document.getElementById('c-margin-pct').textContent = fmtPct(r.marginPct) + ' del precio actual';
-  document.getElementById('c-liq').textContent = '$' + fmt(r.liqPrice, 0);
-  document.getElementById('c-liq-pct').textContent = fmtPct(r.liqPct) + ' del precio actual';
+  lastPlanC = { loan, fees, swapFees, repay, marginCallPrice, liqPrice, marginPct, liqPct: liqPctVal,
+                liqPct_drop: liqPctVal, btcReinvested, btcTotal, breakEven, btcAmount, priceInput,
+                ltv, apr, months, feeP, feeS, mcPct, liqPct };
 
+  // --- Gauge LTV ---
+  const gaugePct = ltv * 100;
+  const el_badge = document.getElementById('c-ltv-badge');
+  if (el_badge) { el_badge.textContent = gaugePct.toFixed(0) + '%'; }
+  const el_gpct = document.getElementById('c-gauge-pct');
+  if (el_gpct) {
+    el_gpct.textContent = gaugePct.toFixed(1) + '%';
+    el_gpct.style.color = gaugePct < 50 ? 'var(--green)' : gaugePct < 65 ? 'var(--yellow)' : 'var(--red)';
+  }
+  // Update gauge fill (arc length 220, 0%=offset 220, 100%=offset 0)
+  const gaugeFill = document.getElementById('c-gauge-fill');
+  if (gaugeFill) {
+    const dashOffset = 220 - (gaugePct / 100) * 220;
+    gaugeFill.setAttribute('stroke-dashoffset', dashOffset.toFixed(1));
+    gaugeFill.setAttribute('stroke', gaugePct < 50 ? '#4ade80' : gaugePct < 65 ? 'var(--yellow)' : 'var(--red)');
+  }
+  // Needle: 0% = -90deg, 100% = +90deg → rotate from -90 to +90
+  const needle = document.getElementById('c-gauge-needle');
+  if (needle) {
+    const angle = -90 + (gaugePct / 100) * 180;
+    needle.setAttribute('transform', `rotate(${angle.toFixed(1)} 90 100)`);
+  }
+  const el_mcpct = document.getElementById('c-gauge-mc-pct');
+  const el_liqpct = document.getElementById('c-gauge-liq-pct');
+  if (el_mcpct) el_mcpct.textContent = mcPct + '%';
+  if (el_liqpct) el_liqpct.textContent = liqPct + '%';
+
+  // --- Result cards ---
+  document.getElementById('c-loan').textContent = '$' + fmt(loan, 0);
+  document.getElementById('c-repay').textContent = '$' + fmt(repay, 0);
+  document.getElementById('c-fees-total').textContent = 'Fees: $' + fmt(fees + swapFees, 0);
+  document.getElementById('c-margin').textContent = '$' + fmt(marginCallPrice, 0);
+  document.getElementById('c-margin-pct').textContent = fmtPct(marginPct) + ' del precio actual';
+  document.getElementById('c-liq').textContent = '$' + fmt(liqPrice, 0);
+  document.getElementById('c-liq-pct').textContent = fmtPct(liqPctVal) + ' del precio actual';
+  document.getElementById('c-monthly-cost').textContent = '$' + fmt(monthlyCost, 2);
+  const el_mct = document.getElementById('c-margin-call-title');
+  if (el_mct) el_mct.textContent = `Precio Margin Call (${mcPct}% LTV)`;
+  const el_liqt = document.getElementById('c-liq-title');
+  if (el_liqt) el_liqt.textContent = `Precio Liquidación (${liqPct}% LTV)`;
+
+  // --- Loop strategy ---
   document.getElementById('c-btc-original').textContent = fmtBTC(btcAmount);
-  document.getElementById('c-btc-reinvest').textContent = fmtBTC(r.btcReinvested);
-  document.getElementById('c-btc-total').textContent = fmtBTC(r.btcTotal);
-  document.getElementById('c-btc-gain').textContent = '+' + r.btcReinvested.toFixed(6) + ' BTC extra';
+  document.getElementById('c-btc-reinvest').textContent = fmtBTC(btcReinvested);
+  document.getElementById('c-btc-total').textContent = fmtBTC(btcTotal);
+  document.getElementById('c-btc-gain').textContent = '+' + btcReinvested.toFixed(6) + ' BTC extra';
+  const ltvAfter = loan / (btcTotal * priceInput) * 100;
+  const ltvDelta = ltvAfter - gaugePct;
+  document.getElementById('c-loop-ltv-before').textContent = gaugePct.toFixed(1) + '%';
+  document.getElementById('c-loop-ltv-after').textContent = ltvAfter.toFixed(1) + '%';
+  const deltaBadge = document.getElementById('c-loop-ltv-delta');
+  if (deltaBadge) {
+    deltaBadge.textContent = (ltvDelta >= 0 ? '+' : '') + ltvDelta.toFixed(1) + '%';
+    deltaBadge.style.borderColor = ltvDelta < 0 ? 'var(--green)' : 'var(--red)';
+    deltaBadge.style.color = ltvDelta < 0 ? 'var(--green)' : 'var(--red)';
+    deltaBadge.style.background = ltvDelta < 0 ? '#0a2a0a' : '#2a0a0a';
+  }
+  // New MC/Liq with loop (using btcTotal as collateral)
+  const newMC = (repay / btcTotal) / (mcPct / 100);
+  const newLiq = (repay / btcTotal) / (liqPct / 100);
+  const newMCpct = (newMC / priceInput - 1) * 100;
+  const newLiqpct = (newLiq / priceInput - 1) * 100;
+  document.getElementById('c-loop-mc').textContent = '$' + fmt(newMC, 0);
+  document.getElementById('c-loop-mc-pct').textContent = fmtPct(newMCpct) + ' del precio actual';
+  document.getElementById('c-loop-liq').textContent = '$' + fmt(newLiq, 0);
+  document.getElementById('c-loop-liq-pct').textContent = fmtPct(newLiqpct) + ' del precio actual';
 
-  const be = r.breakEven;
+  // --- Break-even ---
+  const be = breakEven;
   const bePct = ((be / priceInput) - 1) * 100;
   document.getElementById('c-be-current').textContent = '$' + fmt(priceInput, 0);
   document.getElementById('c-be-price').textContent = '$' + fmt(be, 0);
   document.getElementById('c-be-pct').textContent = fmtPct(bePct) + ' subida necesaria';
   document.getElementById('c-be-pct').style.color = bePct <= 0 ? 'var(--green)' : 'var(--yellow)';
-  const gain2x = (r.btcTotal * priceInput * 2 - r.repay) / (priceInput * 2) - btcAmount;
+  const gain2x = (btcTotal * priceInput * 2 - repay) / (priceInput * 2) - btcAmount;
   document.getElementById('c-be-gain2x').textContent = fmtBTC(Math.max(0, gain2x));
 
-  // LTV comparison table
-  const tbody = document.getElementById('c-ltv-body');
-  tbody.innerHTML = '';
-  [0.30, 0.40, 0.50, 0.60, 0.70, 0.80].forEach(ltvV => {
-    const rc = calc(ltvV);
-    const isSelected = Math.abs(ltvV - ltv) < 0.01;
-    const tr = document.createElement('tr');
-    tr.style.background = isSelected ? '#2a1a0a' : '';
-    tr.innerHTML = `
-      <td><b>${(ltvV*100).toFixed(0)}%</b>${isSelected ? ' ★' : ''}</td>
-      <td class="num">$${fmt(rc.loan, 0)}</td>
-      <td class="num">$${fmt(rc.repay, 0)}</td>
-      <td class="num" style="color:var(--yellow)">$${fmt(rc.marginCallPrice, 0)}</td>
-      <td class="num" style="color:var(--yellow)">${fmtPct(rc.marginPct)}</td>
-      <td class="num" style="color:var(--red)">$${fmt(rc.liqPrice, 0)}</td>
-      <td class="num" style="color:var(--red)">${fmtPct(rc.liqPct)}</td>
-      <td class="num">${fmtBTC(rc.btcTotal)}</td>`;
-    tbody.appendChild(tr);
-  });
+  // --- Benefit & table (use current growth selections) ---
+  updateBenefitSection();
+  updateLTVTable();
+
+  // --- D: Top-up colateral ---
+  updateTopUp();
+
+  // --- F: Loop sim ---
+  updateLoopSimSection();
+
+  // --- G: Barras de distancia ---
+  updateDistBars();
+
+  // --- H: Gráfico histórico ---
+  updateCHistoryChart();
 
   document.getElementById('c-results').style.display = 'block';
+}
+
+// ============================================================
+//  PLAN C — Estrategia Loop: sliders feeSwap/slippage (sección F)
+// ============================================================
+let cLoopGrowthPct = 50;
+
+function syncLoopSlider(hiddenId, sliderId, displayId) {
+  const v = parseFloat(document.getElementById(sliderId).value);
+  document.getElementById(hiddenId).value = v;
+  document.getElementById(displayId).textContent = v.toLocaleString('es-AR', { minimumFractionDigits: v % 1 === 0 ? 0 : 1, maximumFractionDigits: 2 }).replace('.', ',');
+  updateLoopSimSection();
+}
+
+function adjLoopSlider(hiddenId, sliderId, displayId, delta) {
+  const el = document.getElementById(sliderId);
+  const min = parseFloat(el.min), max = parseFloat(el.max), step = parseFloat(el.step);
+  let v = Math.round((parseFloat(el.value) + delta) / step) * step;
+  v = Math.min(max, Math.max(min, parseFloat(v.toFixed(4))));
+  el.value = v;
+  syncLoopSlider(hiddenId, sliderId, displayId);
+}
+
+function setCLoopGrowth(pct) {
+  cLoopGrowthPct = pct;
+  document.querySelectorAll('#c-loop-growth-btns .quick-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === '+' + pct + '%');
+  });
+  updateLoopSimSection();
+}
+
+function updateLoopSimSection() {
+  if (!lastPlanC) return;
+  const { loan, repay, priceInput, btcAmount, btcTotal } = lastPlanC;
+  const feeSwap   = (parseFloat(document.getElementById('c-loop-feeswap').value)   || 0) / 100;
+  const slippage  = (parseFloat(document.getElementById('c-loop-slippage').value)  || 0) / 100;
+
+  const precioFuturo     = priceInput * (1 + cLoopGrowthPct / 100);
+  const btcRecomprado    = (loan / priceInput) * (1 - feeSwap - slippage);
+  const colateralFinal   = btcAmount + btcRecomprado;
+  const ltvDespues       = loan / (colateralFinal * precioFuturo) * 100;
+  const beneficioUSD     = colateralFinal * precioFuturo - repay - btcAmount * priceInput;
+  const beneficioBTC     = beneficioUSD / precioFuturo;
+  const rendimiento      = (beneficioUSD / (btcAmount * priceInput)) * 100;
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  const setColor = (id, color) => { const el = document.getElementById(id); if (el) el.style.color = color; };
+
+  set('c-loop-precio-futuro', '$' + fmt(precioFuturo, 0));
+  set('c-loop-btc-recomprado', fmtBTC(Math.max(0, btcRecomprado)));
+  set('c-loop-colateral-final', fmtBTC(colateralFinal));
+  set('c-loop-ltv-futuro', ltvDespues.toFixed(1) + '%');
+  setColor('c-loop-ltv-futuro', ltvDespues < 50 ? 'var(--green)' : ltvDespues < 65 ? 'var(--yellow)' : 'var(--red)');
+  set('c-loop-benefit-usd', (beneficioUSD >= 0 ? '+$' : '-$') + fmt(Math.abs(beneficioUSD), 0));
+  setColor('c-loop-benefit-usd', beneficioUSD >= 0 ? 'var(--green)' : 'var(--red)');
+  set('c-loop-benefit-btc', fmtBTC(Math.max(0, beneficioBTC)));
+  set('c-loop-rendimiento', (rendimiento >= 0 ? '+' : '') + rendimiento.toFixed(2) + '%');
+  setColor('c-loop-rendimiento', rendimiento >= 0 ? 'var(--green)' : 'var(--red)');
+}
+
+// ============================================================
+//  PLAN C — Top-up Colateral (sección D)
+// ============================================================
+function updateTopUp() {
+  if (!lastPlanC) return;
+  const { loan, priceInput, btcAmount } = lastPlanC;
+  const ltvObjetivo = 0.50;
+  const btcColateralNeeded = loan / (ltvObjetivo * priceInput);
+  const topUp = btcColateralNeeded - btcAmount;
+
+  const el_btc = document.getElementById('c-topup-btc');
+  const el_usd = document.getElementById('c-topup-usd');
+  const el_ltvNow = document.getElementById('c-topup-ltv-current');
+  const el_status = document.getElementById('c-topup-status');
+  const box = document.getElementById('c-topup-box');
+
+  const ltvNow = (loan / (btcAmount * priceInput)) * 100;
+  if (el_ltvNow) { el_ltvNow.textContent = ltvNow.toFixed(1) + '%'; el_ltvNow.style.color = ltvNow < 50 ? 'var(--green)' : ltvNow < 65 ? 'var(--yellow)' : 'var(--red)'; }
+
+  if (topUp > 0) {
+    if (el_btc) { el_btc.textContent = '+' + fmtBTC(topUp); el_btc.style.color = '#ff9933'; }
+    if (el_usd) el_usd.textContent = '≈ $' + fmt(topUp * priceInput, 0) + ' USD';
+    if (el_status) { el_status.textContent = 'LTV > 50% — top-up necesario'; el_status.style.color = '#ff9933'; }
+    if (box) box.style.borderColor = '#ff9933';
+  } else {
+    if (el_btc) { el_btc.textContent = 'No necesario'; el_btc.style.color = 'var(--green)'; }
+    if (el_usd) el_usd.textContent = 'LTV por debajo del objetivo';
+    if (el_status) { el_status.textContent = 'margen suficiente'; el_status.style.color = 'var(--green)'; }
+    if (box) box.style.borderColor = 'var(--green)';
+  }
+}
+
+// ============================================================
+//  PLAN C — Simulador Caída de Precio (sección E)
+// ============================================================
+function setSimCaida(factor) {
+  if (!lastPlanC) { alert('Calculá el Plan C primero.'); return; }
+  const precioSimulado = Math.round(lastPlanC.priceInput * factor);
+  document.getElementById('c-sim-price').value = precioSimulado;
+  runSimulatorCaida();
+}
+
+function runSimulatorCaida() {
+  if (!lastPlanC) return;
+  const { loan, priceInput, btcTotal, marginCallPrice, liqPrice } = lastPlanC;
+  const precioCaida = parseFloat(document.getElementById('c-sim-price').value);
+
+  const simEmpty = document.getElementById('c-sim-empty');
+  const simResults = document.getElementById('c-sim-results');
+
+  if (!precioCaida || precioCaida <= 0) {
+    if (simResults) simResults.style.display = 'none';
+    if (simEmpty) simEmpty.style.display = 'block';
+    return;
+  }
+  if (simResults) simResults.style.display = 'block';
+  if (simEmpty) simEmpty.style.display = 'none';
+
+  const ltvSim = (loan / (btcTotal * precioCaida)) * 100;
+  const caidaPct = (precioCaida / priceInput - 1) * 100;
+  const distMC = ((marginCallPrice / precioCaida) - 1) * 100;
+  const distLiq = ((liqPrice / precioCaida) - 1) * 100;
+
+  const el_price = document.getElementById('c-sim-price-show');
+  const el_caida = document.getElementById('c-sim-caida-pct');
+  const el_ltv = document.getElementById('c-sim-ltv');
+  const el_ltvBox = document.getElementById('c-sim-ltv-box');
+  const el_distMC = document.getElementById('c-sim-dist-mc');
+  const el_distLiq = document.getElementById('c-sim-dist-liq');
+  const el_mcPrice = document.getElementById('c-sim-mc-price');
+  const el_liqPrice = document.getElementById('c-sim-liq-price');
+
+  if (el_price) el_price.textContent = '$' + fmt(precioCaida, 0);
+  if (el_caida) { el_caida.textContent = fmtPct(caidaPct) + ' del actual'; el_caida.style.color = caidaPct < 0 ? 'var(--red)' : 'var(--green)'; }
+
+  if (el_ltv) {
+    el_ltv.textContent = ltvSim.toFixed(1) + '%';
+    el_ltv.style.color = ltvSim < 50 ? 'var(--green)' : ltvSim < 65 ? 'var(--yellow)' : ltvSim < 80 ? '#ff9933' : 'var(--red)';
+  }
+  if (el_ltvBox) {
+    el_ltvBox.style.borderColor = ltvSim < 50 ? 'var(--green)' : ltvSim < 65 ? 'var(--yellow)' : ltvSim < 80 ? '#ff9933' : 'var(--red)';
+  }
+
+  // Si el precio simulado ya cruzó MC o Liq, mostrar en rojo
+  if (precioCaida <= liqPrice) {
+    if (el_distMC) { el_distMC.textContent = 'LIQUIDADO'; el_distMC.style.color = 'var(--red)'; }
+    if (el_distLiq) { el_distLiq.textContent = 'LIQUIDADO'; el_distLiq.style.color = 'var(--red)'; }
+  } else if (precioCaida <= marginCallPrice) {
+    if (el_distMC) { el_distMC.textContent = 'EN MARGIN CALL'; el_distMC.style.color = 'var(--red)'; }
+    if (el_distLiq) { el_distLiq.textContent = '+' + fmtPct(Math.abs(distLiq)); el_distLiq.style.color = 'var(--red)'; }
+  } else {
+    if (el_distMC) { el_distMC.textContent = '-' + fmtPct(Math.abs(distMC)) + ' más'; el_distMC.style.color = distMC < 10 ? 'var(--red)' : distMC < 25 ? 'var(--yellow)' : 'var(--green)'; }
+    if (el_distLiq) { el_distLiq.textContent = '-' + fmtPct(Math.abs(distLiq)) + ' más'; el_distLiq.style.color = distLiq < 10 ? 'var(--red)' : distLiq < 25 ? 'var(--yellow)' : 'var(--green)'; }
+  }
+  if (el_mcPrice) el_mcPrice.textContent = 'MC en $' + fmt(marginCallPrice, 0);
+  if (el_liqPrice) el_liqPrice.textContent = 'Liq en $' + fmt(liqPrice, 0);
+}
+
+// ============================================================
+//  PLAN C — Barras de Distancia a Liquidación (sección G)
+// ============================================================
+function updateDistBars() {
+  if (!lastPlanC) return;
+  const { priceInput, marginCallPrice, liqPrice } = lastPlanC;
+
+  // % de caída necesaria (valor positivo = caída requerida)
+  const dropToMC  = Math.max(0, (1 - marginCallPrice / priceInput) * 100);
+  const dropToLiq = Math.max(0, (1 - liqPrice / priceInput) * 100);
+
+  // Barra MC (amarilla)
+  const fillMC = document.getElementById('c-bar-mc-fill');
+  const labelMC = document.getElementById('c-bar-mc-label');
+  const pricesMC = document.getElementById('c-bar-mc-price');
+  if (fillMC) fillMC.style.width = Math.min(100, dropToMC).toFixed(1) + '%';
+  if (labelMC) labelMC.textContent = dropToMC > 0 ? '-' + dropToMC.toFixed(1) + '% de caída' : 'Ya alcanzado';
+  if (pricesMC) pricesMC.textContent = 'MC: $' + fmt(marginCallPrice, 0);
+
+  // Barra Liq (roja)
+  const fillLiq = document.getElementById('c-bar-liq-fill');
+  const labelLiq = document.getElementById('c-bar-liq-label');
+  const pricesLiq = document.getElementById('c-bar-liq-price');
+  if (fillLiq) fillLiq.style.width = Math.min(100, dropToLiq).toFixed(1) + '%';
+  if (labelLiq) labelLiq.textContent = dropToLiq > 0 ? '-' + dropToLiq.toFixed(1) + '% de caída' : 'Ya alcanzado';
+  if (pricesLiq) pricesLiq.textContent = 'Liq: $' + fmt(liqPrice, 0);
+}
+
+// ============================================================
+//  PLAN C — Gráfico Histórico BTC con MC y Liq (sección H)
+// ============================================================
+let chartCHistory = null;
+let cChartPeriod = '6M';
+
+function setCChartPeriod(period) {
+  cChartPeriod = period;
+  document.querySelectorAll('#c-chart-period-btns .quick-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === period);
+  });
+  updateCHistoryChart();
+}
+
+function updateCHistoryChart() {
+  if (!lastPlanC || !priceHistory.length) return;
+  const { marginCallPrice, liqPrice } = lastPlanC;
+
+  const now = priceHistory[priceHistory.length - 1].date;
+  let cutoff;
+  if (cChartPeriod === '1M')  cutoff = addDays(now, -30);
+  else if (cChartPeriod === '3M')  cutoff = addDays(now, -90);
+  else if (cChartPeriod === '6M')  cutoff = addDays(now, -180);
+  else if (cChartPeriod === '1Y')  cutoff = addDays(now, -365);
+  else if (cChartPeriod === '2Y')  cutoff = addDays(now, -730);
+  else cutoff = priceHistory[0].date;
+
+  const slice = priceHistory.filter(p => p.date >= cutoff);
+  if (!slice.length) return;
+
+  const labels = slice.map(p => p.date);
+  const prices = slice.map(p => p.price);
+
+  const ctx = document.getElementById('chartCHistory');
+  if (!ctx) return;
+  if (chartCHistory) chartCHistory.destroy();
+
+  chartCHistory = new Chart(ctx.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'BTC USD',
+          data: prices,
+          borderColor: '#f7931a',
+          backgroundColor: 'rgba(247,147,26,0.08)',
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.2,
+          fill: true,
+          order: 1
+        },
+        {
+          label: 'Margin Call',
+          data: new Array(labels.length).fill(marginCallPrice),
+          borderColor: '#ffd700',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          fill: false,
+          order: 2
+        },
+        {
+          label: 'Liquidación',
+          data: new Array(labels.length).fill(liqPrice),
+          borderColor: '#ff4444',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          fill: false,
+          order: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          labels: { color: '#aaa', font: { size: 11 }, boxWidth: 20 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': $' + fmt(ctx.parsed.y, 0)
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#666', maxTicksLimit: 8, font: { size: 10 } },
+          grid: { color: '#1f1f1f' }
+        },
+        y: {
+          ticks: { color: '#aaa', callback: v => '$' + fmt(v, 0), font: { size: 10 } },
+          grid: { color: '#1f1f1f' }
+        }
+      }
+    }
+  });
 }
 
 // ============================================================
@@ -2357,13 +3397,17 @@ function exportPlanC() {
     ['LTV %', lastPlanC.ltv * 100],
     ['APR %', lastPlanC.apr * 100],
     ['Meses', lastPlanC.months],
+    ['Fee Plataforma %', lastPlanC.feeP * 100],
+    ['Fee Swap %', lastPlanC.feeS * 100],
+    ['Umbral Margin Call %', lastPlanC.mcPct],
+    ['Umbral Liquidación %', lastPlanC.liqPct],
     ['', ''],
     ['USDT Prestado', lastPlanC.loan],
     ['Total a Devolver', lastPlanC.repay],
     ['Precio Margin Call', lastPlanC.marginCallPrice],
-    ['Caída hasta MC', lastPlanC.marginPct + '%'],
+    ['Caída hasta MC', lastPlanC.marginPct.toFixed(1) + '%'],
     ['Precio Liquidación', lastPlanC.liqPrice],
-    ['Caída hasta Liq.', lastPlanC.liqPct + '%'],
+    ['Caída hasta Liq.', lastPlanC.liqPct_drop ? lastPlanC.liqPct_drop.toFixed(1) + '%' : ''],
     ['BTC Total Stack', lastPlanC.btcTotal],
   ];
   const ws = XLSX.utils.aoa_to_sheet(rows);
