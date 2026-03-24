@@ -531,7 +531,10 @@ a { color: var(--orange); }
       <div class="c-param-section">
         <div class="c-param-label" data-i18n="c-btc-colateral-label">BTC en Colateral</div>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
+          <button class="quick-btn" id="cbtc-btn-01"  onclick="setCBTC(0.1)">0.1</button>
+          <button class="quick-btn" id="cbtc-btn-02"  onclick="setCBTC(0.2)">0.2</button>
           <button class="quick-btn" id="cbtc-btn-025" onclick="setCBTC(0.25)">0.25</button>
+          <button class="quick-btn" id="cbtc-btn-03"  onclick="setCBTC(0.3)">0.3</button>
           <button class="quick-btn" id="cbtc-btn-05"  onclick="setCBTC(0.5)">0.5</button>
           <button class="quick-btn" id="cbtc-btn-075" onclick="setCBTC(0.75)">0.75</button>
           <button class="quick-btn active" id="cbtc-btn-1" onclick="setCBTC(1)">1</button>
@@ -557,16 +560,25 @@ a { color: var(--orange); }
             placeholder="Manual" oninput="highlightCLTVBtn(this.value)">
           <span style="font-size:13px;color:var(--text2);">%</span>
         </div>
+        <div style="margin-top:10px;">
+          <input type="range" id="c-ltv-slider" min="10" max="90" step="1" value="50"
+            style="width:100%;"
+            oninput="document.getElementById('c-ltv').value=this.value; highlightCLTVBtn(this.value);">
+        </div>
       </div>
 
       <!-- Meses -->
       <div class="c-param-section">
         <div class="c-param-label" data-i18n="c-months-label">Meses</div>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
+          <button class="quick-btn" id="cmo-btn-1"  onclick="setCMonths(1)">1</button>
+          <button class="quick-btn" id="cmo-btn-2"  onclick="setCMonths(2)">2</button>
           <button class="quick-btn" id="cmo-btn-3"  onclick="setCMonths(3)">3</button>
           <button class="quick-btn" id="cmo-btn-6"  onclick="setCMonths(6)">6</button>
           <button class="quick-btn" id="cmo-btn-9"  onclick="setCMonths(9)">9</button>
           <button class="quick-btn active" id="cmo-btn-12" onclick="setCMonths(12)">12</button>
+          <button class="quick-btn" id="cmo-btn-18" onclick="setCMonths(18)">18</button>
+          <button class="quick-btn" id="cmo-btn-24" onclick="setCMonths(24)">24</button>
           <input type="number" id="c-months" value="12" min="1" max="60"
             style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:70px;"
             placeholder="Manual" oninput="highlightCMonthsBtn(this.value)">
@@ -714,7 +726,12 @@ a { color: var(--orange); }
           <div class="result-card rc-blue">
             <div class="rc-label" data-i18n="c-usdt-prestado">Principal Prestado</div>
             <div class="rc-value" id="c-loan">—</div>
-            <div class="rc-sub">USDT</div>
+            <div class="rc-sub">U$S</div>
+          </div>
+          <div class="result-card">
+            <div class="rc-label">Total Intereses</div>
+            <div class="rc-value" id="c-total-interest">—</div>
+            <div class="rc-sub">U$S</div>
           </div>
           <div class="result-card">
             <div class="rc-label" data-i18n="c-total-devolver">Total a Devolver</div>
@@ -734,7 +751,7 @@ a { color: var(--orange); }
           <div class="result-card" style="grid-column:1/-1;">
             <div class="rc-label">Costo Mensual Aprox.</div>
             <div class="rc-value" id="c-monthly-cost">—</div>
-            <div class="rc-sub">USDT / mes</div>
+            <div class="rc-sub">U$S / mes</div>
           </div>
         </div>
       </div>
@@ -940,12 +957,18 @@ a { color: var(--orange); }
     <!-- D: Top-up Colateral -->
     <div class="card">
       <h3>🔧 Top-up Colateral</h3>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">BTC adicional necesario para volver al LTV objetivo de 50%</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">BTC adicional para recuperar un LTV objetivo seguro</div>
+      <div style="margin-bottom:16px;">
+        <div class="c-param-label">LTV Objetivo: <span id="c-topup-ltv-target-display" style="color:var(--orange);font-weight:700;">50%</span></div>
+        <input type="range" id="c-topup-ltv-target" min="10" max="80" step="1" value="50"
+          style="width:100%;margin-top:6px;"
+          oninput="document.getElementById('c-topup-ltv-target-display').textContent=this.value+'%'; updateTopUp();">
+      </div>
       <div class="grid-3">
         <div class="stat-box">
-          <div class="label">LTV Objetivo</div>
-          <div class="value" style="color:var(--yellow);">50%</div>
-          <div class="sub">estándar</div>
+          <div class="label">LTV Actual</div>
+          <div class="value" id="c-topup-ltv-current">—</div>
+          <div class="sub" id="c-topup-status">—</div>
         </div>
         <div class="stat-box" id="c-topup-box">
           <div class="label">BTC Adicional Necesario</div>
@@ -953,9 +976,9 @@ a { color: var(--orange); }
           <div class="sub" id="c-topup-usd">—</div>
         </div>
         <div class="stat-box">
-          <div class="label">LTV Actual</div>
-          <div class="value" id="c-topup-ltv-current">—</div>
-          <div class="sub" id="c-topup-status">—</div>
+          <div class="label">LTV Objetivo</div>
+          <div class="value" id="c-topup-ltv-target-show" style="color:var(--yellow);">50%</div>
+          <div class="sub">estándar</div>
         </div>
       </div>
     </div>
@@ -1010,7 +1033,7 @@ a { color: var(--orange); }
 
     <!-- G: Distancia a Liquidación — Barras -->
     <div class="card">
-      <h3>📊 Distancia a Eventos de Riesgo</h3>
+      <h3>📊 Distancia a Eventos de Riesgo<span id="c-dist-status-badge" style="display:none;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-left:8px;"></span></h3>
       <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">% de caída del precio necesaria para alcanzar cada umbral</div>
       <div class="dist-bar-wrap">
         <div class="dist-bar-header">
@@ -1038,6 +1061,23 @@ a { color: var(--orange); }
           <span id="c-bar-liq-price">Liq: —</span>
         </div>
       </div>
+      <div class="grid-3" style="margin-top:16px;">
+        <div class="stat-box yellow">
+          <div class="label">Caída hasta Margin Call</div>
+          <div class="value" id="c-dist-mc-pct2">—</div>
+          <div class="sub" id="c-dist-mc-price2">—</div>
+        </div>
+        <div class="stat-box red">
+          <div class="label">Caída hasta Liq.</div>
+          <div class="value" id="c-dist-liq-pct2">—</div>
+          <div class="sub" id="c-dist-liq-price2">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">Precio Actual</div>
+          <div class="value" id="c-dist-current-price">—</div>
+          <div class="sub">hoy</div>
+        </div>
+      </div>
     </div>
 
     <!-- H: Gráfico Histórico BTC con líneas MC y Liq -->
@@ -1050,6 +1090,8 @@ a { color: var(--orange); }
           <button class="quick-btn active" onclick="setCChartPeriod('6M')">6M</button>
           <button class="quick-btn" onclick="setCChartPeriod('1Y')">1Y</button>
           <button class="quick-btn" onclick="setCChartPeriod('2Y')">2Y</button>
+          <button class="quick-btn" onclick="setCChartPeriod('5Y')">5Y</button>
+          <button class="quick-btn" onclick="setCChartPeriod('10Y')">10Y</button>
           <button class="quick-btn" onclick="setCChartPeriod('ALL')">ALL</button>
         </div>
         <div style="display:flex;gap:16px;font-size:11px;align-items:center;margin-left:8px;">
@@ -2409,8 +2451,8 @@ function setCBTC(v) {
   updateEffectiveRate();
 }
 function highlightCBTCBtn(v) {
-  const map = { 0.25: 'cbtc-btn-025', 0.5: 'cbtc-btn-05', 0.75: 'cbtc-btn-075', 1: 'cbtc-btn-1' };
-  ['cbtc-btn-025','cbtc-btn-05','cbtc-btn-075','cbtc-btn-1'].forEach(id => {
+  const map = { 0.1: 'cbtc-btn-01', 0.2: 'cbtc-btn-02', 0.25: 'cbtc-btn-025', 0.3: 'cbtc-btn-03', 0.5: 'cbtc-btn-05', 0.75: 'cbtc-btn-075', 1: 'cbtc-btn-1' };
+  ['cbtc-btn-01','cbtc-btn-02','cbtc-btn-025','cbtc-btn-03','cbtc-btn-05','cbtc-btn-075','cbtc-btn-1'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.className = 'quick-btn';
   });
@@ -2425,6 +2467,8 @@ function setCLTV(v) {
   highlightCLTVBtn(v);
 }
 function highlightCLTVBtn(v) {
+  const slider = document.getElementById('c-ltv-slider');
+  if (slider) slider.value = v;
   const pv = parseInt(v);
   [['cltv-btn-30','active-green'],['cltv-btn-50','active-yellow'],['cltv-btn-70','active-red']].forEach(([id,cls]) => {
     const el = document.getElementById(id);
@@ -2440,8 +2484,8 @@ function setCMonths(v) {
   highlightCMonthsBtn(v);
 }
 function highlightCMonthsBtn(v) {
-  const map = { 3: 'cmo-btn-3', 6: 'cmo-btn-6', 9: 'cmo-btn-9', 12: 'cmo-btn-12' };
-  ['cmo-btn-3','cmo-btn-6','cmo-btn-9','cmo-btn-12'].forEach(id => {
+  const map = { 1: 'cmo-btn-1', 2: 'cmo-btn-2', 3: 'cmo-btn-3', 6: 'cmo-btn-6', 9: 'cmo-btn-9', 12: 'cmo-btn-12', 18: 'cmo-btn-18', 24: 'cmo-btn-24' };
+  ['cmo-btn-1','cmo-btn-2','cmo-btn-3','cmo-btn-6','cmo-btn-9','cmo-btn-12','cmo-btn-18','cmo-btn-24'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.className = 'quick-btn';
   });
@@ -2561,8 +2605,10 @@ function updateLTVTable() {
     const ltvLabel = (ltvV * 100).toFixed(0) + '%';
     const safeLabel = ltvV <= 0.30 ? '<span style="background:#0a2a0a;color:#4ade80;border-radius:4px;padding:1px 6px;font-size:10px;margin-left:4px;">MÁS SEGURO</span>' :
                       ltvV >= 0.80 ? '<span style="background:#2a0a0a;color:var(--red);border-radius:4px;padding:1px 6px;font-size:10px;margin-left:4px;">MÁS RENTABLE</span>' : '';
+    const rowBorderColor = ltvV <= 0.30 ? '#4ade80' : ltvV <= 0.40 ? '#4ade80' : ltvV <= 0.50 ? 'var(--yellow)' : ltvV <= 0.60 ? '#f0a020' : ltvV <= 0.70 ? 'var(--orange)' : 'var(--red)';
     const tr = document.createElement('tr');
     tr.style.background = isSelected ? '#2a1a0a' : '';
+    tr.style.borderLeft = '3px solid ' + rowBorderColor;
     tr.innerHTML = `
       <td><b style="color:${ltvV<=0.3?'#4ade80':ltvV>=0.8?'var(--red)':'var(--orange)'}">${ltvLabel}</b>${isSelected ? ' ★' : ''}${safeLabel}</td>
       <td class="num">$${fmt(rc.loan, 0)}</td>
@@ -2647,6 +2693,9 @@ function runPlanC() {
   document.getElementById('c-liq').textContent = '$' + fmt(liqPrice, 0);
   document.getElementById('c-liq-pct').textContent = fmtPct(liqPctVal) + ' del precio actual';
   document.getElementById('c-monthly-cost').textContent = '$' + fmt(monthlyCost, 2);
+  const totalInterest = repay - loan;
+  const el_ti = document.getElementById('c-total-interest');
+  if (el_ti) el_ti.textContent = '$' + fmt(totalInterest, 2);
   const el_mct = document.getElementById('c-margin-call-title');
   if (el_mct) el_mct.textContent = `Precio Margin Call (${mcPct}% LTV)`;
   const el_liqt = document.getElementById('c-liq-title');
@@ -2771,7 +2820,11 @@ function updateLoopSimSection() {
 function updateTopUp() {
   if (!lastPlanC) return;
   const { loan, priceInput, btcAmount } = lastPlanC;
-  const ltvObjetivo = 0.50;
+  const sliderEl = document.getElementById('c-topup-ltv-target');
+  const ltvObjetivoPct = sliderEl ? parseFloat(sliderEl.value) : 50;
+  const ltvObjetivo = ltvObjetivoPct / 100;
+  const showEl = document.getElementById('c-topup-ltv-target-show');
+  if (showEl) showEl.textContent = ltvObjetivoPct.toFixed(0) + '%';
   const btcColateralNeeded = loan / (ltvObjetivo * priceInput);
   const topUp = btcColateralNeeded - btcAmount;
 
@@ -2889,6 +2942,40 @@ function updateDistBars() {
   if (fillLiq) fillLiq.style.width = Math.min(100, dropToLiq).toFixed(1) + '%';
   if (labelLiq) labelLiq.textContent = dropToLiq > 0 ? '-' + dropToLiq.toFixed(1) + '% de caída' : 'Ya alcanzado';
   if (pricesLiq) pricesLiq.textContent = 'Liq: $' + fmt(liqPrice, 0);
+
+  // Stat boxes below bars
+  const elMCpct2 = document.getElementById('c-dist-mc-pct2');
+  const elMCprice2 = document.getElementById('c-dist-mc-price2');
+  const elLiqpct2 = document.getElementById('c-dist-liq-pct2');
+  const elLiqprice2 = document.getElementById('c-dist-liq-price2');
+  const elCurPrice = document.getElementById('c-dist-current-price');
+  if (elMCpct2) elMCpct2.textContent = dropToMC > 0 ? '-' + dropToMC.toFixed(1) + '%' : 'Ya alcanzado';
+  if (elMCprice2) elMCprice2.textContent = '$' + fmt(marginCallPrice, 0);
+  if (elLiqpct2) elLiqpct2.textContent = dropToLiq > 0 ? '-' + dropToLiq.toFixed(1) + '%' : 'Ya alcanzado';
+  if (elLiqprice2) elLiqprice2.textContent = '$' + fmt(liqPrice, 0);
+  if (elCurPrice) elCurPrice.textContent = '$' + fmt(priceInput, 0);
+
+  // Status badge
+  const badge = document.getElementById('c-dist-status-badge');
+  if (badge) {
+    badge.style.display = 'inline-block';
+    if (dropToMC > 30) {
+      badge.textContent = 'Seguro';
+      badge.style.background = '#0a2a0a';
+      badge.style.color = 'var(--green)';
+      badge.style.border = '1px solid var(--green)';
+    } else if (dropToMC >= 15) {
+      badge.textContent = 'Alerta';
+      badge.style.background = '#2a2a0a';
+      badge.style.color = 'var(--yellow)';
+      badge.style.border = '1px solid var(--yellow)';
+    } else {
+      badge.textContent = 'Peligro';
+      badge.style.background = '#2a0a0a';
+      badge.style.color = 'var(--red)';
+      badge.style.border = '1px solid var(--red)';
+    }
+  }
 }
 
 // ============================================================
@@ -2916,6 +3003,8 @@ function updateCHistoryChart() {
   else if (cChartPeriod === '6M')  cutoff = addDays(now, -180);
   else if (cChartPeriod === '1Y')  cutoff = addDays(now, -365);
   else if (cChartPeriod === '2Y')  cutoff = addDays(now, -730);
+  else if (cChartPeriod === '5Y')  cutoff = addDays(now, -1825);
+  else if (cChartPeriod === '10Y') cutoff = addDays(now, -3650);
   else cutoff = priceHistory[0].date;
 
   const slice = priceHistory.filter(p => p.date >= cutoff);
