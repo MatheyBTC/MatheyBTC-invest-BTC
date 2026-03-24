@@ -517,7 +517,7 @@ a { color: var(--orange); }
       <table class="tbl">
         <thead><tr>
           <th>DCA</th><th data-i18n="th-inicio">Inicio</th><th class="num" data-i18n="th-capital">Capital</th>
-          <th class="num" data-i18n="th-btc-comprado">BTC Comprado</th><th class="num" data-i18n="th-btc-restante">BTC Restante</th><th class="num" data-i18n="a-value-label">Valor Actual</th>
+          <th class="num">BTC Vendido</th><th class="num" data-i18n="th-btc-comprado">BTC Comprado</th><th class="num">Diferencia</th><th class="num" data-i18n="th-btc-restante">BTC Restante</th><th class="num" data-i18n="a-value-label">Valor Actual</th>
         </tr></thead>
         <tbody id="b-dca-body"></tbody>
       </table>
@@ -2442,7 +2442,7 @@ function runPlanB() {
         { label: 'Plan B) DCA Re-compra', data: filtered.map(e => e.value),
           borderColor: '#f7931a', pointRadius: 0, tension: 0.3, fill: false },
         { label: 'Plan A) DCA Fijo', data: filtered.map(e => planAMap[e.date] || null),
-          borderColor: '#4a9eff', pointRadius: 0, tension: 0.3, fill: false }
+          borderColor: '#4a9eff', pointRadius: 0, tension: 0.3, fill: false, spanGaps: true }
       ]
     },
     options: Object.assign({}, chartOpts('U$S'), {
@@ -2455,12 +2455,22 @@ function runPlanB() {
   // DCA Activos table
   const dcaBody = document.getElementById('b-dca-body');
   dcaBody.innerHTML = '';
-  dcas.forEach(dca => {
+  // Map DCA id → btcSold from trigger events
+  const triggerBTCSold = {};
+  triggerEvents.forEach(ev => { triggerBTCSold[ev.newDca] = ev.btcSold; });
+  const totalBTCSold = triggerEvents.reduce((s, ev) => s + ev.btcSold, 0);
+  dcas.forEach((dca, i) => {
     const val = dca.btcStack * currentPrice;
-    const tr  = document.createElement('tr');
+    const btcSold = dca.id === 'DCA0' ? totalBTCSold : (triggerBTCSold[dca.id] || 0);
+    const diff = dca.btcBought - btcSold;
+    const diffColor = diff >= 0 ? 'var(--green)' : 'var(--red)';
+    const diffSign  = diff >= 0 ? '+' : '';
+    const tr = document.createElement('tr');
     tr.innerHTML = `<td>${dca.id}</td><td>${dca.startDate}</td>
       <td class="num">U$S ${fmt(dca.totalInvested, 0)}</td>
+      <td class="num">${btcSold > 0 ? fmtBTC(btcSold) : '—'}</td>
       <td class="num">${fmtBTC(dca.btcBought)}</td>
+      <td class="num" style="color:${diffColor};font-weight:700">${btcSold > 0 ? diffSign + fmtBTC(diff) : '—'}</td>
       <td class="num">${fmtBTC(dca.btcStack)}</td>
       <td class="num">U$S ${fmt(val, 0)}</td>`;
     dcaBody.appendChild(tr);
