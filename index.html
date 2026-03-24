@@ -163,8 +163,8 @@ a { color: var(--orange); }
 .umbrales-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
 .umbral-group { display: flex; align-items: center; gap: 6px; }
 .umbral-group label { font-size: 12px; font-weight: 600; }
-.umbral-group label.mc-label { color: var(--yellow); }
-.umbral-group label.liq-label { color: var(--orange); }
+.umbral-group label.mc-label { color: var(--orange); }
+.umbral-group label.liq-label { color: var(--red); }
 .umbral-input {
   background: var(--bg3); border: 1px solid var(--border); color: var(--text);
   padding: 5px 8px; border-radius: 6px; font-size: 14px; font-weight: 700;
@@ -188,8 +188,8 @@ a { color: var(--orange); }
 .result-card .rc-label { font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
 .result-card .rc-value { font-size: 20px; font-weight: bold; color: var(--orange); }
 .result-card .rc-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
-.result-card.rc-yellow { border-color: var(--yellow); }
-.result-card.rc-yellow .rc-value { color: var(--yellow); }
+.result-card.rc-yellow { border-color: var(--orange); }
+.result-card.rc-yellow .rc-value { color: var(--orange); }
 .result-card.rc-red { border-color: var(--red); }
 .result-card.rc-red .rc-value { color: var(--red); }
 .result-card.rc-green { border-color: var(--green); }
@@ -530,7 +530,7 @@ a { color: var(--orange); }
       <!-- BTC en Colateral -->
       <div class="c-param-section">
         <div class="c-param-label" data-i18n="c-btc-colateral-label">BTC en Colateral</div>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px;">
           <button class="quick-btn" id="cbtc-btn-01"  onclick="setCBTC(0.1)">0.1</button>
           <button class="quick-btn" id="cbtc-btn-02"  onclick="setCBTC(0.2)">0.2</button>
           <button class="quick-btn" id="cbtc-btn-025" onclick="setCBTC(0.25)">0.25</button>
@@ -538,9 +538,12 @@ a { color: var(--orange); }
           <button class="quick-btn" id="cbtc-btn-05"  onclick="setCBTC(0.5)">0.5</button>
           <button class="quick-btn" id="cbtc-btn-075" onclick="setCBTC(0.75)">0.75</button>
           <button class="quick-btn active" id="cbtc-btn-1" onclick="setCBTC(1)">1</button>
-          <input type="number" id="c-btc" value="1" step="0.00000001" min="0.00000001"
-            style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:90px;"
-            placeholder="Manual" oninput="highlightCBTCBtn(this.value)">
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:10px;color:var(--text2);">Manual</span>
+            <input type="number" id="c-btc" value="1" step="0.00000001" min="0.00000001"
+              style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:90px;"
+              oninput="highlightCBTCBtn(this.value)">
+          </div>
         </div>
       </div>
     </div>
@@ -551,14 +554,19 @@ a { color: var(--orange); }
       <!-- LTV Inicial -->
       <div class="c-param-section">
         <div class="c-param-label" data-i18n="c-ltv-label">LTV Inicial (%)</div>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px;">
           <button class="quick-btn ltv-btn-conservador" id="cltv-btn-30" onclick="setCLTV(30)">30% Bajo</button>
           <button class="quick-btn ltv-btn-estandar active-yellow" id="cltv-btn-50" onclick="setCLTV(50)">50% Medio</button>
           <button class="quick-btn ltv-btn-agresivo" id="cltv-btn-70" onclick="setCLTV(70)">70% Alto</button>
-          <input type="number" id="c-ltv" value="50" min="10" max="90"
-            style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:70px;"
-            placeholder="Manual" oninput="highlightCLTVBtn(this.value)">
-          <span style="font-size:13px;color:var(--text2);">%</span>
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:10px;color:var(--text2);">Manual</span>
+            <div style="display:flex;align-items:center;gap:4px;">
+              <input type="number" id="c-ltv" value="50" min="10" max="90"
+                style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:65px;"
+                oninput="highlightCLTVBtn(this.value)">
+              <span style="font-size:13px;color:var(--text2);">%</span>
+            </div>
+          </div>
         </div>
         <div style="margin-top:10px;">
           <input type="range" id="c-ltv-slider" min="10" max="90" step="1" value="50"
@@ -570,7 +578,7 @@ a { color: var(--orange); }
       <!-- Meses -->
       <div class="c-param-section">
         <div class="c-param-label" data-i18n="c-months-label">Meses</div>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px;">
           <button class="quick-btn" id="cmo-btn-1"  onclick="setCMonths(1)">1</button>
           <button class="quick-btn" id="cmo-btn-2"  onclick="setCMonths(2)">2</button>
           <button class="quick-btn" id="cmo-btn-3"  onclick="setCMonths(3)">3</button>
@@ -579,10 +587,15 @@ a { color: var(--orange); }
           <button class="quick-btn active" id="cmo-btn-12" onclick="setCMonths(12)">12</button>
           <button class="quick-btn" id="cmo-btn-18" onclick="setCMonths(18)">18</button>
           <button class="quick-btn" id="cmo-btn-24" onclick="setCMonths(24)">24</button>
-          <input type="number" id="c-months" value="12" min="1" max="60"
-            style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:70px;"
-            placeholder="Manual" oninput="highlightCMonthsBtn(this.value)">
-          <span style="font-size:13px;color:var(--text2);">meses</span>
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:10px;color:var(--text2);">Manual</span>
+            <div style="display:flex;align-items:center;gap:4px;">
+              <input type="number" id="c-months" value="12" min="1" max="60"
+                style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:65px;"
+                oninput="highlightCMonthsBtn(this.value)">
+              <span style="font-size:13px;color:var(--text2);">meses</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -592,7 +605,7 @@ a { color: var(--orange); }
 
       <!-- Panel izquierdo: Sliders -->
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;">
-        <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;">Tasas y Costos</div>
+        <div style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.04em;margin-bottom:14px;">Tasas y Costos</div>
 
         <!-- APR -->
         <div class="c-param-section" style="margin-bottom:14px;">
@@ -652,11 +665,11 @@ a { color: var(--orange); }
 
       <!-- Panel derecho: Umbrales -->
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;">
-        <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;">Umbral de Pérdida</div>
+        <div style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.04em;margin-bottom:14px;">Umbral de Pérdida</div>
 
         <!-- Margin Call -->
         <div class="c-param-section" style="margin-bottom:20px;">
-          <label class="mc-label" style="display:block;margin-bottom:8px;">Margin Call</label>
+          <label style="display:block;margin-bottom:8px;font-size:12px;font-weight:600;color:var(--orange);">Margin Call</label>
           <div style="display:flex;align-items:center;gap:8px;">
             <button class="slider-adj-btn" onclick="adjUmbral('c-mc',-1,50,95)">−</button>
             <input type="number" id="c-mc" class="umbral-input" value="80" min="50" max="95">
@@ -667,7 +680,7 @@ a { color: var(--orange); }
 
         <!-- Liquidación -->
         <div class="c-param-section">
-          <label style="display:block;margin-bottom:8px;font-size:12px;font-weight:600;color:var(--orange);">Liquidación</label>
+          <label style="display:block;margin-bottom:8px;font-size:12px;font-weight:600;color:var(--red);">Liquidación</label>
           <div style="display:flex;align-items:center;gap:8px;">
             <button class="slider-adj-btn" onclick="adjUmbral('c-liq-thr',-1,60,99)">−</button>
             <input type="number" id="c-liq-thr" class="umbral-input" value="90" min="60" max="99">
@@ -706,7 +719,7 @@ a { color: var(--orange); }
                 transform="rotate(0 90 100)"/>
               <circle cx="90" cy="100" r="4" fill="#fff"/>
               <!-- etiquetas MC/Liq -->
-              <text x="20" y="118" font-size="8" fill="var(--yellow)" text-anchor="middle" id="c-gauge-mc-lbl">MC</text>
+              <text x="20" y="118" font-size="8" fill="var(--orange)" text-anchor="middle" id="c-gauge-mc-lbl">MC</text>
               <text x="160" y="118" font-size="8" fill="var(--red)" text-anchor="middle" id="c-gauge-liq-lbl">Liq</text>
             </svg>
             <div class="gauge-value">
@@ -715,7 +728,7 @@ a { color: var(--orange); }
             </div>
           </div>
           <div style="margin-top:10px;font-size:11px;color:var(--text2);">
-            <span style="color:var(--yellow);">Margin Call <span id="c-gauge-mc-pct">80%</span></span>
+            <span style="color:var(--orange);">Margin Call <span id="c-gauge-mc-pct">80%</span></span>
             &nbsp;·&nbsp;
             <span style="color:var(--red);">Liq. <span id="c-gauge-liq-pct">90%</span></span>
           </div>
@@ -1037,8 +1050,8 @@ a { color: var(--orange); }
       <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">% de caída del precio necesaria para alcanzar cada umbral</div>
       <div class="dist-bar-wrap">
         <div class="dist-bar-header">
-          <span style="color:var(--yellow);font-weight:600;">⚠ Margin Call</span>
-          <span id="c-bar-mc-label" style="color:var(--yellow);">— caída</span>
+          <span style="color:var(--orange);font-weight:600;">⚠ Margin Call</span>
+          <span id="c-bar-mc-label" style="color:var(--orange);">— caída</span>
         </div>
         <div style="background:var(--bg3);border-radius:4px;height:18px;overflow:hidden;">
           <div class="dist-bar-inner" id="c-bar-mc-fill" style="background:var(--yellow);height:100%;width:0%;"></div>
@@ -1096,7 +1109,7 @@ a { color: var(--orange); }
         </div>
         <div style="display:flex;gap:16px;font-size:11px;align-items:center;margin-left:8px;">
           <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:2px;background:var(--orange);"></span> BTC</span>
-          <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:2px;background:var(--yellow);border-top:2px dashed var(--yellow);"></span> Margin Call</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:2px;background:var(--orange);border-top:2px dashed var(--orange);"></span> Margin Call</span>
           <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:2px;background:var(--red);border-top:2px dashed var(--red);"></span> Liquidación</span>
         </div>
       </div>
@@ -2578,16 +2591,16 @@ function updateBenefitSection() {
 function updateLTVTable() {
   if (!lastPlanC) return;
   const { priceInput, btcAmount, apr, months, feeP, feeS, mcPct, liqPct } = lastPlanC;
+  const loopSlippage2 = parseFloat(document.getElementById('c-loop-slippage').value) / 100 || 0;
   const calcRow = (ltvV) => {
     const loan = priceInput * ltvV * btcAmount;
     const fees = loan * ((apr + feeP) / 12 * months);
-    const swapFees = loan * feeS;
-    const repay = loan + fees + swapFees;
+    const repay = loan + fees;
     const marginCallPrice = (repay / btcAmount) / (mcPct / 100);
     const liqPrice = (repay / btcAmount) / (liqPct / 100);
     const marginPct = (marginCallPrice / priceInput - 1) * 100;
     const liqPctCalc = (liqPrice / priceInput - 1) * 100;
-    const btcReinvested = loan / priceInput;
+    const btcReinvested = (loan / priceInput) * (1 - feeS - loopSlippage2);
     const btcTotal = btcAmount + btcReinvested;
     const futurePrice = priceInput * (1 + cTableGrowthPct / 100);
     const portfolioValue = btcTotal * futurePrice;
@@ -2642,18 +2655,18 @@ function runPlanC() {
 
   const loan = priceInput * ltv * btcAmount;
   const fees = loan * ((apr + feeP) / 12 * months);
-  const swapFees = loan * feeS;
-  const repay = loan + fees + swapFees;
+  const repay = loan + fees;                          // swap fee no va al repay — solo reduce BTC comprado
   const marginCallPrice = (repay / btcAmount) / (mcPct / 100);
   const liqPrice = (repay / btcAmount) / (liqPct / 100);
   const marginPct = (marginCallPrice / priceInput - 1) * 100;
   const liqPctVal = (liqPrice / priceInput - 1) * 100;
-  const btcReinvested = loan / priceInput;
+  const loopSlippage = parseFloat(document.getElementById('c-loop-slippage').value) / 100 || 0;
+  const btcReinvested = (loan / priceInput) * (1 - feeS - loopSlippage); // descontar fee swap + slippage
   const btcTotal = btcAmount + btcReinvested;
   const breakEven = repay / btcAmount;
-  const monthlyCost = (fees + swapFees) / months;
+  const monthlyCost = fees / months;
 
-  lastPlanC = { loan, fees, swapFees, repay, marginCallPrice, liqPrice, marginPct, liqPct: liqPctVal,
+  lastPlanC = { loan, fees, repay, marginCallPrice, liqPrice, marginPct, liqPct: liqPctVal,
                 liqPct_drop: liqPctVal, btcReinvested, btcTotal, breakEven, btcAmount, priceInput,
                 ltv, apr, months, feeP, feeS, mcPct, liqPct };
 
@@ -2687,7 +2700,7 @@ function runPlanC() {
   // --- Result cards ---
   document.getElementById('c-loan').textContent = '$' + fmt(loan, 0);
   document.getElementById('c-repay').textContent = '$' + fmt(repay, 0);
-  document.getElementById('c-fees-total').textContent = 'Fees: $' + fmt(fees + swapFees, 0);
+  document.getElementById('c-fees-total').textContent = 'Fees: $' + fmt(fees, 0);
   document.getElementById('c-margin').textContent = '$' + fmt(marginCallPrice, 0);
   document.getElementById('c-margin-pct').textContent = fmtPct(marginPct) + ' del precio actual';
   document.getElementById('c-liq').textContent = '$' + fmt(liqPrice, 0);
