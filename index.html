@@ -123,17 +123,18 @@ a { color: var(--orange); }
 .quick-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .quick-btn {
   background: transparent; color: var(--text2); border: 1px solid var(--border);
-  padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
-  transition: all 0.15s;
+  padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
+  transition: all 0.15s; min-height: 36px; min-width: 46px;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 .quick-btn:hover { border-color: var(--orange); color: var(--orange); }
 .quick-btn.active { background: var(--orange); color: #000; border-color: var(--orange); }
 .quick-btn.active-green  { background: #4ade80; color: #000; border-color: #4ade80; }
 .quick-btn.active-yellow { background: var(--yellow); color: #000; border-color: var(--yellow); }
 .quick-btn.active-red    { background: var(--red); color: #fff; border-color: var(--red); }
-.ltv-btn-conservador { border-color: #4ade80; color: #4ade80; }
-.ltv-btn-estandar    { border-color: var(--yellow); color: var(--yellow); }
-.ltv-btn-agresivo    { border-color: var(--red); color: var(--red); }
+.ltv-btn-conservador { border-color: #4ade80; color: #4ade80; min-width: 86px; }
+.ltv-btn-estandar    { border-color: var(--yellow); color: var(--yellow); min-width: 86px; }
+.ltv-btn-agresivo    { border-color: var(--red); color: var(--red); min-width: 86px; }
 .ltv-btn-conservador:hover, .ltv-btn-conservador.active-green  { background: #4ade80; color: #000; }
 .ltv-btn-estandar:hover,    .ltv-btn-estandar.active-yellow    { background: var(--yellow); color: #000; }
 .ltv-btn-agresivo:hover,    .ltv-btn-agresivo.active-red        { background: var(--red); color: #fff; }
@@ -167,11 +168,13 @@ a { color: var(--orange); }
 .umbral-group label.liq-label { color: var(--red); }
 .umbral-input {
   background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-  padding: 5px 8px; border-radius: 6px; font-size: 14px; font-weight: 700;
-  width: 60px; text-align: center;
+  padding: 7px 10px; border-radius: 6px; font-size: 17px; font-weight: 700;
+  width: 70px; text-align: center;
 }
 .umbral-input:focus { outline: none; border-color: var(--orange); }
-.umbral-unit { font-size: 12px; color: var(--text2); }
+.umbral-unit { font-size: 15px; font-weight: 700; color: var(--text2); }
+/* Adj buttons larger in umbral context */
+.umbral-section .slider-adj-btn { width: 34px; height: 34px; font-size: 18px; }
 
 /* PLAN C — Gauge LTV */
 .gauge-wrap { position: relative; width: 180px; height: 110px; margin: 0 auto; }
@@ -254,7 +257,7 @@ a { color: var(--orange); }
         <button id="btn-en" onclick="setLang('en')" style="background:transparent;color:var(--text2);border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">EN</button>
       </div>
       <div style="text-align:right">
-        <div class="btc-price" id="headerPrice">— USD</div>
+        <div class="btc-price" id="headerPrice">— U$S</div>
         <div class="price-status" id="headerPriceDate" data-i18n="sin-datos">Sin datos</div>
       </div>
     </div>
@@ -286,7 +289,7 @@ a { color: var(--orange); }
     <h3 data-i18n="a-params-title">⚙️ Parámetros DCA</h3>
     <div class="form-row">
       <div class="form-group">
-        <label data-i18n="a-amount-label">Monto por compra (USD)</label>
+        <label data-i18n="a-amount-label">Monto por Compra (U$S)</label>
         <input type="number" id="a-amount" value="100" min="1">
       </div>
       <div class="form-group">
@@ -299,11 +302,11 @@ a { color: var(--orange); }
         </select>
       </div>
       <div class="form-group">
-        <label data-i18n="a-start-label">Fecha inicio</label>
+        <label data-i18n="a-start-label">Fecha Inicio</label>
         <input type="date" id="a-start" value="2020-01-01">
       </div>
       <div class="form-group">
-        <label data-i18n="a-end-label">Fecha fin</label>
+        <label data-i18n="a-end-label">Fecha Fin</label>
         <input type="date" id="a-end">
       </div>
       <div class="form-group" style="justify-content:flex-end">
@@ -371,14 +374,14 @@ a { color: var(--orange); }
 
     <!-- Media móvil 90d -->
     <div class="card">
-      <h3 data-i18n="a-ma-title">📉 Análisis Media Móvil 90 días (ventana deslizante)</h3>
+      <h3 data-i18n="a-ma-title">📉 Análisis Media Móvil 90 Días (Ventana Deslizante)</h3>
       <div class="grid-4 mb-16" id="a-ma-stats"></div>
       <div class="chart-wrap"><canvas id="chartA_MA"></canvas></div>
     </div>
 
     <!-- Backtesting -->
     <div class="card">
-      <h3 data-i18n="a-backtest-title">🕐 Backtesting — Última Década (mismo monto y frecuencia, al día de hoy)</h3>
+      <h3 data-i18n="a-backtest-title">🕐 Backtesting — Última Década (Mismo Monto y Frecuencia, al Día de Hoy)</h3>
       <table class="tbl" id="a-backtest-table">
         <thead><tr>
           <th data-i18n="th-inicio">Inicio</th><th class="num" data-i18n="th-ciclos">Ciclos</th><th class="num" data-i18n="th-compras">Compras</th>
@@ -397,7 +400,7 @@ a { color: var(--orange); }
     <h3 data-i18n="b-params-title">⚙️ Parámetros DCA Re-compra</h3>
     <div class="form-row">
       <div class="form-group">
-        <label data-i18n="a-amount-label">Monto Por Compra (U$S)</label>
+        <label data-i18n="a-amount-label">Monto por Compra (U$S)</label>
         <input type="number" id="b-amount" value="100" min="1">
       </div>
       <div class="form-group">
@@ -422,7 +425,7 @@ a { color: var(--orange); }
         <input type="number" id="b-trigger" value="25" min="5" max="200">
       </div>
       <div class="form-group">
-        <label data-i18n="b-sellpct-label">Vender % Del Stack Al Trigger</label>
+        <label data-i18n="b-sellpct-label">Vender % del Stack al Trigger</label>
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
           <button onclick="setSellPct(5)" style="background:#4ade80;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">5%</button>
           <button onclick="setSellPct(8)" style="background:#facc15;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">8%</button>
@@ -454,7 +457,7 @@ a { color: var(--orange); }
       <div class="stat-box">
         <div class="label" data-i18n="a-invested-label">Total Invertido</div>
         <div class="value" id="b-invested">—</div>
-        <div class="sub">U$S bruto DCA0</div>
+        <div class="sub">U$S Bruto DCA0</div>
       </div>
       <div class="stat-box green">
         <div class="label" data-i18n="a-value-label">Valor Actual</div>
@@ -469,12 +472,12 @@ a { color: var(--orange); }
         <div class="stat-box" style="border-color:#4a9eff;background:rgba(74,158,255,0.07)">
           <div class="label" style="color:#4a9eff;font-size:13px;font-weight:600" data-i18n="tab-a">Plan A — DCA Fijo</div>
           <div class="value" id="b-vs-a-btc">—</div>
-          <div class="sub" data-i18n="b-btc-acum">BTC acumulado</div>
+          <div class="sub" data-i18n="b-btc-acum">BTC Acumulado</div>
         </div>
         <div class="stat-box" style="border-color:#f7931a;background:rgba(247,147,26,0.07)">
           <div class="label" style="color:#f7931a;font-size:13px;font-weight:600" data-i18n="b-recompra-label">Plan B — Re-compra</div>
           <div class="value" id="b-vs-b-btc">—</div>
-          <div class="sub" data-i18n="b-btc-acum">BTC acumulado</div>
+          <div class="sub" data-i18n="b-btc-acum">BTC Acumulado</div>
         </div>
         <div class="stat-box green">
           <div class="label" data-i18n="b-diferencia">Diferencia</div>
@@ -497,7 +500,7 @@ a { color: var(--orange); }
     </div>
 
     <div class="card">
-      <h3 data-i18n="b-historial-title">🔄 Historial De Triggers</h3>
+      <h3 data-i18n="b-historial-title">🔄 Historial de Triggers</h3>
       <table class="tbl">
         <thead><tr>
           <th>#</th><th data-i18n="th-fecha">Fecha</th><th class="num" data-i18n="th-precio-btc">Precio BTC</th>
@@ -539,7 +542,7 @@ a { color: var(--orange); }
           <div style="display:flex;flex-direction:column;gap:2px;">
             <span style="font-size:10px;color:var(--text2);">Manual</span>
             <input type="number" id="c-btc" value="1" step="0.00000001" min="0.00000001"
-              style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:90px;"
+              style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;width:90px;min-height:36px;box-sizing:border-box;"
               oninput="highlightCBTCBtn(this.value)">
           </div>
         </div>
@@ -560,7 +563,7 @@ a { color: var(--orange); }
             <span style="font-size:10px;color:var(--text2);">Manual</span>
             <div style="display:flex;align-items:center;gap:4px;">
               <input type="number" id="c-ltv" value="50" min="10" max="90"
-                style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:65px;"
+                style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;width:65px;min-height:36px;box-sizing:border-box;"
                 oninput="highlightCLTVBtn(this.value)">
               <span style="font-size:13px;color:var(--text2);">%</span>
             </div>
@@ -585,7 +588,7 @@ a { color: var(--orange); }
             <span style="font-size:10px;color:var(--text2);">Manual</span>
             <div style="display:flex;align-items:center;gap:4px;">
               <input type="number" id="c-months" value="12" min="1" max="60"
-                style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:65px;"
+                style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;width:65px;min-height:36px;box-sizing:border-box;"
                 oninput="highlightCMonthsBtn(this.value)">
               <span style="font-size:13px;color:var(--text2);">meses</span>
             </div>
@@ -662,9 +665,9 @@ a { color: var(--orange); }
         <div style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.04em;margin-bottom:14px;">Umbral de Pérdida</div>
 
         <!-- Margin Call -->
-        <div class="c-param-section" style="margin-bottom:20px;">
-          <label style="display:block;margin-bottom:8px;font-size:12px;font-weight:600;color:var(--orange);">Margin Call</label>
-          <div style="display:flex;align-items:center;gap:8px;">
+        <div class="c-param-section umbral-section" style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--orange);">Margin Call</label>
+          <div style="display:flex;align-items:center;gap:10px;">
             <button class="slider-adj-btn" onclick="adjUmbral('c-mc',-1,50,95)">−</button>
             <input type="number" id="c-mc" class="umbral-input" value="80" min="50" max="95">
             <button class="slider-adj-btn" onclick="adjUmbral('c-mc',1,50,95)">+</button>
@@ -673,9 +676,9 @@ a { color: var(--orange); }
         </div>
 
         <!-- Liquidación -->
-        <div class="c-param-section">
-          <label style="display:block;margin-bottom:8px;font-size:12px;font-weight:600;color:var(--red);">Liquidación</label>
-          <div style="display:flex;align-items:center;gap:8px;">
+        <div class="c-param-section umbral-section">
+          <label style="display:block;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--red);">Liquidación</label>
+          <div style="display:flex;align-items:center;gap:10px;">
             <button class="slider-adj-btn" onclick="adjUmbral('c-liq-thr',-1,60,99)">−</button>
             <input type="number" id="c-liq-thr" class="umbral-input" value="90" min="60" max="99">
             <button class="slider-adj-btn" onclick="adjUmbral('c-liq-thr',1,60,99)">+</button>
@@ -718,7 +721,7 @@ a { color: var(--orange); }
             </svg>
             <div class="gauge-value">
               <div class="big" id="c-gauge-pct">—</div>
-              <div class="small">LTV actual</div>
+              <div class="small">LTV Actual</div>
             </div>
           </div>
           <div style="margin-top:10px;font-size:11px;color:var(--text2);">
@@ -771,25 +774,53 @@ a { color: var(--orange); }
         💡 Usa el préstamo para comprar más BTC y añadirlo como colateral, reduciendo el LTV.
       </div>
 
-      <!-- BTC reinvertido / total -->
-      <div class="grid-3 mb-16">
-        <div class="stat-box">
-          <div class="label" data-i18n="c-btc-original-label">BTC Original</div>
-          <div class="value" id="c-btc-original">—</div>
+      <!-- Sliders: Fee de Swap | Slippage / Volatilidad -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;">
+        <div class="c-param-section" style="margin-bottom:0;">
+          <div class="c-param-label">Fee de Swap</div>
+          <div class="slider-row">
+            <input type="range" id="c-loop-feeswap-slider" min="0" max="2" step="0.1" value="0.5"
+              oninput="syncLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display')">
+            <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display',-0.1)">−</button>
+            <span class="slider-display" id="c-loop-feeswap-display">0,5</span>
+            <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display',0.1)">+</button>
+            <span style="font-size:12px;color:var(--text2);">%</span>
+          </div>
+          <input type="hidden" id="c-loop-feeswap" value="0.5">
         </div>
-        <div class="stat-box" style="border:1px solid var(--blue);">
-          <div class="label" data-i18n="c-btc-reinvest-label">BTC Reinvertido</div>
-          <div class="value" style="color:var(--blue);" id="c-btc-reinvest">—</div>
-        </div>
-        <div class="stat-box green">
-          <div class="label" data-i18n="c-btc-total-label">BTC Total Stack</div>
-          <div class="value" id="c-btc-total">—</div>
-          <div class="sub" id="c-btc-gain">+— BTC extra</div>
+        <div class="c-param-section" style="margin-bottom:0;">
+          <div class="c-param-label">Slippage / Volatilidad</div>
+          <div class="slider-row">
+            <input type="range" id="c-loop-slippage-slider" min="0" max="2" step="0.5" value="0.5"
+              oninput="syncLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display')">
+            <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display',-0.5)">−</button>
+            <span class="slider-display" id="c-loop-slippage-display">0,5</span>
+            <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display',0.5)">+</button>
+            <span style="font-size:12px;color:var(--text2);">%</span>
+          </div>
+          <input type="hidden" id="c-loop-slippage" value="0.5">
         </div>
       </div>
 
-      <!-- LTV antes → después -->
-      <div class="ltv-arrow-row">
+      <!-- Crecimiento Esperado BTC + precio futuro -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div class="c-param-label" style="margin:0;">Crecimiento Esperado BTC</div>
+        <div style="font-size:13px;color:var(--orange);font-weight:700;" id="c-loop-growth-target">—</div>
+      </div>
+      <div class="quick-btns" id="c-loop-growth-btns" style="margin-bottom:16px;">
+        <button class="quick-btn" onclick="setCLoopGrowth(10)">+10%</button>
+        <button class="quick-btn" onclick="setCLoopGrowth(20)">+20%</button>
+        <button class="quick-btn" onclick="setCLoopGrowth(30)">+30%</button>
+        <button class="quick-btn" onclick="setCLoopGrowth(40)">+40%</button>
+        <button class="quick-btn active" onclick="setCLoopGrowth(50)">+50%</button>
+        <button class="quick-btn" onclick="setCLoopGrowth(75)">+75%</button>
+        <button class="quick-btn" onclick="setCLoopGrowth(100)">+100%</button>
+        <button class="quick-btn" onclick="setCLoopGrowth(150)">+150%</button>
+        <button class="quick-btn" onclick="setCLoopGrowth(200)">+200%</button>
+      </div>
+
+      <!-- LTV Antes → Después (full width card) -->
+      <div class="ltv-arrow-row" style="margin-bottom:12px;">
         <div class="ltv-arrow-val">
           <div class="lav-label">LTV Antes</div>
           <div class="lav-num" style="color:var(--orange);" id="c-loop-ltv-before">—</div>
@@ -802,8 +833,21 @@ a { color: var(--orange); }
         <div class="ltv-delta-badge" id="c-loop-ltv-delta">—</div>
       </div>
 
-      <!-- Nuevos Margin Call / Liq con loop -->
-      <div class="loop-grid">
+      <!-- BTC Recomprado | Colateral Final Total -->
+      <div class="loop-grid" style="margin-bottom:12px;">
+        <div class="stat-box" style="border:1px solid var(--blue);">
+          <div class="label">BTC Recomprado</div>
+          <div class="value" style="color:var(--blue);" id="c-loop-btc-recomprado">—</div>
+          <div class="sub">Neto de Fees + Slippage</div>
+        </div>
+        <div class="stat-box green">
+          <div class="label">Colateral Final Total</div>
+          <div class="value" id="c-loop-colateral-final">—</div>
+        </div>
+      </div>
+
+      <!-- Nuevo Precio MC | Nueva Liq -->
+      <div class="loop-grid" style="margin-bottom:12px;">
         <div class="result-card rc-yellow">
           <div class="rc-label">Nuevo Precio Margin Call</div>
           <div class="rc-value" id="c-loop-mc">—</div>
@@ -816,83 +860,34 @@ a { color: var(--orange); }
         </div>
       </div>
 
-      <!-- Sección F: Sliders Loop + Crecimiento -->
-      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:16px;">
-        <div class="c-param-label" style="margin-bottom:12px;">Parámetros de Ejecución del Swap</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;">
-          <div class="c-param-section" style="margin-bottom:0;">
-            <div class="c-param-label">Fee Swap</div>
-            <div class="slider-row">
-              <input type="range" id="c-loop-feeswap-slider" min="0" max="2" step="0.1" value="0.5"
-                oninput="syncLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display')">
-              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display',-0.1)">−</button>
-              <span class="slider-display" id="c-loop-feeswap-display">0,5</span>
-              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-feeswap','c-loop-feeswap-slider','c-loop-feeswap-display',0.1)">+</button>
-              <span style="font-size:12px;color:var(--text2);">%</span>
-            </div>
-            <input type="hidden" id="c-loop-feeswap" value="0.5">
-          </div>
-          <div class="c-param-section" style="margin-bottom:0;">
-            <div class="c-param-label">Slippage</div>
-            <div class="slider-row">
-              <input type="range" id="c-loop-slippage-slider" min="0" max="2" step="0.5" value="0.5"
-                oninput="syncLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display')">
-              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display',-0.5)">−</button>
-              <span class="slider-display" id="c-loop-slippage-display">0,5</span>
-              <button class="slider-adj-btn" onclick="adjLoopSlider('c-loop-slippage','c-loop-slippage-slider','c-loop-slippage-display',0.5)">+</button>
-              <span style="font-size:12px;color:var(--text2);">%</span>
-            </div>
-            <input type="hidden" id="c-loop-slippage" value="0.5">
-          </div>
+      <!-- Beneficio Esperado | Beneficio en BTC -->
+      <div class="loop-grid" style="margin-bottom:12px;">
+        <div class="stat-box green">
+          <div class="label">Beneficio Esperado</div>
+          <div class="value" id="c-loop-benefit-usd">—</div>
         </div>
-        <div class="c-param-label" style="margin-bottom:8px;">Crecimiento esperado BTC</div>
-        <div class="quick-btns" id="c-loop-growth-btns">
-          <button class="quick-btn" onclick="setCLoopGrowth(10)">+10%</button>
-          <button class="quick-btn" onclick="setCLoopGrowth(20)">+20%</button>
-          <button class="quick-btn" onclick="setCLoopGrowth(30)">+30%</button>
-          <button class="quick-btn active" onclick="setCLoopGrowth(50)">+50%</button>
-          <button class="quick-btn" onclick="setCLoopGrowth(75)">+75%</button>
-          <button class="quick-btn" onclick="setCLoopGrowth(100)">+100%</button>
-          <button class="quick-btn" onclick="setCLoopGrowth(150)">+150%</button>
-          <button class="quick-btn" onclick="setCLoopGrowth(200)">+200%</button>
-        </div>
-        <div style="margin-top:14px;" id="c-loop-sim-results">
-          <div class="grid-4">
-            <div class="stat-box">
-              <div class="label">Precio Futuro</div>
-              <div class="value" id="c-loop-precio-futuro" style="color:var(--orange);">—</div>
-            </div>
-            <div class="stat-box" style="border:1px solid var(--blue);">
-              <div class="label">BTC Recomprado</div>
-              <div class="value" id="c-loop-btc-recomprado" style="color:var(--blue);">—</div>
-              <div class="sub">neto de fees+slippage</div>
-            </div>
-            <div class="stat-box green">
-              <div class="label">Colateral Final</div>
-              <div class="value" id="c-loop-colateral-final">—</div>
-            </div>
-            <div class="stat-box">
-              <div class="label">LTV Después</div>
-              <div class="value" id="c-loop-ltv-futuro">—</div>
-            </div>
-          </div>
-          <div class="grid-3" style="margin-top:12px;">
-            <div class="stat-box green">
-              <div class="label">Beneficio USD</div>
-              <div class="value" id="c-loop-benefit-usd">—</div>
-            </div>
-            <div class="stat-box green">
-              <div class="label">Beneficio BTC</div>
-              <div class="value" id="c-loop-benefit-btc">—</div>
-            </div>
-            <div class="stat-box">
-              <div class="label">Rendimiento</div>
-              <div class="value" id="c-loop-rendimiento">—</div>
-              <div class="sub">sobre colateral inicial</div>
-            </div>
-          </div>
+        <div class="stat-box green">
+          <div class="label">Beneficio en BTC</div>
+          <div class="value" id="c-loop-benefit-btc">—</div>
         </div>
       </div>
+
+      <!-- Rendimiento | BTC Total Final -->
+      <div class="loop-grid">
+        <div class="stat-box">
+          <div class="label">Rendimiento</div>
+          <div class="value" id="c-loop-rendimiento">—</div>
+          <div class="sub">Sobre Colateral Inicial</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">BTC Total Final</div>
+          <div class="value" id="c-loop-btc-total-final" style="color:var(--green);">—</div>
+          <div class="sub">Descontando Repago</div>
+        </div>
+      </div>
+
+      <!-- precio futuro (hidden, para compatibilidad) -->
+      <span id="c-loop-precio-futuro" style="display:none;">—</span>
     </div>
 
     <!-- Beneficio esperado -->
@@ -901,7 +896,7 @@ a { color: var(--orange); }
 
       <!-- Botones % crecimiento BTC -->
       <div style="margin-bottom:14px;">
-        <div class="c-param-label">Revalorización BTC esperada en el plazo del préstamo</div>
+        <div class="c-param-label">Revalorización BTC Esperada en el Plazo del Préstamo</div>
         <div class="quick-btns" id="c-growth-btns" style="margin-top:8px;">
           <button class="quick-btn" onclick="setCGrowth(10)">+10%</button>
           <button class="quick-btn" onclick="setCGrowth(20)">+20%</button>
@@ -913,14 +908,14 @@ a { color: var(--orange); }
           <button class="quick-btn" onclick="setCGrowth(150)">+150%</button>
           <button class="quick-btn" onclick="setCGrowth(200)">+200%</button>
         </div>
-        <div style="margin-top:6px;font-size:12px;color:var(--text2);">BTC objetivo: <span id="c-growth-target-price" style="color:var(--orange);font-weight:700;">—</span></div>
+        <div style="margin-top:6px;font-size:12px;color:var(--text2);">BTC Objetivo: <span id="c-growth-target-price" style="color:var(--orange);font-weight:700;">—</span></div>
       </div>
 
       <div class="grid-4 mb-16">
         <div class="stat-box green">
           <div class="label">Beneficio Esperado</div>
           <div class="value" id="c-benefit-usd">—</div>
-          <div class="sub">USD</div>
+          <div class="sub">U$S</div>
         </div>
         <div class="stat-box green">
           <div class="label">Beneficio en BTC</div>
@@ -930,7 +925,7 @@ a { color: var(--orange); }
         <div class="stat-box">
           <div class="label">Rendimiento</div>
           <div class="value" id="c-rendimiento">—</div>
-          <div class="sub">sobre colateral inicial</div>
+          <div class="sub">Sobre Colateral Inicial</div>
         </div>
         <div class="stat-box" style="border:1px solid var(--orange);">
           <div class="label" data-i18n="c-btc-total-label">BTC Total Final</div>
@@ -964,7 +959,7 @@ a { color: var(--orange); }
     <!-- D: Top-up Colateral -->
     <div class="card">
       <h3>🔧 Top-up Colateral</h3>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">BTC adicional para recuperar un LTV objetivo seguro</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">BTC Adicional para Recuperar un LTV Objetivo Seguro</div>
       <div style="margin-bottom:16px;">
         <div class="c-param-label">LTV Objetivo: <span id="c-topup-ltv-target-display" style="color:var(--orange);font-weight:700;">50%</span></div>
         <input type="range" id="c-topup-ltv-target" min="10" max="80" step="1" value="50"
@@ -985,7 +980,7 @@ a { color: var(--orange); }
         <div class="stat-box">
           <div class="label">LTV Objetivo</div>
           <div class="value" id="c-topup-ltv-target-show" style="color:var(--yellow);">50%</div>
-          <div class="sub">estándar</div>
+          <div class="sub">Estándar</div>
         </div>
       </div>
     </div>
@@ -1021,7 +1016,7 @@ a { color: var(--orange); }
           <div class="stat-box" id="c-sim-ltv-box">
             <div class="label">LTV Simulado</div>
             <div class="value" id="c-sim-ltv">—</div>
-            <div class="sub">con BTC total</div>
+            <div class="sub">con BTC Total</div>
           </div>
           <div class="stat-box yellow">
             <div class="label">Distancia a MC</div>
@@ -1035,13 +1030,13 @@ a { color: var(--orange); }
           </div>
         </div>
       </div>
-      <div id="c-sim-empty" style="color:var(--text2);font-size:13px;text-align:center;padding:20px;">Ingresá un precio para simular</div>
+      <div id="c-sim-empty" style="color:var(--text2);font-size:13px;text-align:center;padding:20px;">Ingresá un Precio para Simular</div>
     </div>
 
     <!-- G: Distancia a Liquidación — Barras -->
     <div class="card">
       <h3>📊 Distancia a Eventos de Riesgo<span id="c-dist-status-badge" style="display:none;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-left:8px;"></span></h3>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">% de caída del precio necesaria para alcanzar cada umbral</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">% de Caída del Precio Necesaria para Alcanzar Cada Umbral</div>
       <div class="dist-bar-wrap">
         <div class="dist-bar-header">
           <span style="color:var(--orange);font-weight:600;">⚠ Margin Call</span>
@@ -1051,7 +1046,7 @@ a { color: var(--orange); }
           <div class="dist-bar-inner" id="c-bar-mc-fill" style="background:var(--yellow);height:100%;width:0%;"></div>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:3px;">
-          <span>Precio actual</span>
+          <span>Precio Actual</span>
           <span id="c-bar-mc-price">MC: —</span>
         </div>
       </div>
@@ -1064,7 +1059,7 @@ a { color: var(--orange); }
           <div class="dist-bar-inner" id="c-bar-liq-fill" style="background:var(--red);height:100%;width:0%;"></div>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:3px;">
-          <span>Precio actual</span>
+          <span>Precio Actual</span>
           <span id="c-bar-liq-price">Liq: —</span>
         </div>
       </div>
@@ -1082,7 +1077,7 @@ a { color: var(--orange); }
         <div class="stat-box">
           <div class="label">Precio Actual</div>
           <div class="value" id="c-dist-current-price">—</div>
-          <div class="sub">hoy</div>
+          <div class="sub">Hoy</div>
         </div>
       </div>
     </div>
@@ -1117,7 +1112,7 @@ a { color: var(--orange); }
       <!-- Botones revalorización para tabla -->
       <div style="margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <span style="font-size:12px;color:var(--text2);">Revalorización BTC esperada en el plazo del préstamo:</span>
+          <span style="font-size:12px;color:var(--text2);">Revalorización BTC Esperada en el Plazo del Préstamo:</span>
           <div class="quick-btns" id="c-table-growth-btns">
             <button class="quick-btn" onclick="setCTableGrowth(10)">+10%</button>
             <button class="quick-btn" onclick="setCTableGrowth(20)">+20%</button>
@@ -1129,7 +1124,7 @@ a { color: var(--orange); }
             <button class="quick-btn" onclick="setCTableGrowth(150)">+150%</button>
             <button class="quick-btn" onclick="setCTableGrowth(200)">+200%</button>
           </div>
-          <span style="font-size:12px;color:var(--orange);font-weight:700;">BTC objetivo: <span id="c-table-target-price">—</span></span>
+          <span style="font-size:12px;color:var(--orange);font-weight:700;">BTC Objetivo: <span id="c-table-target-price">—</span></span>
         </div>
       </div>
 
@@ -1164,11 +1159,11 @@ a { color: var(--orange); }
         </select>
       </div>
       <div class="form-group">
-        <label data-i18n="c-price-label">Precio BTC (USD)</label>
+        <label data-i18n="c-price-label">Precio BTC (U$S)</label>
         <input type="number" id="d-price" placeholder="Ej: 95000">
       </div>
       <div class="form-group">
-        <label data-i18n="d-monto-usd-label">Monto USD</label>
+        <label data-i18n="d-monto-usd-label">Monto U$S</label>
         <input type="number" id="d-amount" value="100">
       </div>
       <div class="form-group">
@@ -1194,7 +1189,7 @@ a { color: var(--orange); }
     <h3 data-i18n="d-backtest-title">🤖 Backtesting T3-CCI — BTCUSDT Diario</h3>
     <div class="form-row">
       <div class="form-group">
-        <label data-i18n="d-monto-op-label">Monto por operación (USD)</label>
+        <label data-i18n="d-monto-op-label">Monto por Operación (U$S)</label>
         <input type="number" id="d-bt-amount" value="1000" min="1">
       </div>
       <div class="form-group">
@@ -1253,7 +1248,7 @@ a { color: var(--orange); }
         <thead><tr>
           <th data-i18n="d-tipo-label">Tipo</th><th data-i18n="d-fecha-entrada">Fecha Entrada</th><th class="num" data-i18n="d-precio-entrada">Precio Entrada</th>
           <th data-i18n="d-fecha-salida">Fecha Salida</th><th class="num" data-i18n="d-precio-salida">Precio Salida</th>
-          <th class="num">BTC</th><th class="num">P&L USD</th><th class="num">P&L %</th><th class="num" data-i18n="d-capital-acum">Capital Acum.</th>
+          <th class="num">BTC</th><th class="num">P&L U$S</th><th class="num">P&L %</th><th class="num" data-i18n="d-capital-acum">Capital Acum.</th>
         </tr></thead>
         <tbody id="d-bt-body"></tbody>
       </table>
@@ -1272,7 +1267,7 @@ a { color: var(--orange); }
         <div class="value" id="d-btc">0</div>
       </div>
       <div class="stat-box">
-        <div class="label" data-i18n="d-usd-invertido">USD Invertido Neto</div>
+        <div class="label" data-i18n="d-usd-invertido">U$S Invertido Neto</div>
         <div class="value" id="d-invested">0</div>
       </div>
       <div class="stat-box green">
@@ -1292,8 +1287,8 @@ a { color: var(--orange); }
       <table class="tbl">
         <thead><tr>
           <th data-i18n="th-fecha">Fecha</th><th data-i18n="d-tipo-label">Tipo</th><th class="num" data-i18n="th-precio-btc">Precio</th>
-          <th class="num" data-i18n="d-monto-usd-label">Monto USD</th><th class="num">BTC</th>
-          <th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="d-pnl-acum">P&L acum.</th><th data-i18n="d-nota-label">Nota</th>
+          <th class="num" data-i18n="d-monto-usd-label">Monto U$S</th><th class="num">BTC</th>
+          <th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="d-pnl-acum">P&L Acum.</th><th data-i18n="d-nota-label">Nota</th>
           <th></th>
         </tr></thead>
         <tbody id="d-signals-body"></tbody>
@@ -1308,19 +1303,19 @@ a { color: var(--orange); }
     <h3 data-i18n="dash-calc-title">🎯 Calculadora de Independencia Financiera</h3>
     <div class="form-row">
       <div class="form-group">
-        <label data-i18n="dash-btc-hoy-label">BTC que tenés hoy</label>
+        <label data-i18n="dash-btc-hoy-label">BTC que Tenés Hoy</label>
         <input type="number" id="dash-btc" value="0.1" step="0.001" min="0">
       </div>
       <div class="form-group">
-        <label data-i18n="dash-monthly-label">Inversión mensual (USD)</label>
+        <label data-i18n="dash-monthly-label">Inversión Mensual (U$S)</label>
         <input type="number" id="dash-monthly" value="500" min="0">
       </div>
       <div class="form-group">
-        <label data-i18n="dash-expenses-label">Gastos mensuales para vivir (USD)</label>
+        <label data-i18n="dash-expenses-label">Gastos Mensuales para Vivir (U$S)</label>
         <input type="number" id="dash-expenses" value="2000" min="0">
       </div>
       <div class="form-group">
-        <label data-i18n="dash-drawdown-label">% del stack a usar por año</label>
+        <label data-i18n="dash-drawdown-label">% del Stack a Usar por Año</label>
         <input type="number" id="dash-drawdown" value="5" min="1" max="20" step="0.5">
       </div>
       <div class="form-group" style="justify-content:flex-end">
@@ -1332,30 +1327,30 @@ a { color: var(--orange); }
   <div id="dash-results" style="display:none">
     <div class="grid-4 mb-16">
       <div class="stat-box blue">
-        <div class="label" data-i18n="dash-btc-needed-label">BTC necesario para vivir</div>
+        <div class="label" data-i18n="dash-btc-needed-label">BTC Necesario para Vivir</div>
         <div class="value" id="dash-btc-needed">—</div>
-        <div class="sub" data-i18n="dash-al-precio-actual">al precio actual</div>
+        <div class="sub" data-i18n="dash-al-precio-actual">al Precio Actual</div>
       </div>
       <div class="stat-box">
-        <div class="label" data-i18n="dash-btc-actual-label">BTC actual</div>
+        <div class="label" data-i18n="dash-btc-actual-label">BTC Actual</div>
         <div class="value" id="dash-btc-now">—</div>
-        <div class="sub" id="dash-btc-pct-now">— del objetivo</div>
+        <div class="sub" id="dash-btc-pct-now">— del Objetivo</div>
       </div>
       <div class="stat-box green">
-        <div class="label" data-i18n="dash-anos-estimados-label">Años estimados (solo DCA)</div>
+        <div class="label" data-i18n="dash-anos-estimados-label">Años Estimados (Solo DCA)</div>
         <div class="value" id="dash-years">—</div>
-        <div class="sub" data-i18n="dash-acumulando">acumulando mensualmente</div>
+        <div class="sub" data-i18n="dash-acumulando">Acumulando Mensualmente</div>
       </div>
       <div class="stat-box">
-        <div class="label" data-i18n="dash-portfolio-label">Valor portfolio actual</div>
+        <div class="label" data-i18n="dash-portfolio-label">Valor Portfolio Actual</div>
         <div class="value" id="dash-portfolio">—</div>
-        <div class="sub">USD</div>
+        <div class="sub">U$S</div>
       </div>
     </div>
 
     <!-- Resumen planes -->
     <div class="card">
-      <h3 data-i18n="dash-resumen-title">📊 Resumen de todos los planes (últimos cálculos)</h3>
+      <h3 data-i18n="dash-resumen-title">📊 Resumen de Todos los Planes (Últimos Cálculos)</h3>
       <table class="tbl">
         <thead><tr>
           <th>Plan</th><th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="a-avgprice-label">Precio Promedio</th>
@@ -1377,7 +1372,7 @@ a { color: var(--orange); }
       <table class="tbl">
         <thead><tr>
           <th data-i18n="dash-ano">Año</th><th class="num" data-i18n="a-btc-label">BTC Acumulado</th><th class="num" data-i18n="dash-valor-precio-actual">Valor (precio actual)</th>
-          <th class="num" data-i18n="dash-pct-objetivo">% del objetivo</th><th data-i18n="dash-estado">Estado</th>
+          <th class="num" data-i18n="dash-pct-objetivo">% del Objetivo</th><th data-i18n="dash-estado">Estado</th>
         </tr></thead>
         <tbody id="dash-projection-body"></tbody>
       </table>
@@ -1455,36 +1450,36 @@ const TEXTS = {
     'th-dca-creado': 'DCA Creado',
     // Plan A
     'a-params-title': '⚙️ Parámetros DCA',
-    'a-amount-label': 'Monto por compra (USD)',
+    'a-amount-label': 'Monto por Compra (U$S)',
     'a-freq-label': 'Frecuencia',
-    'a-start-label': 'Fecha inicio',
-    'a-end-label': 'Fecha fin',
+    'a-start-label': 'Fecha Inicio',
+    'a-end-label': 'Fecha Fin',
     'a-btc-label': 'BTC Acumulado',
     'a-avgprice-label': 'Precio Promedio Compra',
     'a-invested-label': 'Total Invertido',
     'a-value-label': 'Valor Actual',
     'a-chart-title': '📈 Evolución del Portfolio',
     'a-freq-title': '📊 Comparativa de Frecuencias',
-    'a-ma-title': '📉 Análisis Media Móvil 90 días (ventana deslizante)',
-    'a-backtest-title': '🕐 Backtesting — Última Década (mismo monto y frecuencia, al día de hoy)',
+    'a-ma-title': '📉 Análisis Media Móvil 90 Días (Ventana Deslizante)',
+    'a-backtest-title': '🕐 Backtesting — Última Década (Mismo Monto y Frecuencia, al Día de Hoy)',
     'sema-title': '🚦 Semáforo — Precio Actual vs Promedio de Compra por Ventanas de Tiempo',
     'sema-above': 'Mayor a 0: precio por debajo del valor',
     'sema-below': 'Menor a 0: precio por arriba del valor',
     // Plan B
     'b-params-title': '⚙️ Parámetros DCA Re-compra',
     'b-trigger-label': 'Trigger: Precio Sube X% Sobre MA90',
-    'b-sellpct-label': 'Vender % Del Stack Al Trigger',
+    'b-sellpct-label': 'Vender % del Stack al Trigger',
     'b-btc-label': 'BTC Final',
-    'b-btc-acum': 'BTC acumulado',
+    'b-btc-acum': 'BTC Acumulado',
     'b-recompra-label': 'Plan B — Re-compra',
     'b-vs-title': '📊 Plan A vs Plan B — Comparativa',
     'b-diferencia': 'Diferencia',
     'b-dca-activos': '📂 DCA Activos',
-    'b-historial-title': '🔄 Historial De Triggers',
+    'b-historial-title': '🔄 Historial de Triggers',
     // Plan C
     'c-params-title': '⚙️ Parámetros del Préstamo Colateral',
     'c-btc-colateral-label': 'BTC en Colateral',
-    'c-price-label': 'Precio BTC (USD)',
+    'c-price-label': 'Precio BTC (U$S)',
     'c-ltv-label': 'LTV Inicial (%)',
     'c-apr-label': 'APR (%)',
     'c-months-label': 'Meses',
@@ -1515,12 +1510,12 @@ const TEXTS = {
     'd-tipo-label': 'Tipo',
     'd-compra': 'COMPRA',
     'd-venta': 'VENTA',
-    'd-monto-usd-label': 'Monto USD',
+    'd-monto-usd-label': 'Monto U$S',
     'd-nota-label': 'Nota (opcional)',
     'd-agregar': '+ Agregar',
     'd-limpiar-senales': '🗑 Limpiar señales',
     'd-backtest-title': '🤖 Backtesting T3-CCI — BTCUSDT Diario',
-    'd-monto-op-label': 'Monto por operación (USD)',
+    'd-monto-op-label': 'Monto por Operación (U$S)',
     'd-anos-atras-label': 'Años hacia atrás',
     'd-2anos': '2 años',
     'd-4anos': '4 años',
@@ -1539,29 +1534,29 @@ const TEXTS = {
     'd-capital-acum': 'Capital Acum.',
     'd-senales-reg': 'Señales Registradas',
     'd-btc-cartera': 'BTC en Cartera',
-    'd-usd-invertido': 'USD Invertido Neto',
+    'd-usd-invertido': 'U$S Invertido Neto',
     'd-pnl-label': 'P&L Realizado + No Realizado',
     'd-equity-title': '📈 Curva de Equity',
     'd-historial-senales-title': '📋 Historial de Señales',
-    'd-pnl-acum': 'P&L acum.',
+    'd-pnl-acum': 'P&L Acum.',
     // Dashboard
     'dash-calc-title': '🎯 Calculadora de Independencia Financiera',
-    'dash-btc-hoy-label': 'BTC que tenés hoy',
-    'dash-monthly-label': 'Inversión mensual (USD)',
-    'dash-expenses-label': 'Gastos mensuales para vivir (USD)',
-    'dash-drawdown-label': '% del stack a usar por año',
-    'dash-btc-needed-label': 'BTC necesario para vivir',
-    'dash-al-precio-actual': 'al precio actual',
-    'dash-btc-actual-label': 'BTC actual',
-    'dash-anos-estimados-label': 'Años estimados (solo DCA)',
-    'dash-acumulando': 'acumulando mensualmente',
-    'dash-portfolio-label': 'Valor portfolio actual',
-    'dash-resumen-title': '📊 Resumen de todos los planes (últimos cálculos)',
+    'dash-btc-hoy-label': 'BTC que Tenés Hoy',
+    'dash-monthly-label': 'Inversión Mensual (U$S)',
+    'dash-expenses-label': 'Gastos Mensuales para Vivir (U$S)',
+    'dash-drawdown-label': '% del Stack a Usar por Año',
+    'dash-btc-needed-label': 'BTC Necesario para Vivir',
+    'dash-al-precio-actual': 'al Precio Actual',
+    'dash-btc-actual-label': 'BTC Actual',
+    'dash-anos-estimados-label': 'Años Estimados (Solo DCA)',
+    'dash-acumulando': 'Acumulando Mensualmente',
+    'dash-portfolio-label': 'Valor Portfolio Actual',
+    'dash-resumen-title': '📊 Resumen de Todos los Planes (Últimos Cálculos)',
     'dash-proyeccion-title': '📈 Proyección DCA a Futuro',
     'dash-tabla-title': '📋 Tabla de Proyección Anual',
     'dash-ano': 'Año',
     'dash-valor-precio-actual': 'Valor (precio actual)',
-    'dash-pct-objetivo': '% del objetivo',
+    'dash-pct-objetivo': '% del Objetivo',
     'dash-estado': 'Estado',
   },
   en: {
@@ -1920,7 +1915,7 @@ function clearCache() {
   document.getElementById('dataStatus').className = 'data-badge warn';
   document.getElementById('dataStatus').textContent = 'Sin cargar';
   document.getElementById('dataRange').textContent = '';
-  document.getElementById('headerPrice').textContent = '— USD';
+  document.getElementById('headerPrice').textContent = '— U$S';
   document.getElementById('headerPriceDate').textContent = 'Sin datos';
   alert('Caché limpiada. Presioná "Cargar precios" para volver a bajar los datos.');
 }
@@ -2075,7 +2070,7 @@ function renderChartA(equity) {
           borderColor: '#4a9eff', backgroundColor: 'transparent', pointRadius: 0, tension: 0.3 }
       ]
     },
-    options: chartOpts('USD')
+    options: chartOpts('U$S')
   });
 }
 
@@ -2241,7 +2236,7 @@ function renderMA90(purchases, equity) {
           borderColor: '#4a9eff', pointRadius: 0, tension: 0.3, fill: false }
       ]
     },
-    options: chartOpts('USD')
+    options: chartOpts('U$S')
   });
 }
 
@@ -2712,32 +2707,6 @@ function runPlanC() {
   const el_liqt = document.getElementById('c-liq-title');
   if (el_liqt) el_liqt.textContent = `Precio Liquidación (${liqPct}% LTV)`;
 
-  // --- Loop strategy ---
-  document.getElementById('c-btc-original').textContent = fmtBTC(btcAmount);
-  document.getElementById('c-btc-reinvest').textContent = fmtBTC(btcReinvested);
-  document.getElementById('c-btc-total').textContent = fmtBTC(btcTotal);
-  document.getElementById('c-btc-gain').textContent = '+' + btcReinvested.toFixed(6) + ' BTC extra';
-  const ltvAfter = repay / (btcTotal * priceInput) * 100;
-  const ltvDelta = ltvAfter - gaugePct;
-  document.getElementById('c-loop-ltv-before').textContent = gaugePct.toFixed(1) + '%';
-  document.getElementById('c-loop-ltv-after').textContent = ltvAfter.toFixed(1) + '%';
-  const deltaBadge = document.getElementById('c-loop-ltv-delta');
-  if (deltaBadge) {
-    deltaBadge.textContent = (ltvDelta >= 0 ? '+' : '') + ltvDelta.toFixed(1) + '%';
-    deltaBadge.style.borderColor = ltvDelta < 0 ? 'var(--green)' : 'var(--red)';
-    deltaBadge.style.color = ltvDelta < 0 ? 'var(--green)' : 'var(--red)';
-    deltaBadge.style.background = ltvDelta < 0 ? '#0a2a0a' : '#2a0a0a';
-  }
-  // New MC/Liq with loop (using btcTotal as collateral)
-  const newMC = (repay / btcTotal) / (mcPct / 100);
-  const newLiq = (repay / btcTotal) / (liqPct / 100);
-  const newMCpct = (newMC / priceInput - 1) * 100;
-  const newLiqpct = (newLiq / priceInput - 1) * 100;
-  document.getElementById('c-loop-mc').textContent = '$' + fmt(newMC, 0);
-  document.getElementById('c-loop-mc-pct').textContent = fmtPct(newMCpct) + ' del precio actual';
-  document.getElementById('c-loop-liq').textContent = '$' + fmt(newLiq, 0);
-  document.getElementById('c-loop-liq-pct').textContent = fmtPct(newLiqpct) + ' del precio actual';
-
   // --- Break-even ---
   const be = breakEven;
   const bePct = ((be / priceInput) - 1) * 100;
@@ -2745,7 +2714,11 @@ function runPlanC() {
   document.getElementById('c-be-price').textContent = '$' + fmt(be, 0);
   document.getElementById('c-be-pct').textContent = fmtPct(bePct) + ' subida necesaria';
   document.getElementById('c-be-pct').style.color = bePct <= 0 ? 'var(--green)' : 'var(--yellow)';
-  const gain2x = (btcTotal * priceInput * 2 - repay) / (priceInput * 2) - btcAmount;
+  const loopFeeSwapForGain = (parseFloat(document.getElementById('c-loop-feeswap').value) || 0) / 100;
+  const loopSlippageForGain = (parseFloat(document.getElementById('c-loop-slippage').value) || 0) / 100;
+  const btcReinvestedForGain = (loan / priceInput) * (1 - loopFeeSwapForGain - loopSlippageForGain);
+  const btcTotalForGain = btcAmount + btcReinvestedForGain;
+  const gain2x = (btcTotalForGain * priceInput * 2 - repay) / (priceInput * 2) - btcAmount;
   document.getElementById('c-be-gain2x').textContent = fmtBTC(Math.max(0, gain2x));
 
   // --- Benefit & table (use current growth selections) ---
@@ -2820,19 +2793,16 @@ function updateLoopSimSection() {
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
   const setColor = (id, color) => { const el = document.getElementById(id); if (el) el.style.color = color; };
 
-  // BTC row
-  set('c-btc-reinvest', fmtBTC(Math.max(0, btcRecomprado)));
-  set('c-btc-total', fmtBTC(colateralFinal));
-  set('c-btc-gain', '+' + fmtBTC(Math.max(0, btcRecomprado)) + ' BTC extra');
-
   // LTV antes/después
   set('c-loop-ltv-before', ltvAntes.toFixed(1) + '%');
   set('c-loop-ltv-after', ltvDespues.toFixed(1) + '%');
   const deltaEl = document.getElementById('c-loop-ltv-delta');
   if (deltaEl) {
-    deltaEl.textContent = '↘ ' + ltvDelta.toFixed(1) + '%';
-    deltaEl.style.background = ltvDelta > 0 ? 'var(--green)' : 'var(--red)';
-    deltaEl.style.color = '#000';
+    const absDelta = Math.abs(ltvDelta).toFixed(1);
+    deltaEl.textContent = (ltvDelta >= 0 ? '↘ ' : '↗ ') + absDelta + '%';
+    deltaEl.style.background = ltvDelta >= 0 ? '#0a2a0a' : '#2a0a0a';
+    deltaEl.style.borderColor = ltvDelta >= 0 ? 'var(--green)' : 'var(--red)';
+    deltaEl.style.color = ltvDelta >= 0 ? 'var(--green)' : 'var(--red)';
   }
 
   // New MC / Liq
@@ -2890,7 +2860,7 @@ function updateTopUp() {
 
   if (topUp > 0) {
     if (el_btc) { el_btc.textContent = '+' + fmtBTC(topUp); el_btc.style.color = '#ff9933'; }
-    if (el_usd) el_usd.textContent = '≈ $' + fmt(topUp * priceInput, 0) + ' USD';
+    if (el_usd) el_usd.textContent = '≈ $' + fmt(topUp * priceInput, 0) + ' U$S';
     if (el_status) { el_status.textContent = 'LTV > 50% — top-up necesario'; el_status.style.color = '#ff9933'; }
     if (box) box.style.borderColor = '#ff9933';
   } else {
@@ -3074,7 +3044,7 @@ function updateCHistoryChart() {
       labels,
       datasets: [
         {
-          label: 'BTC USD',
+          label: 'BTC U$S',
           data: prices,
           borderColor: '#f7931a',
           backgroundColor: 'rgba(247,147,26,0.08)',
@@ -3258,12 +3228,12 @@ function runBacktest() {
     data: {
       labels: filtered.map(e => e.date),
       datasets: [{
-        label: 'Capital USD', data: filtered.map(e => e.capital),
+        label: 'Capital U$S', data: filtered.map(e => e.capital),
         borderColor: '#f7931a', backgroundColor: 'rgba(247,147,26,0.1)',
         fill: true, pointRadius: 0, tension: 0.3
       }]
     },
-    options: chartOpts('USD')
+    options: chartOpts('U$S')
   });
 
   // Trades table
@@ -3288,7 +3258,7 @@ function runBacktest() {
 function exportBacktest() {
   if (!lastBacktest) { alert('Ejecutá el backtesting primero.'); return; }
   const wb = XLSX.utils.book_new();
-  const rows = [['Tipo','Fecha Entrada','Precio Entrada','Fecha Salida','Precio Salida','BTC','P&L USD','P&L %','Capital Acum.']];
+  const rows = [['Tipo','Fecha Entrada','Precio Entrada','Fecha Salida','Precio Salida','BTC','P&L U$S','P&L %','Capital Acum.']];
   lastBacktest.trades.forEach(t => rows.push([
     'COMPRA', t.entryDate, t.entryPrice, t.exitDate, t.exitPrice,
     t.btc, t.pnl, t.pnlPct, t.capitalAfter
@@ -3389,14 +3359,14 @@ function renderSignals() {
       data: {
         labels: equityData.map(e => e.date),
         datasets: [{
-          label: 'Valor Portfolio (USD)',
+          label: 'Valor Portfolio (U$S)',
           data: equityData.map(e => e.value),
           borderColor: '#f7931a',
           backgroundColor: 'rgba(247,147,26,0.1)',
           fill: true, pointRadius: 3, tension: 0.3
         }]
       },
-      options: chartOpts('USD')
+      options: chartOpts('U$S')
     });
   }
 }
@@ -3486,7 +3456,7 @@ function runDashboard() {
     data: {
       labels: projData.map(d => d.year),
       datasets: [
-        { label: 'Valor Portfolio (USD)', data: projData.map(d => d.val),
+        { label: 'Valor Portfolio (U$S)', data: projData.map(d => d.val),
           backgroundColor: projData.map(d => d.done ? '#00c87a' : '#f7931a'),
           yAxisID: 'y' },
         { label: 'BTC Acumulado', data: projData.map(d => d.acc),
@@ -3543,7 +3513,7 @@ function chartOpts(yLabel) {
 function exportPlanA() {
   if (!lastPlanA) { alert('Calculá el Plan A primero.'); return; }
   const wb = XLSX.utils.book_new();
-  const rows = [['Fecha', 'Precio BTC', 'Monto USD', 'BTC Comprado', 'BTC Acumulado', 'Total Invertido', 'Valor Portfolio', 'Precio Promedio']];
+  const rows = [['Fecha', 'Precio BTC', 'Monto U$S', 'BTC Comprado', 'BTC Acumulado', 'Total Invertido', 'Valor Portfolio', 'Precio Promedio']];
   lastPlanA.equity.forEach((e, i) => {
     const p = lastPlanA.purchases[i];
     rows.push([e.date, p.price, p.invested, p.btc, e.btc, e.invested, e.value, e.avgPrice]);
@@ -3602,7 +3572,7 @@ function exportPlanC() {
 function exportPlanD() {
   if (!signals.length) { alert('Sin señales registradas.'); return; }
   const wb = XLSX.utils.book_new();
-  const rows = [['Fecha', 'Tipo', 'Precio', 'Monto USD', 'BTC', 'Nota']];
+  const rows = [['Fecha', 'Tipo', 'Precio', 'Monto U$S', 'BTC', 'Nota']];
   signals.forEach(s => rows.push([s.date, s.type.toUpperCase(), s.price, s.amount, s.btc, s.note]));
   const ws = XLSX.utils.aoa_to_sheet(rows);
   XLSX.utils.book_append_sheet(wb, ws, 'Plan D Señales');
