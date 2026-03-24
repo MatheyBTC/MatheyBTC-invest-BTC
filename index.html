@@ -440,22 +440,31 @@ a { color: var(--orange); }
         <label data-i18n="a-end-label">Fecha Fin</label>
         <input type="date" id="b-end">
       </div>
-      <div class="form-group">
-        <label data-i18n="b-trigger-label">Trigger: Precio Sube X% Sobre MA90</label>
-        <input type="number" id="b-trigger" value="25" min="5" max="200">
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
-          <button onclick="setTrigger(25)" style="background:#4ade80;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:700;">25%</button>
-          <button onclick="setTrigger(15)" style="background:#facc15;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:700;">15%</button>
-          <button onclick="setTrigger(5)" style="background:#ef4444;color:#fff;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:700;">5%</button>
-        </div>
+      <div class="form-group" style="justify-content:flex-start;align-items:center;gap:10px">
+        <label data-i18n="b-trigger-toggle-label" style="margin:0">Activar Trigger</label>
+        <button id="b-trigger-toggle" onclick="togglePlanBTrigger()"
+          style="padding:5px 16px;border:none;border-radius:20px;cursor:pointer;font-size:13px;font-weight:700;background:#4ade80;color:#000;">
+          🟢 ON
+        </button>
       </div>
-      <div class="form-group">
-        <label data-i18n="b-sellpct-label">Vender % del Stack al Trigger</label>
-        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-          <button onclick="setSellPct(5)" style="background:#4ade80;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">5%</button>
-          <button onclick="setSellPct(8)" style="background:#facc15;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">8%</button>
-          <button onclick="setSellPct(10)" style="background:#f85149;color:#fff;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">10%</button>
-          <input type="number" id="b-sellpct" value="10" min="1" max="100" style="width:65px">
+      <div id="b-trigger-fields">
+        <div class="form-group">
+          <label data-i18n="b-trigger-label">Trigger: Precio Sube X% Sobre MA90</label>
+          <input type="number" id="b-trigger" value="25" min="5" max="200">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+            <button onclick="setTrigger(25)" style="background:#4ade80;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:700;">25%</button>
+            <button onclick="setTrigger(15)" style="background:#facc15;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:700;">15%</button>
+            <button onclick="setTrigger(5)" style="background:#ef4444;color:#fff;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:700;">5%</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="b-sellpct-label">Vender % del Stack al Trigger</label>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <button onclick="setSellPct(5)" style="background:#4ade80;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">5%</button>
+            <button onclick="setSellPct(8)" style="background:#facc15;color:#000;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">8%</button>
+            <button onclick="setSellPct(10)" style="background:#f85149;color:#fff;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px">10%</button>
+            <input type="number" id="b-sellpct" value="10" min="1" max="100" style="width:65px">
+          </div>
         </div>
       </div>
       <div class="form-group" style="justify-content:flex-end">
@@ -1655,6 +1664,7 @@ const TEXTS = {
     'sema-below': 'Menor a 0: precio por arriba del valor',
     // Plan B
     'b-params-title': '⚙️ Parámetros DCA Re-compra',
+    'b-trigger-toggle-label': 'Activar Trigger',
     'b-trigger-label': 'Trigger: Precio Sube X% Sobre MA90',
     'b-sellpct-label': 'Vender % del Stack al Trigger',
     'b-btc-label': 'BTC Final',
@@ -1818,6 +1828,7 @@ const TEXTS = {
     'sema-below': 'Below 0: price above value',
     // Plan B
     'b-params-title': '⚙️ DCA Re-buy Parameters',
+    'b-trigger-toggle-label': 'Enable Trigger',
     'b-trigger-label': 'Trigger: Price Rises X% Above MA90',
     'b-sellpct-label': 'Sell % of Stack at Trigger',
     'b-btc-label': 'Final BTC',
@@ -2526,6 +2537,23 @@ function setTrigger(pct) {
   document.getElementById('b-trigger').value = pct;
   runPlanB();
 }
+let _planBTriggerActive = true;
+function togglePlanBTrigger() {
+  _planBTriggerActive = !_planBTriggerActive;
+  const btn = document.getElementById('b-trigger-toggle');
+  const fields = document.getElementById('b-trigger-fields');
+  if (_planBTriggerActive) {
+    btn.textContent = '🟢 ON';
+    btn.style.background = '#4ade80';
+    btn.style.color = '#000';
+    fields.style.display = '';
+  } else {
+    btn.textContent = '⚫ OFF';
+    btn.style.background = '#555';
+    btn.style.color = '#fff';
+    fields.style.display = 'none';
+  }
+}
 
 function runPlanB() {
   if (!priceHistory.length) { alert('Primero cargá los precios históricos.'); return; }
@@ -2533,8 +2561,9 @@ function runPlanB() {
   const freqDays   = getFreqDays(document.getElementById('b-freq').value);
   const startDate  = document.getElementById('b-start').value;
   const endDate    = document.getElementById('b-end').value;
-  const triggerPct = parseFloat(document.getElementById('b-trigger').value) / 100;
-  const sellPct    = parseFloat(document.getElementById('b-sellpct').value) / 100;
+  const triggerActive = _planBTriggerActive;
+  const triggerPct = triggerActive ? parseFloat(document.getElementById('b-trigger').value) / 100 : Infinity;
+  const sellPct    = triggerActive ? parseFloat(document.getElementById('b-sellpct').value) / 100 : 0;
 
   // Sub-DCAs always buy MONTHLY (30 days) regardless of main DCA frequency
   const SUB_FREQ = 30;
