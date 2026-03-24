@@ -295,6 +295,7 @@ a { color: var(--orange); }
     <div class="tab" onclick="showTab('planB')" data-i18n="tab-b">Plan B) DCA Re-compra</div>
     <div class="tab" onclick="showTab('planC')" data-i18n="tab-c">Plan C) Colateral</div>
     <div class="tab" onclick="showTab('planD')" data-i18n="tab-d">Plan D) Trading</div>
+    <div class="tab" onclick="showTab('planE')" data-i18n="tab-e">Plan E) DCA Cosecha</div>
     <div class="tab" onclick="showTab('dashboard')" data-i18n="tab-dash">📊 Dashboard</div>
   </div>
 </div>
@@ -1428,10 +1429,10 @@ function loadEmbeddedPrices() {
 // ============================================================
 let priceHistory = []; // [{date: "YYYY-MM-DD", price: number}]
 let currentPrice = 0;
-let chartA = null, chartA_MA = null, chartB = null, chartD = null, chartDash = null;
+let chartA = null, chartA_MA = null, chartB = null, chartD = null, chartDash = null, chartE = null;
 
 // Results cache for dashboard summary
-let lastPlanA = null, lastPlanB = null, lastPlanC = null, lastPlanD = null;
+let lastPlanA = null, lastPlanB = null, lastPlanC = null, lastPlanD = null, lastPlanE = null;
 
 // Plan D signals stored in localStorage
 let signals = JSON.parse(localStorage.getItem('matheybtc_signals') || '[]');
