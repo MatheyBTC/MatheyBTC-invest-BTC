@@ -3605,22 +3605,58 @@ function runBacktest() {
     });
   }
 
-  // Chart equity
+  // Chart equity — curva + puntos de compra/venta
   const ctx = document.getElementById('chartBT').getContext('2d');
   if (chartBT) chartBT.destroy();
   const step = Math.max(1, Math.floor(equity.length / 300));
   const filtered = equity.filter((_, i) => i % step === 0);
+  const allDates = filtered.map(e => e.date);
+
+  // Map trade entry/exit to equity capital value on that date
+  const equityMap = {};
+  equity.forEach(e => { equityMap[e.date] = e.capital; });
+
+  const buyPoints = trades.map(t => ({
+    x: t.entryDate,
+    y: equityMap[t.entryDate] ?? t.capital
+  }));
+  const sellPoints = trades.map(t => ({
+    x: t.exitDate,
+    y: equityMap[t.exitDate] ?? t.capitalAfter
+  }));
+
+  const opts = chartOpts('U$S');
+  opts.plugins = opts.plugins || {};
+  opts.plugins.legend = { labels: { font: { size: 12 }, color: '#e8e8e8' } };
+
   chartBT = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: filtered.map(e => e.date),
-      datasets: [{
-        label: 'Capital U$S', data: filtered.map(e => e.capital),
-        borderColor: '#f7931a', backgroundColor: 'rgba(247,147,26,0.1)',
-        fill: true, pointRadius: 0, tension: 0.3
-      }]
+      labels: allDates,
+      datasets: [
+        {
+          label: 'Capital U$S',
+          data: filtered.map(e => e.capital),
+          borderColor: '#f7931a', backgroundColor: 'rgba(247,147,26,0.1)',
+          fill: true, pointRadius: 0, tension: 0.3, order: 3
+        },
+        {
+          label: '🟢 Compra',
+          data: buyPoints,
+          type: 'scatter',
+          backgroundColor: '#4ade80', borderColor: '#166534',
+          pointRadius: 7, pointHoverRadius: 9, order: 1
+        },
+        {
+          label: '🔴 Venta',
+          data: sellPoints,
+          type: 'scatter',
+          backgroundColor: '#ef4444', borderColor: '#7f1d1d',
+          pointRadius: 7, pointHoverRadius: 9, order: 2
+        }
+      ]
     },
-    options: chartOpts('U$S')
+    options: opts
   });
 
   // Trades table
