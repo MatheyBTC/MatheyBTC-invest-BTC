@@ -1253,7 +1253,7 @@ a { color: var(--orange); }
   </div>
 
   <div id="d-bt-results" style="display:none">
-    <div class="grid-4 mb-16">
+    <div class="grid-4 mb-8">
       <div class="stat-box green">
         <div class="label" data-i18n="d-roi-total">ROI Total</div>
         <div class="value" id="d-bt-roi">—</div>
@@ -1272,12 +1272,44 @@ a { color: var(--orange); }
         <div class="value" id="d-bt-dd" style="color:var(--red)">—</div>
       </div>
     </div>
+    <div class="grid-3 mb-16">
+      <div class="stat-box green">
+        <div class="label">Órdenes Positivas</div>
+        <div class="value" id="d-bt-pos">0</div>
+        <div class="sub" id="d-bt-pos-avg">avg —%</div>
+      </div>
+      <div class="stat-box" style="border-color:var(--red)">
+        <div class="label">Órdenes Negativas</div>
+        <div class="value" id="d-bt-neg">0</div>
+        <div class="sub" id="d-bt-neg-avg">avg —%</div>
+      </div>
+      <div class="stat-box blue">
+        <div class="label">Valor Esperado</div>
+        <div class="value" id="d-bt-ev">—%</div>
+        <div class="sub" id="d-bt-ev-wr">Win Rate —%</div>
+      </div>
+    </div>
     <div class="card">
-      <h3 data-i18n="d-equity-bt-title">📈 Curva de Equity — T3-CCI Backtesting</h3>
+      <h3 data-i18n="d-equity-bt-title">📈 Curva de Equity</h3>
       <div class="chart-wrap" style="height:300px"><canvas id="chartBT"></canvas></div>
     </div>
     <div class="card">
-      <h3 data-i18n="d-historial-ops-title">📋 Historial de Operaciones T3-CCI</h3>
+      <h3>📊 Esperanza por Año — Últimos 5 Ciclos</h3>
+      <table class="tbl">
+        <thead><tr>
+          <th>Año</th>
+          <th class="num">Señales+</th>
+          <th class="num">Señales-</th>
+          <th class="num">Win Rate</th>
+          <th class="num">Avg Win</th>
+          <th class="num">Avg Loss</th>
+          <th class="num">Valor Esperado</th>
+        </tr></thead>
+        <tbody id="d-bt-ev-body"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3 data-i18n="d-historial-ops-title">📋 Historial de Operaciones</h3>
       <table class="tbl">
         <thead><tr>
           <th data-i18n="d-tipo-label">Tipo</th><th data-i18n="d-fecha-entrada">Fecha Entrada</th><th class="num" data-i18n="d-precio-entrada">Precio Entrada</th>
@@ -1723,8 +1755,8 @@ const TEXTS = {
     'd-roi-total': 'ROI Total',
     'd-operaciones': 'Operaciones',
     'd-ganancia-neta': 'Ganancia Neta',
-    'd-equity-bt-title': '📈 Curva de Equity — T3-CCI Backtesting',
-    'd-historial-ops-title': '📋 Historial de Operaciones T3-CCI',
+    'd-equity-bt-title': '📈 Curva de Equity',
+    'd-historial-ops-title': '📋 Historial de Operaciones',
     'd-fecha-entrada': 'Fecha Entrada',
     'd-precio-entrada': 'Precio Entrada',
     'd-fecha-salida': 'Fecha Salida',
@@ -1887,8 +1919,8 @@ const TEXTS = {
     'd-roi-total': 'Total ROI',
     'd-operaciones': 'Trades',
     'd-ganancia-neta': 'Net Profit',
-    'd-equity-bt-title': '📈 Equity Curve — T3-CCI Backtesting',
-    'd-historial-ops-title': '📋 T3-CCI Trade History',
+    'd-equity-bt-title': '📈 Equity Curve',
+    'd-historial-ops-title': '📋 Trade History',
     'd-fecha-entrada': 'Entry Date',
     'd-precio-entrada': 'Entry Price',
     'd-fecha-salida': 'Exit Date',
@@ -3511,6 +3543,56 @@ function runBacktest() {
   document.getElementById('d-bt-profit').style.color = totalPnl >= 0 ? 'var(--green)' : 'var(--red)';
   document.getElementById('d-bt-dd').textContent = '-' + fmtPct(maxDrawdown);
 
+  // EV stats
+  const winTrades = trades.filter(t => t.pnl > 0);
+  const lossTrades = trades.filter(t => t.pnl <= 0);
+  const avgWinPct = winTrades.length > 0 ? winTrades.reduce((s, t) => s + t.pnlPct, 0) / winTrades.length : 0;
+  const avgLossPct = lossTrades.length > 0 ? lossTrades.reduce((s, t) => s + t.pnlPct, 0) / lossTrades.length : 0;
+  const ev = trades.length > 0 ? (winRate / 100) * avgWinPct + (1 - winRate / 100) * avgLossPct : null;
+
+  document.getElementById('d-bt-pos').textContent = winTrades.length;
+  document.getElementById('d-bt-neg').textContent = lossTrades.length;
+  document.getElementById('d-bt-pos-avg').textContent = winTrades.length > 0 ? 'avg +' + avgWinPct.toFixed(1) + '%' : 'avg —%';
+  document.getElementById('d-bt-neg-avg').textContent = lossTrades.length > 0 ? 'avg ' + avgLossPct.toFixed(1) + '%' : 'avg —%';
+  document.getElementById('d-bt-ev').textContent = ev !== null ? (ev >= 0 ? '+' : '') + ev.toFixed(1) + '%' : '—%';
+  document.getElementById('d-bt-ev').style.color = ev !== null ? (ev >= 0 ? 'var(--green)' : 'var(--red)') : '';
+  document.getElementById('d-bt-ev-wr').textContent = trades.length > 0 ? 'Win Rate ' + winRate.toFixed(0) + '%' : 'Win Rate —%';
+
+  // Per-year EV table (last 5 years)
+  const btByYear = {};
+  trades.forEach(t => {
+    const yr = t.exitDate.slice(0, 4);
+    if (!btByYear[yr]) btByYear[yr] = [];
+    btByYear[yr].push(t);
+  });
+  const btYears = Object.keys(btByYear).sort().slice(-5);
+  const btEvBody = document.getElementById('d-bt-ev-body');
+  btEvBody.innerHTML = '';
+  if (btYears.length === 0) {
+    btEvBody.innerHTML = '<tr><td colspan="7" style="color:var(--text2);text-align:center;">Sin operaciones cerradas</td></tr>';
+  } else {
+    btYears.forEach((yr, i) => {
+      const yT = btByYear[yr];
+      const yWin = yT.filter(t => t.pnl > 0);
+      const yLoss = yT.filter(t => t.pnl <= 0);
+      const yWR = yT.length > 0 ? yWin.length / yT.length : 0;
+      const yAvgWin = yWin.length > 0 ? yWin.reduce((s, t) => s + t.pnlPct, 0) / yWin.length : 0;
+      const yAvgLoss = yLoss.length > 0 ? yLoss.reduce((s, t) => s + t.pnlPct, 0) / yLoss.length : 0;
+      const yEV = yWR * yAvgWin + (1 - yWR) * yAvgLoss;
+      const tr = document.createElement('tr');
+      tr.style.background = i % 2 === 0 ? 'var(--bg3)' : 'transparent';
+      tr.innerHTML = `
+        <td><b>${yr}</b></td>
+        <td class="num pos">${yWin.length}</td>
+        <td class="num neg">${yLoss.length}</td>
+        <td class="num">${(yWR * 100).toFixed(0)}%</td>
+        <td class="num pos">+${yAvgWin.toFixed(1)}%</td>
+        <td class="num ${yAvgLoss < 0 ? 'neg' : ''}">${yAvgLoss.toFixed(1)}%</td>
+        <td class="num ${yEV >= 0 ? 'pos' : 'neg'}">${yEV >= 0 ? '+' : ''}${yEV.toFixed(1)}%</td>`;
+      btEvBody.appendChild(tr);
+    });
+  }
+
   // Chart equity
   const ctx = document.getElementById('chartBT').getContext('2d');
   if (chartBT) chartBT.destroy();
@@ -3532,17 +3614,32 @@ function runBacktest() {
   // Trades table
   const tbody = document.getElementById('d-bt-body');
   tbody.innerHTML = '';
-  trades.forEach(t => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
+  trades.forEach((t, idx) => {
+    const bg = idx % 2 === 0 ? 'var(--bg3)' : 'transparent';
+    // Buy row
+    const buyTr = document.createElement('tr');
+    buyTr.style.background = bg;
+    buyTr.innerHTML = `
       <td><span class="badge-buy">COMPRA</span></td>
       <td>${t.entryDate}</td><td class="num">$${fmt(t.entryPrice, 0)}</td>
+      <td style="color:var(--text2)">—</td><td class="num" style="color:var(--text2)">—</td>
+      <td class="num">${t.btc.toFixed(6)}</td>
+      <td class="num" style="color:var(--text2)">—</td>
+      <td class="num" style="color:var(--text2)">—</td>
+      <td class="num">$${fmt(t.capital, 0)}</td>`;
+    tbody.appendChild(buyTr);
+    // Sell row
+    const sellTr = document.createElement('tr');
+    sellTr.style.background = bg;
+    sellTr.innerHTML = `
+      <td><span class="badge-sell">VENTA</span></td>
+      <td style="color:var(--text2)">—</td><td class="num" style="color:var(--text2)">—</td>
       <td>${t.exitDate}</td><td class="num">$${fmt(t.exitPrice, 0)}</td>
       <td class="num">${t.btc.toFixed(6)}</td>
       <td class="num ${t.pnl >= 0 ? 'pos' : 'neg'}">${t.pnl >= 0 ? '+' : ''}$${fmt(t.pnl, 0)}</td>
       <td class="num ${t.pnlPct >= 0 ? 'pos' : 'neg'}">${fmtPct(t.pnlPct)}</td>
       <td class="num">$${fmt(t.capitalAfter, 0)}</td>`;
-    tbody.appendChild(tr);
+    tbody.appendChild(sellTr);
   });
 
   document.getElementById('d-bt-results').style.display = 'block';
