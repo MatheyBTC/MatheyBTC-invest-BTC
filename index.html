@@ -285,7 +285,7 @@ a { color: var(--orange); }
     </div>
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;min-width:140px;">
       <div style="font-size:11px;color:var(--text2);margin-bottom:2px;">Precio Ahora (HOY)</div>
-      <div style="font-size:15px;font-weight:700;color:var(--orange);" id="current-price-bar">—</div>
+      <div style="font-size:22px;font-weight:700;color:var(--orange);" id="current-price-bar">—</div>
     </div>
   </div>
 
@@ -809,7 +809,7 @@ a { color: var(--orange); }
     <!-- Simulador Caída de Precio -->
     <div class="card" id="c-sim-card">
       <h3>📉 Simulador Caída de Precio</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;align-items:start;">
+      <div style="display:flex;align-items:flex-end;gap:24px;margin-bottom:16px;flex-wrap:wrap;">
         <div class="c-param-section" style="margin-bottom:0;">
           <div class="c-param-label">Si BTC vale a (U$S)</div>
           <div style="display:flex;align-items:center;gap:8px;">
@@ -819,8 +819,9 @@ a { color: var(--orange); }
             <button class="btn" onclick="document.getElementById('c-sim-price2').value=Math.round(currentPrice||0); runSimC();" style="white-space:nowrap;font-size:12px;padding:7px 12px;">Precio Actual</button>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="font-size:12px;color:var(--text2);">Precio actual cargado: <span id="c-sim-current" style="color:var(--text);font-weight:700;">—</span></div>
+        <div class="c-param-section" style="margin-bottom:0;">
+          <div class="c-param-label">Precio Actual Cargado (U$S)</div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:15px;font-weight:bold;color:var(--orange);min-width:140px;"><span id="c-sim-current">—</span></div>
         </div>
       </div>
       <div id="c-sim-results2" style="display:none;">
@@ -3066,12 +3067,12 @@ function runSimC() {
 
   const mcDistEl = document.getElementById('c-sim-mc-dist');
   mcDistEl.textContent = mcDist >= 0 ? '-' + mcDist.toFixed(1) + '%' : '⚠️ Superado';
-  mcDistEl.style.color = mcDist < 0 ? 'var(--red)' : mcDist < 10 ? 'var(--orange)' : 'var(--green)';
+  mcDistEl.style.color = mcDist < 0 ? 'var(--red)' : 'var(--red)';
   document.getElementById('c-sim-mc-price').textContent = 'BTC a U$S ' + fmt(mcPrice, 0);
 
   const liqDistEl = document.getElementById('c-sim-liq-dist');
   liqDistEl.textContent = liqDist >= 0 ? '-' + liqDist.toFixed(1) + '%' : '⚠️ Superado';
-  liqDistEl.style.color = liqDist < 0 ? 'var(--red)' : liqDist < 5 ? 'var(--orange)' : 'var(--green)';
+  liqDistEl.style.color = liqDist < 0 ? 'var(--red)' : 'var(--red)';
   document.getElementById('c-sim-liq-price').textContent = 'BTC a U$S ' + fmt(liqPrice, 0);
 
   document.getElementById('c-sim-results2').style.display = 'block';
