@@ -1209,9 +1209,9 @@ a { color: var(--orange); }
     </div>
   </div>
 
-  <!-- Backtesting T3-CCI -->
+  <!-- Backtesting -->
   <div class="card">
-    <h3 data-i18n="d-backtest-title">🤖 Backtesting T3-CCI — BTCUSDT Diario</h3>
+    <h3 data-i18n="d-backtest-title">🤖 BackTesting</h3>
     <div class="form-row">
       <div class="form-group">
         <label data-i18n="d-monto-op-label">Monto por Operación (U$S)</label>
@@ -1226,11 +1226,11 @@ a { color: var(--orange); }
           <option value="10" data-i18n="d-10anos">10 años</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" style="display:none">
         <label>CCI Period</label>
         <input type="number" id="d-bt-cci" value="35" min="5">
       </div>
-      <div class="form-group">
+      <div class="form-group" style="display:none">
         <label>T3 Period</label>
         <input type="number" id="d-bt-t3" value="7" min="1">
       </div>
@@ -1302,9 +1302,43 @@ a { color: var(--orange); }
       </div>
     </div>
 
+    <div class="grid-3 mb-16">
+      <div class="stat-box green">
+        <div class="label" data-i18n="d-pos-label">Órdenes Positivas</div>
+        <div class="value" id="d-pos">0</div>
+        <div class="sub" id="d-pos-avg">avg —%</div>
+      </div>
+      <div class="stat-box" style="border-color:var(--red)">
+        <div class="label" data-i18n="d-neg-label">Órdenes Negativas</div>
+        <div class="value" id="d-neg">0</div>
+        <div class="sub" id="d-neg-avg">avg —%</div>
+      </div>
+      <div class="stat-box blue">
+        <div class="label" data-i18n="d-ev-label">Valor Esperado</div>
+        <div class="value" id="d-ev">—%</div>
+        <div class="sub" id="d-winrate-sub">Win Rate —%</div>
+      </div>
+    </div>
+
     <div class="card">
       <h3 data-i18n="d-equity-title">📈 Curva de Equity</h3>
       <div class="chart-wrap"><canvas id="chartD"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="d-ev-table-title">📊 Esperanza por Año — Últimos 5 Años</h3>
+      <table class="tbl">
+        <thead><tr>
+          <th data-i18n="th-anio">Año</th>
+          <th class="num" data-i18n="d-pos-label">Señales+</th>
+          <th class="num" data-i18n="d-neg-label">Señales-</th>
+          <th class="num" data-i18n="d-winrate-label">Win Rate</th>
+          <th class="num" data-i18n="d-avg-win-label">Avg Win</th>
+          <th class="num" data-i18n="d-avg-loss-label">Avg Loss</th>
+          <th class="num" data-i18n="d-ev-label">Valor Esperado</th>
+        </tr></thead>
+        <tbody id="d-ev-body"></tbody>
+      </table>
     </div>
 
     <div class="card">
@@ -1668,7 +1702,7 @@ const TEXTS = {
     'd-nota-label': 'Nota (opcional)',
     'd-agregar': '+ Agregar',
     'd-limpiar-senales': '🗑 Limpiar señales',
-    'd-backtest-title': '🤖 Backtesting T3-CCI — BTCUSDT Diario',
+    'd-backtest-title': '🤖 BackTesting',
     'd-monto-op-label': 'Monto por Operación (U$S)',
     'd-anos-atras-label': 'Años hacia atrás',
     'd-2anos': '2 años',
@@ -1693,6 +1727,14 @@ const TEXTS = {
     'd-equity-title': '📈 Curva de Equity',
     'd-historial-senales-title': '📋 Historial de Señales',
     'd-pnl-acum': 'P&L Acum.',
+    'd-pos-label': 'Órdenes Positivas',
+    'd-neg-label': 'Órdenes Negativas',
+    'd-ev-label': 'Valor Esperado',
+    'd-winrate-label': 'Win Rate',
+    'd-avg-win-label': 'Avg Win',
+    'd-avg-loss-label': 'Avg Loss',
+    'd-ev-table-title': '📊 Esperanza por Año — Últimos 5 Años',
+    'th-anio': 'Año',
     // Plan E
     'tab-e': 'Plan E) DCA Cosecha',
     'e-params-title': '⚙️ Parámetros DCA Cosecha',
@@ -1823,7 +1865,7 @@ const TEXTS = {
     'd-nota-label': 'Note (optional)',
     'd-agregar': '+ Add',
     'd-limpiar-senales': '🗑 Clear signals',
-    'd-backtest-title': '🤖 T3-CCI Backtesting — BTCUSDT Daily',
+    'd-backtest-title': '🤖 BackTesting',
     'd-monto-op-label': 'Amount per Trade (U$S)',
     'd-anos-atras-label': 'Years back',
     'd-2anos': '2 years',
@@ -1848,6 +1890,14 @@ const TEXTS = {
     'd-equity-title': '📈 Equity Curve',
     'd-historial-senales-title': '📋 Signal History',
     'd-pnl-acum': 'Cumul. P&L',
+    'd-pos-label': 'Positive Orders',
+    'd-neg-label': 'Negative Orders',
+    'd-ev-label': 'Expected Value',
+    'd-winrate-label': 'Win Rate',
+    'd-avg-win-label': 'Avg Win',
+    'd-avg-loss-label': 'Avg Loss',
+    'd-ev-table-title': '📊 EV by Year — Last 5 Years',
+    'th-anio': 'Year',
     // Plan E
     'tab-e': 'Plan E) DCA Harvest',
     'e-params-title': '⚙️ DCA Harvest Parameters',
@@ -3564,6 +3614,68 @@ function renderSignals() {
   document.getElementById('d-pnl-pct').textContent = fmtPct(pnlPct);
 
   lastPlanD = { currentBTC, netInvested, currentVal, pnl, pnlPct };
+
+  // === Trades: sells analyzed vs running avg cost ===
+  let tcBTC = 0, tcInvested = 0;
+  const trades = [];
+  signals.forEach(s => {
+    if (s.type === 'buy') {
+      tcBTC += s.btc;
+      tcInvested += s.amount;
+    } else {
+      const avgCost = tcBTC > 0 ? tcInvested / tcBTC : s.price;
+      const pct = (s.price / avgCost - 1) * 100;
+      trades.push({ year: s.date.slice(0, 4), pct });
+      tcBTC = Math.max(0, tcBTC - s.btc);
+      tcInvested = Math.max(0, tcInvested - s.btc * avgCost);
+    }
+  });
+  const posTrades = trades.filter(t => t.pct > 0);
+  const negTrades = trades.filter(t => t.pct <= 0);
+  const totalTrades = trades.length;
+  const winRate = totalTrades > 0 ? posTrades.length / totalTrades : 0;
+  const avgWin = posTrades.length > 0 ? posTrades.reduce((s, t) => s + t.pct, 0) / posTrades.length : 0;
+  const avgLoss = negTrades.length > 0 ? negTrades.reduce((s, t) => s + t.pct, 0) / negTrades.length : 0;
+  const ev = totalTrades > 0 ? winRate * avgWin + (1 - winRate) * avgLoss : null;
+
+  document.getElementById('d-pos').textContent = posTrades.length;
+  document.getElementById('d-neg').textContent = negTrades.length;
+  document.getElementById('d-pos-avg').textContent = posTrades.length > 0 ? 'avg +' + avgWin.toFixed(1) + '%' : 'avg —%';
+  document.getElementById('d-neg-avg').textContent = negTrades.length > 0 ? 'avg ' + avgLoss.toFixed(1) + '%' : 'avg —%';
+  document.getElementById('d-ev').textContent = ev !== null ? (ev >= 0 ? '+' : '') + ev.toFixed(1) + '%' : '—%';
+  document.getElementById('d-ev').style.color = ev !== null ? (ev >= 0 ? 'var(--green)' : 'var(--red)') : '';
+  document.getElementById('d-winrate-sub').textContent = totalTrades > 0 ? 'Win Rate ' + (winRate * 100).toFixed(0) + '%' : 'Win Rate —%';
+
+  // Per-year EV table (last 5 years with sell signals)
+  const byYear = {};
+  trades.forEach(t => { if (!byYear[t.year]) byYear[t.year] = []; byYear[t.year].push(t.pct); });
+  const evYears = Object.keys(byYear).sort().slice(-5);
+  const evBody = document.getElementById('d-ev-body');
+  evBody.innerHTML = '';
+  if (evYears.length === 0) {
+    evBody.innerHTML = '<tr><td colspan="7" style="color:var(--text2);text-align:center;">Sin señales de venta registradas</td></tr>';
+  } else {
+    evYears.forEach((yr, i) => {
+      const yT = byYear[yr];
+      const yPos = yT.filter(p => p > 0);
+      const yNeg = yT.filter(p => p <= 0);
+      const yWR = yT.length > 0 ? yPos.length / yT.length : 0;
+      const yAvgWin = yPos.length > 0 ? yPos.reduce((s, p) => s + p, 0) / yPos.length : 0;
+      const yAvgLoss = yNeg.length > 0 ? yNeg.reduce((s, p) => s + p, 0) / yNeg.length : 0;
+      const yEV = yWR * yAvgWin + (1 - yWR) * yAvgLoss;
+      const tr = document.createElement('tr');
+      tr.style.background = i % 2 === 0 ? 'var(--bg3)' : 'transparent';
+      tr.innerHTML = `
+        <td><b>${yr}</b></td>
+        <td class="num pos">${yPos.length}</td>
+        <td class="num neg">${yNeg.length}</td>
+        <td class="num">${(yWR * 100).toFixed(0)}%</td>
+        <td class="num pos">+${yAvgWin.toFixed(1)}%</td>
+        <td class="num ${yAvgLoss < 0 ? 'neg' : ''}">${yAvgLoss.toFixed(1)}%</td>
+        <td class="num ${yEV >= 0 ? 'pos' : 'neg'}">${yEV >= 0 ? '+' : ''}${yEV.toFixed(1)}%</td>`;
+      evBody.appendChild(tr);
+    });
+  }
 
   // Equity chart
   if (equityData.length > 0) {
