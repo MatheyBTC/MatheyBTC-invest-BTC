@@ -1255,24 +1255,30 @@ a { color: var(--orange); }
   <div id="d-bt-results" style="display:none">
     <div class="grid-4 mb-8">
       <div class="stat-box green">
-        <div class="label" data-i18n="d-roi-total">ROI Total</div>
+        <div class="label">Total ROI</div>
         <div class="value" id="d-bt-roi">—</div>
       </div>
+      <div class="stat-box blue">
+        <div class="label">Net Profit</div>
+        <div class="value" id="d-bt-profit">—</div>
+      </div>
+      <div class="stat-box" style="border-color:var(--red)">
+        <div class="label">Máx Pérdida</div>
+        <div class="value" id="d-bt-maxloss" style="color:var(--red)">—</div>
+        <div class="sub" id="d-bt-maxloss-pct" style="color:var(--red)">—</div>
+      </div>
+      <div class="stat-box green">
+        <div class="label">Máx Beneficio</div>
+        <div class="value" id="d-bt-maxwin">—</div>
+        <div class="sub" id="d-bt-maxwin-pct">—</div>
+      </div>
+    </div>
+    <div class="grid-4 mb-16">
       <div class="stat-box">
-        <div class="label" data-i18n="d-operaciones">Operaciones</div>
+        <div class="label">Total Trades</div>
         <div class="value" id="d-bt-ops">—</div>
         <div class="sub" id="d-bt-winrate">—</div>
       </div>
-      <div class="stat-box blue">
-        <div class="label" data-i18n="d-ganancia-neta">Ganancia Neta</div>
-        <div class="value" id="d-bt-profit">—</div>
-      </div>
-      <div class="stat-box">
-        <div class="label">Max Drawdown</div>
-        <div class="value" id="d-bt-dd" style="color:var(--red)">—</div>
-      </div>
-    </div>
-    <div class="grid-3 mb-16">
       <div class="stat-box green">
         <div class="label">Órdenes Positivas</div>
         <div class="value" id="d-bt-pos">0</div>
@@ -3535,13 +3541,19 @@ function runBacktest() {
   lastBacktest = { trades, equity, roi, totalPnl, maxDrawdown, wins, winRate };
 
   // Stats
+  const maxWinTrade = trades.length ? trades.reduce((a, b) => b.pnl > a.pnl ? b : a) : null;
+  const maxLossTrade = trades.length ? trades.reduce((a, b) => b.pnl < a.pnl ? b : a) : null;
+
   document.getElementById('d-bt-roi').textContent = fmtPct(roi);
   document.getElementById('d-bt-roi').style.color = roi >= 0 ? 'var(--green)' : 'var(--red)';
-  document.getElementById('d-bt-ops').textContent = trades.length + ' operaciones';
+  document.getElementById('d-bt-ops').textContent = trades.length + ' trades';
   document.getElementById('d-bt-winrate').textContent = 'Win rate: ' + fmtPct(winRate);
   document.getElementById('d-bt-profit').textContent = (totalPnl >= 0 ? '+' : '') + '$' + fmt(totalPnl, 0);
   document.getElementById('d-bt-profit').style.color = totalPnl >= 0 ? 'var(--green)' : 'var(--red)';
-  document.getElementById('d-bt-dd').textContent = '-' + fmtPct(maxDrawdown);
+  document.getElementById('d-bt-maxloss').textContent = maxLossTrade ? '$' + fmt(maxLossTrade.pnl, 0) : '—';
+  document.getElementById('d-bt-maxloss-pct').textContent = maxLossTrade ? fmtPct(maxLossTrade.pnlPct) : '—';
+  document.getElementById('d-bt-maxwin').textContent = maxWinTrade ? '+$' + fmt(maxWinTrade.pnl, 0) : '—';
+  document.getElementById('d-bt-maxwin-pct').textContent = maxWinTrade ? '+' + fmtPct(maxWinTrade.pnlPct) : '—';
 
   // EV stats
   const winTrades = trades.filter(t => t.pnl > 0);
