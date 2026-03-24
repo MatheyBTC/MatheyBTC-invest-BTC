@@ -96,17 +96,24 @@ a { color: var(--orange); }
 
 /* SEMAPHORE */
 .semaphore-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-.sema-cell { border-radius: 8px; padding: 18px; border: 1px solid transparent; }
-.sema-cell .period { font-size: 15px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; color: #fff; opacity: 1; }
-.sema-cell .avg { font-size: 14px; margin-bottom: 4px; opacity: 0.85; }
+.sema-cell { border-radius: 8px; padding: 18px; border: 2px solid transparent; background: var(--bg3); }
+.sema-cell .period { font-size: 15px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; color: #fff; }
+.sema-cell .avg { font-size: 14px; margin-bottom: 4px; color: #fff; }
 .sema-cell .diff { font-size: 26px; font-weight: bold; }
-.sema-c0 { background: #1e1e1e; border-color: #e0e0e0; }   /* ⬜ ≥100% */
-.sema-c1 { background: #0a1a20; border-color: #4a9eff; }   /* 🟦 ≥75%  */
-.sema-c2 { background: #0a2a0a; border-color: #4ade80; }   /* 🟩 ≥50%  */
-.sema-c3 { background: #2a2a0a; border-color: var(--yellow); } /* 🟨 ≥25% */
-.sema-c4 { background: #2a1a0a; border-color: #ff8c00; }   /* 🟧 ≥0%   */
-.sema-c5 { background: #3d0000; border-color: #ff2222; }   /* 🟥 <10%  */
-.sema-ref { background: #0d1117; border-color: #4a9eff; }
+.sema-cell .sema-foot { font-size: 11px; margin-top: 4px; color: #fff; opacity: 0.8; }
+.sema-c0 { border-color: #e0e0e0; }  /* ⬜ ≥100% */
+.sema-c0 .diff { color: #e0e0e0; }
+.sema-c1 { border-color: #4a9eff; }  /* 🟦 ≥75%  */
+.sema-c1 .diff { color: #4a9eff; }
+.sema-c2 { border-color: #4ade80; }  /* 🟩 ≥50%  */
+.sema-c2 .diff { color: #4ade80; }
+.sema-c3 { border-color: var(--yellow); } /* 🟨 ≥25% */
+.sema-c3 .diff { color: var(--yellow); }
+.sema-c4 { border-color: #ff8c00; }  /* 🟧 ≥0%   */
+.sema-c4 .diff { color: #ff8c00; }
+.sema-c5 { border-color: #ff2222; }  /* 🟥 <0%   */
+.sema-c5 .diff { color: #ff2222; }
+.sema-ref { border-color: #4a9eff; }
 
 /* CHART */
 .chart-wrap { position: relative; height: 280px; margin-top: 12px; }
@@ -375,7 +382,7 @@ a { color: var(--orange); }
     <div class="card">
       <h3 data-i18n="sema-title">🚦 Semáforo — Precio Actual vs Promedio de Compra por Ventanas de Tiempo</h3>
       <div id="a-semaphore" class="semaphore-grid mt-16"></div>
-      <div class="mt-16 text-muted" style="font-size:12px;line-height:1.8">
+      <div class="mt-16 text-muted" style="font-size:15px;line-height:2;">
         ⬜ 100% &nbsp;|&nbsp; 🟦 75% &nbsp;|&nbsp; 🟩 50% &nbsp;|&nbsp; 🟨 25% &nbsp;|&nbsp; 🟧 Mayor a 0% &nbsp;|&nbsp; 🟥 Menor a 0%
       </div>
     </div>
@@ -390,8 +397,9 @@ a { color: var(--orange); }
     <!-- Backtesting -->
     <div class="card">
       <h3 data-i18n="a-backtest-title">🕐 Backtesting — 10 Ciclos</h3>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:12px;">
-        Repite: monto por compra · frecuencia · fecha final &nbsp;|&nbsp; Cambia: ciclo de inicio
+      <p style="font-size:14px;color:var(--text2);margin-bottom:12px;line-height:1.8;">
+        Repite: monto por compra | frecuencia | fecha final<br>
+        Cambia: ciclo de inicio
       </p>
       <table class="tbl" id="a-backtest-table">
         <thead><tr>
@@ -2146,13 +2154,13 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
   const refDiv = document.createElement('div');
   refDiv.className = 'sema-cell sema-ref';
   refDiv.innerHTML = `
-    <div class="period" style="color:#ff8c00">Precio Actual</div>
+    <div class="period">Precio Actual</div>
     <div class="avg">Valor = <b>U$S ${fmt(currentPrice, 0)}</b></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
       <div class="diff" id="sema-ref-diff">—</div>
       <div style="font-size:26px;line-height:1;font-weight:bold">₿</div>
     </div>
-    <div style="font-size:11px;margin-top:4px;opacity:0.8" id="sema-ref-label">vs Precio Medio Plan</div>`;
+    <div class="sema-foot" id="sema-ref-label">vs Precio Medio Plan</div>`;
   container.appendChild(refDiv);
 
   const periods = [
@@ -2213,13 +2221,13 @@ function renderSemaphore(startDate, endDate, amount, freqDays) {
     const div = document.createElement('div');
     div.className = 'sema-cell ' + semaCls(diff);
     div.innerHTML = `
-      <div class="period" style="color:${periodColor[period.type]}">${period.label}</div>
+      <div class="period">${period.label}</div>
       <div class="avg">Promedio = <b>U$S ${fmt(avgP, 0)}</b></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
         <div class="diff">${fmtPct(diff)}</div>
         ${semaArrow(diff)}
       </div>
-      <div style="font-size:11px;margin-top:4px;opacity:0.8">${semaLabel(diff)}</div>`;
+      <div class="sema-foot">${semaLabel(diff)}</div>`;
     container.appendChild(div);
   }
 }
@@ -2245,10 +2253,10 @@ function renderMA90(purchases, equity) {
 
   const statsDiv = document.getElementById('a-ma-stats');
   statsDiv.innerHTML = `
-    <div class="stat-box"><div class="label" style="font-size:13px">Puntos Calculados</div><div class="value" style="font-size:18px">${prices90.length}</div></div>
-    <div class="stat-box red"><div class="label" style="font-size:13px">Veces por Debajo de la Media</div><div class="value" style="font-size:18px">${belowCount}</div><div class="sub" style="font-size:13px">${fmtPct(pctBelow)} del tiempo</div></div>
-    <div class="stat-box green"><div class="label" style="font-size:13px">Veces por Arriba de la Media</div><div class="value" style="font-size:18px">${aboveCount}</div><div class="sub" style="font-size:13px">${fmtPct(100 - pctBelow)} del tiempo</div></div>
-    <div class="stat-box"><div class="label" style="font-size:13px">Precio Medio Actual MA90</div><div class="value" style="font-size:18px">U$S ${prices90.length ? fmt(prices90[prices90.length-1].ma90, 0) : '—'}</div></div>`;
+    <div class="stat-box"><div class="label">Puntos Calculados</div><div class="value" style="font-size:26px">${prices90.length}</div></div>
+    <div class="stat-box red"><div class="label">Veces por Debajo de la Media</div><div class="value" style="font-size:26px">${belowCount}</div><div class="sub">${fmtPct(pctBelow)} del tiempo</div></div>
+    <div class="stat-box green"><div class="label">Veces por Arriba de la Media</div><div class="value" style="font-size:26px">${aboveCount}</div><div class="sub">${fmtPct(100 - pctBelow)} del tiempo</div></div>
+    <div class="stat-box"><div class="label">Precio Medio Actual MA90</div><div class="value" style="font-size:26px">U$S ${prices90.length ? fmt(prices90[prices90.length-1].ma90, 0) : '—'}</div></div>`;
 
   const ctx = document.getElementById('chartA_MA').getContext('2d');
   if (chartA_MA) chartA_MA.destroy();
