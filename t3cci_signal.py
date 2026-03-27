@@ -12,7 +12,7 @@ T3_PERIOD = 7
 B = 0.618
 
 STATE_FILE = "signal_state.json"
-BINANCE_PRICE_URL = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
+COINGECKO_PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
 
 def send_telegram(msg):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
@@ -34,16 +34,16 @@ def save_state(state):
         json.dump(state, f, indent=2)
 
 def get_current_btc_price() -> tuple[str, float] | None:
-    """Obtiene el precio actual de BTC desde Binance (API pública, sin key).
+    """Obtiene el precio actual de BTC desde CoinGecko (API pública, sin key).
     Retorna (fecha_hoy_utc, precio) o None si falla."""
     try:
-        r = requests.get(BINANCE_PRICE_URL, timeout=10)
+        r = requests.get(COINGECKO_PRICE_URL, timeout=10)
         r.raise_for_status()
-        price = float(r.json()["price"])
+        price = float(r.json()["bitcoin"]["usd"])
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         return today, price
     except Exception as e:
-        print(f"[WARN] No se pudo obtener precio de Binance: {e}")
+        print(f"[WARN] No se pudo obtener precio de CoinGecko: {e}")
         return None
 
 
@@ -85,7 +85,7 @@ def get_btc_prices():
         today, live_price = current
         if not prices or prices[-1]["date"] < today:
             prices.append({"date": today, "price": live_price})
-            print(f"[INFO] Precio de Binance agregado: ${live_price:,.2f} ({today})")
+            print(f"[INFO] Precio de CoinGecko agregado: ${live_price:,.2f} ({today})")
         else:
             print(f"[INFO] Sheet ya tiene precio de hoy ({today}), no se usa Binance")
 
