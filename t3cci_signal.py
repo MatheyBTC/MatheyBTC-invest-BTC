@@ -11,6 +11,10 @@ CCI_PERIOD = 35
 T3_PERIOD = 7
 B = 0.618
 
+# Umbral mínimo para confirmar cruce — evita falsas señales por oscilaciones cerca del 0
+# El T3-CCI debe superar ±MIN_CROSS para ser señal válida
+MIN_CROSS = 5.0
+
 STATE_FILE = "signal_state.json"
 COINGECKO_PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
 
@@ -158,13 +162,17 @@ def main():
     print(f"T3-CCI prev: {prev_val:.2f} | curr: {curr_val:.2f}")
     print(f"Precio BTC: ${curr_price:,.2f} | Fecha: {curr_date}")
 
+    # Cruce válido solo si el T3-CCI supera el umbral mínimo (evita oscilaciones cerca de 0)
     signal = None
-    if prev_val <= 0 and curr_val > 0:
+    if prev_val <= 0 and curr_val > MIN_CROSS:
         signal = "COMPRA"
-    elif prev_val >= 0 and curr_val < 0:
+    elif prev_val >= 0 and curr_val < -MIN_CROSS:
         signal = "VENTA"
 
-    if signal and curr_date != last_date:
+    # No reenviar si ya se mandó esta señal hoy
+    already_sent = (last_signal == signal and last_date == curr_date)
+
+    if signal and not already_sent:
         emoji = "🟢" if signal == "COMPRA" else "🔴"
         msg = (
             f"{emoji} <b>SEÑAL — {signal}</b>\n"
@@ -182,7 +190,7 @@ def main():
         msg = (
             f"📊 <b>Señal Diaria — Estado</b>\n"
             f"Precio BTC: <b>${curr_price:,.2f}</b>\n"
-            f"Tendencia: {trend}\n"
+            f"T3-CCI: {curr_val:.2f} | {trend}\n"
             f"Última señal: {last_signal or '—'} ({last_date or '—'})"
         )
         send_telegram(msg)
