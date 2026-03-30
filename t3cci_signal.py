@@ -169,8 +169,8 @@ def main():
     elif prev_val >= 0 and curr_val < -MIN_CROSS:
         signal = "VENTA"
 
-    # No reenviar si ya se mandó esta señal hoy
-    already_sent = (last_signal == signal and last_date == curr_date)
+    # No reenviar la misma señal hasta que ocurra la opuesta (VENTA bloquea VENTA hasta COMPRA)
+    already_sent = (last_signal == signal)
 
     if signal and not already_sent:
         emoji = "🟢" if signal == "COMPRA" else "🔴"
